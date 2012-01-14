@@ -2,6 +2,7 @@ package com.epfl.android.aac_speech.ui;
 
 import com.epfl.android.aac_speech.MainActivity;
 import com.epfl.android.aac_speech.data.PicWordAction.SpcColor;
+import com.epfl.android.aac_speech.data.models.Category;
 import com.epfl.android.aac_speech.lib.AsyncImageLoaderTask;
 import android.util.Log;
 import android.widget.Filterable;
@@ -10,6 +11,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import android.database.Cursor;
+import android.database.MergeCursor;
+import android.graphics.Typeface;
 import android.content.Context;
 
 /*
@@ -44,6 +47,16 @@ public class PictogramCursorAdapter extends SimpleCursorAdapter implements
 	public void setViewText(TextView v, String text) {
 		if (pref_uppercase)
 			text = text.toUpperCase();
+
+		Cursor c = this.getCursor();
+
+		/* Only for category */
+		int is_recent_index;
+		if ((is_recent_index = c.getColumnIndex("is_recent")) != -1) {
+			int is_recent = c.getInt(is_recent_index);
+			v.setTypeface(null, (is_recent == 1) ? Typeface.BOLD
+					: Typeface.NORMAL);
+		}
 		// TODO Auto-generated method stub
 		super.setViewText(v, text);
 	}
@@ -65,7 +78,7 @@ public class PictogramCursorAdapter extends SimpleCursorAdapter implements
 		}
 		int spc_color = c.getInt(COLUMN_INDEX_SPC_COLOR);
 		v.setBackgroundColor(SpcColor.getColor(spc_color, false));
-		
+
 		AsyncImageLoaderTask.AsycLoadImage(imagePath, v);
 	}
 

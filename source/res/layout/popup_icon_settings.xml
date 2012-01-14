@@ -20,19 +20,18 @@
         -->
         <!-- TODO: show the icon here -->
 
-<!-- 
+
+        <!--
 Popup (Noun):
 Gender- will apply to the adjective also
 Number
-
-
- -->
-
+        -->
 
         <Button
             android:id="@+id/popup_remove_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1.0"
             android:drawableLeft="@drawable/no"
             android:text="@string/remove_icon" >
         </Button>
@@ -41,6 +40,7 @@ Number
             android:id="@+id/popup_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1.0"
             android:drawableLeft="@drawable/go_back"
             android:text="@string/cancel" >
         </Button>

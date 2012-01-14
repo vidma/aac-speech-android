@@ -37,7 +37,6 @@ import simplenlg.lexicon.Lexicon;
 import simplenlg.lexicon.french.XMLLexiconFast;
 import simplenlg.lexicon.french.XMLLexicon;
 
-
 import simplenlg.phrasespec.AdjPhraseSpec;
 import simplenlg.phrasespec.AdvPhraseSpec;
 import simplenlg.phrasespec.NPPhraseSpec;
@@ -70,12 +69,12 @@ public class Pic2NLG {
 
 	public static void initFrench() {
 		Log.d("simpleNLG XmlLexicon", " start");
-		
+
 		// new XmlLexicon
 		lexicon = new simplenlg.lexicon.french.XMLLexiconFast();
-		
+
 		// original XmlLexicon
-		//lexicon = new simplenlg.lexicon.french.XMLLexicon();
+		// lexicon = new simplenlg.lexicon.french.XMLLexicon();
 		Log.d("simpleNLG XmlLexicon", " end");
 
 		factory = new NLGFactory(lexicon);
@@ -222,7 +221,6 @@ public class Pic2NLG {
 					clause.setObject(currentNounPrase);
 					log("set object:" + currentNounPrase);
 
-					
 					String intelligent_guess = intelligentGuessSpecifier(clause);
 
 					if (currentNounPrase instanceof CoordinatedPhraseElement) {
@@ -265,7 +263,9 @@ public class Pic2NLG {
 							.getFeatureAsBoolean(LexicalFeature.REFLEXIVE)) {
 						clause.setIndirectObject("se");
 					}
-					action.element.removeFeature(LexicalFeature.REFLEXIVE);
+					
+					//TODO: action.element.removeFeature(LexicalFeature.REFLEXIVE);
+					// just not to create copy of object I don't remove this feature now
 				}
 
 				if (clause.getVerb() == null) {
@@ -316,7 +316,20 @@ public class Pic2NLG {
 				break;
 
 			case QUESTION:
-				is_question = true;
+				// TODO: this is very very primitive way of forming questions
+				// 1) long click on question may give more options
+				// 2) we may have different complex questions and may have to
+				// set
+				// the object etc
+
+				String text = realiser.realiseSentence(clause);
+				text = text.replace('.', '?');
+
+				prefixClause = prefixClause + text + " ";
+				
+				// reset defaults
+				clause = factory.createClause();
+
 				break;
 
 			case DOT:
@@ -418,19 +431,12 @@ public class Pic2NLG {
 		/* Sometimes the structure may not be ready yet, e.g. negation only */
 		String text = "";
 		try {
-			// TODO: this is very very primitive way of forming questions
-			// 1) long click on question may give more options
-			// 2) we may have different complex questions and may have to set
-			// the object etc
 
 			text = realiser.realiseSentence(clause);
-			if (is_question)
-				text = text.replace('.', '?');
-			else {
-				// dot at the end of sentence looks misleading as we have a
-				// button for, so remove it
-				text = text.replace('.', ' ');
-			}
+
+			// dot at the end of sentence looks misleading as we have a
+			// button for, so remove it
+			text = text.replace('.', ' ');
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -630,13 +636,12 @@ public class Pic2NLG {
 		for (PicWordAction phrase : phrases) {
 			if (phrase.type == ActionType.NOUN)
 				have_subject = true;
-			if (phrase.type == ActionType.DOT)
+
+			if (phrase.type == ActionType.DOT
+					|| phrase.type == ActionType.QUESTION)
 				have_subject = false;
 		}
 		return have_subject;
 	}
-	
-	
-	
 
 }

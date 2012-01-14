@@ -82,7 +82,7 @@ public class UIFactory {
 				new PicWordAction("te", ActionType.NOUN, R.drawable.tu),
 				new PicWordAction("lui", ActionType.NOUN, R.drawable.il),
 				new PicWordAction("lui", ActionType.NOUN, R.drawable.elle),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_THAT),};
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_THAT), };
 
 		PicWordAction[] stuff2 = {
 				iconsFactory.get(iconsFactory.ACT_PRONOUN_I),
@@ -112,7 +112,7 @@ public class UIFactory {
 						iconsFactory.get(iconsFactory.ACT_TENSE_PAST), },
 
 				{
-				
+
 				iconsFactory.get(iconsFactory.ACT_LETS_DO_SMF),
 						iconsFactory.get(iconsFactory.ACT_NEGATE),
 						iconsFactory.get(iconsFactory.ACT_VERB_WANT),
@@ -245,6 +245,16 @@ public class UIFactory {
 
 				new PicWordAction("17", "(le)temps", SPC_ColorCode.DESCRIPTIVE,
 						Pic2NLG.ActionType.CATEGORY, R.drawable.time_weather),
+
+						
+				new PicWordAction("5", "forme couleur etc", SPC_ColorCode.DESCRIPTIVE,
+						Pic2NLG.ActionType.CATEGORY,
+						R.drawable.color),
+
+				new PicWordAction("7", "vacances etc", SPC_ColorCode.DESCRIPTIVE,
+						Pic2NLG.ActionType.CATEGORY, R.drawable.holiday),
+						
+						
 
 				new PicWordAction("15", "particles", SPC_ColorCode.MISC,
 						Pic2NLG.ActionType.CATEGORY, R.drawable.empty),

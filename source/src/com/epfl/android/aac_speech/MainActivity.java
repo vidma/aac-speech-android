@@ -1,18 +1,7 @@
 package com.epfl.android.aac_speech;
 
 import java.lang.Thread.UncaughtExceptionHandler;
-import java.lang.ref.PhantomReference;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
 import java.util.ArrayList;
-import java.util.Currency;
-import java.util.Iterator;
-
-import simplenlg.features.Gender;
-import simplenlg.features.LexicalFeature;
-import simplenlg.phrasespec.NPPhraseSpec;
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -20,41 +9,28 @@ import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.MergeCursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas.EdgeType;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.provider.BaseColumns;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.view.View.OnKeyListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -63,7 +39,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
@@ -73,18 +48,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.epfl.android.aac_speech.data.DBHelper;
-import com.epfl.android.aac_speech.data.LowLevelDatabaseHelper;
 import com.epfl.android.aac_speech.data.PhraseProviderDB;
 import com.epfl.android.aac_speech.data.PicWordAction;
 import com.epfl.android.aac_speech.data.PicWordActionFactory;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
-import com.epfl.android.aac_speech.lib.ImageUtils;
-import com.epfl.android.aac_speech.lib.ZipDownloaderTask;
 import com.epfl.android.aac_speech.nlg.Pic2NLG;
 import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
 import com.epfl.android.aac_speech.ui.DynamicHorizontalScrollView;
@@ -293,51 +264,15 @@ public class MainActivity extends TTSButtonActivity implements
 		int[] to = new int[] { R.id.search_list_entry_icon_text };
 
 		final PictogramCursorAdapter adapter = new PictogramCursorAdapter(this,
-				R.layout.search_list_entry, c, columns, to, pref_uppercase);
+				R.layout.history_list_entry, c, columns, to, pref_uppercase);
 
-		adapter.setFilterQueryProvider(new FilterQueryProvider() {
-
-			@Override
-			public Cursor runQuery(CharSequence constraint) {
-				ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
-
-				/* make sure the results are always visible */
-				if (switcher.getDisplayedChild() != FLIPPER_VIEW_LISTVIEW_SEARCH)
-					switcher.setDisplayedChild(FLIPPER_VIEW_LISTVIEW_SEARCH);
-
-				return dbHelper.getPhraseHistoryCursor((String) constraint);
-			}
-		});
-
-		// set up the ListView and add search capability
-		EditText search_q = (EditText) findViewById(R.id.listview_search_text);
-		search_q.setText("");
+		// TODO: we now hide the search as it doesn't look good on all Mobiles
+		LinearLayout l = (LinearLayout) findViewById(R.id.listview_search_layout_cont);
+		l.setVisibility(View.INVISIBLE);
 
 		ListView listview = (ListView) findViewById(R.id.search_results_listview);
 		listview.setAdapter(adapter);
-
-		listview.setTextFilterEnabled(true);
-
-		View parent = findViewById(R.id.listview_search_layout);
-
-		search_q.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable search_query) {
-				// TODO Auto-generated method stub
-				adapter.getFilter().filter(search_query);
-			}
-		});
+		listview.setTextFilterEnabled(false);
 
 		listview.setOnItemClickListener(new OnItemClickListener() {
 
@@ -549,7 +484,7 @@ public class MainActivity extends TTSButtonActivity implements
 
 						@Override
 						public void onClick(View v) {
-							/* remove the icon and redraw the history list */
+							/* remove the icon and redraw the current icon list */
 							phrase_list.remove(currentIndex);
 							updatePhraseDisplay();
 							pw.dismiss();
@@ -674,7 +609,6 @@ public class MainActivity extends TTSButtonActivity implements
 
 		gv.setAdapter(adapter);
 
-
 		gv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -691,6 +625,11 @@ public class MainActivity extends TTSButtonActivity implements
 			}
 
 		});
+
+		// TODO: we now hide the search in History as it doesn't look good on
+		// all Mobiles
+		LinearLayout l = (LinearLayout) findViewById(R.id.listview_search_layout_cont);
+		l.setVisibility(View.VISIBLE);
 
 		// TODO: display category title
 		TextView category_title = (TextView) findViewById(R.id.category_title);

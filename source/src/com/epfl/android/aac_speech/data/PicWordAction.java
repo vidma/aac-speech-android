@@ -48,15 +48,20 @@ public class PicWordAction {
 				this.element.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
 			}
 
-			// TODO: handle reflexivity
-			
-			
+			// TODO: a hack handle reflexivity (check if allways work)
+			if (type == Pic2NLG.ActionType.VERB && word.startsWith("se ")
+					&& MainActivity.getPreferedLanguage().equals("fr")) {
+				this.element = Pic2NLG.factory.createNLGElement(word
+						.replaceFirst("se ", ""));
+				this.element.setFeature(LexicalFeature.REFLEXIVE, true);
+			}
+
 			// TODO: temporal hack to fix "to do smf" in English. that seem not
 			// be recognized nicely
 			if (type == Pic2NLG.ActionType.VERB && word.startsWith("to ")
 					&& MainActivity.getPreferedLanguage().equals("en")) {
-				this.element = Pic2NLG.factory.createNLGElement(word.replace(
-						"to ", ""));
+				this.element = Pic2NLG.factory.createNLGElement(word
+						.replaceFirst("to ", ""));
 			}
 		}
 	}
@@ -141,14 +146,12 @@ public class PicWordAction {
 				+ this.element;
 	}
 
-
-
 	/**
 	 * TODO: color values could come from database, but SPC is very old (80s?),
 	 * so it's not supposed to change
 	 */
 	public static class SpcColor {
-		
+
 		public class SPC_ColorCode {
 			public static final int PROPER_NAME = 1;
 			public static final int COMMON_NAME = 2;
@@ -157,7 +160,7 @@ public class PicWordAction {
 			public static final int SOCIAL = 5;
 			public static final int MISC = 6;
 		};
-		
+
 		/* color definitions */
 		final static String color_white = "ffffff";
 		final static String color_blue = "aaaaff";

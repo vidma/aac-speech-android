@@ -1,0 +1,6 @@
+* Installation: just recreate the database from dump and run ./manage.py runserver
+    learn django to do more (http://django.com)
+
+* media is not added to GitHub because of it's size of 1GB
+
+

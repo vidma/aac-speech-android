@@ -216,7 +216,7 @@ public class DBHelper {
 			selectionArgs = new String[] { search_text + "%", search_text + "%" };
 		}
 		// TODO: here it may return most used on top. and then by alphabet?
-		Cursor cur = cr.query(uri, null, selection, selectionArgs, "word ASC");
+		Cursor cur = cr.query(uri, new String[] { "*", "0 AS is_recent" }, selection, selectionArgs, "word ASC");
 		// Log.d("a", cur.toString());
 		return cur;
 	}
@@ -232,24 +232,28 @@ public class DBHelper {
 
 		// TODO: here it may return most used on top. and then maybe order by
 		// alphabet or just by use count
-		Cursor cur = cr.query(uri, null, selection, selectionArgs,
-				IndividualIcons.COL_USE_COUNT + " DESC LIMIT "
-						+ CATEGORY_RECENT_ITEMS_LIMIT);
+		Cursor cur = cr.query(uri, new String[] { "*", "1 AS is_recent" },
+				selection, selectionArgs, IndividualIcons.COL_USE_COUNT
+						+ " DESC LIMIT " + CATEGORY_RECENT_ITEMS_LIMIT);
 
 		// Log.d("a", cur.toString());
 		return cur;
 	}
-	
+
 	/* Category info */
 	public String getCategoryInfoTitle(long categoryId) {
+		try {
+			Cursor cur = cr.query(Category.CONTENT_URI, null,
+					Category.COL_CATEGORY_ID + " = " + categoryId, null, null);
+			cur.moveToFirst();
+			return cur.getString(cur.getColumnIndex(Category.COL_TITLE));
 
+		} catch (Exception e) {
+			// TODO: handle exception
+			Log.e(TAG, e.toString());
+			return "";
+		}
 
-		Cursor cur = cr.query(Category.CONTENT_URI, null, Category.COL_PK + " = " + categoryId, null,
-				null);
-		cur.moveToFirst();
-
-		return cur.getString(cur.getColumnIndex(Category.COL_TITLE));
-		
 		// Log.d("a", cur.toString());
 	}
 
