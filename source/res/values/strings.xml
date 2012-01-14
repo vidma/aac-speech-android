@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AAC speech</string>
+    <string name="blah"></string>
+    <string name="menu_gesture_search">Find a word</string>
+    <string name="loading_nlg">Please wait… Loading the slow Natural Language
+		Processing library</string>
+    <string name="go_back">Go back</string>
+    <string name="remove_icon">Remove this icon</string>
+    <string name="cancel">Cancel</string>
+    <string name="update_icons">Install/update pictograms</string>
+    <string name="update_icons_description">This will download ~20MB of icons. Use WiFi if possible.</string>
+    <string name="update_icons_wait_msg">Downloading the files. This will take some time…</string>
+    <string name="please_wait">Loading… Please wait.</string>
+    <string name="category_filter_hint">Type here to filter the icons.</string>
+    <string name="menu_about">About</string>
+    <string name="menu_history">Phrase History</string>
+    <string name="menu_preferences">Preferences</string>
+    <string name="pref_lang">Language</string>
+    <string name="pref_gender">My gender</string>
+    <string name="pref_uppercase">Display UPPERCASE letters</string>
+    <string name="pref_clear_phrase_after_speak">Clear the spoken phrase</string>
+    <string name="pref_about_user">About the user (me)</string>
+
+    <!-- home screen buttons -->
+    <string name="btn_negated">negation</string>
+    <string name="btn_quesion">question</string>
+    <string name="btn_I">I</string>
+    <string name="btn_you">You</string>
+    <string name="btn_he">He</string>
+    <string name="btn_she">She</string>
+    <string name="btn_we">We</string>
+    <string name="btn_you_pl">You</string>
+    <string name="btn_they_m">They</string>
+    <string name="btn_they_f">They</string>
+    <string name="btn_that">That</string>
+    <string name="btn_lets">let\'s</string>
+    <string name="btn_past">past</string>
+    <string name="btn_present">present</string>
+    <string name="btn_future">future</string>
+    <string name="btn_dot">dot</string>
+    <string name="btn_to_want">want</string>
+    <string name="btn_can">can</string>
+    <string name="btn_to_be">be</string>
+    <string name="btn_to_have">have</string>
+
+</resources>

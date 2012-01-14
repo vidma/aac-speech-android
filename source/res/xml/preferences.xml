@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- not bad tutorial on this is on: http://www.kaloer.com/android-preferences -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Application" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_uppercase"
+            android:summary=""
+            android:title="@string/pref_uppercase" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_clear_phrase_after_speak"
+            android:summary=""
+            android:title="@string/pref_clear_phrase_after_speak" />
+
+        <ListPreference
+            android:defaultValue="FR"
+            android:entries="@array/langArray"
+            android:entryValues="@array/langValues"
+            android:key="pref_lang"
+            android:summary=""
+            android:title="@string/pref_lang" />
+
+        <Preference
+            android:key="installIcons"
+            android:summary="@string/update_icons_description"
+            android:title="@string/update_icons" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_about_user" >
+        <ListPreference
+            android:defaultValue="MALE"
+            android:entries="@array/genderArray"
+            android:entryValues="@array/genderValues"
+            android:key="pref_gender"
+            android:summary=""
+            android:title="@string/pref_gender" />
+
+        <!--
+        <EditTextPreference
+                android:name="EditText Preference"
+                android:summary="This allows you to enter a string"
+                android:defaultValue="Nothing"
+                android:title="Edit This Text"
+                android:key="editTextPref" />
+        <RingtonePreference
+                android:name="Ringtone Preference"
+                android:summary="Select a ringtone"
+                android:title="Ringtones"
+                android:key="ringtonePref" />
+        <PreferenceScreen
+                android:key="SecondPrefScreen"
+                android:title="Second PreferenceScreen"
+                android:summary="This is a second PreferenceScreen">
+                <EditTextPreference
+                        android:name="An other EditText Preference"
+                        android:summary="This is a preference in the second PreferenceScreen"
+                        android:title="Edit text"
+                        android:key="SecondEditTextPref" />
+        </PreferenceScreen>
+        <Preference
+                android:title="Custom Preference"
+                android:summary="This works almost like a button"
+                android:key="customPref" />
+        -->
+    </PreferenceCategory>
+
+</PreferenceScreen>

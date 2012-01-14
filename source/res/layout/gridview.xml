@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- automatic layout sizing is slower as many size measurements are needed -->
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!--
+          TODO: switch between the two? or merge cursors?
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Recents" >
+            </TextView>
+
+            <GridView
+                android:id="@+id/category_gridView_recents"
+                style="@style/GridViewStyle"
+                android:layout_height="wrap_content"
+                android:columnWidth="80dp" >
+            </GridView>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="All in category" >
+            </TextView>
+
+            
+        </LinearLayout>
+    -->
+
+    <GridView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/category_gridView"
+        style="@style/GridViewStyle"
+        android:columnWidth="80dp" >
+    </GridView>
+
+</merge>

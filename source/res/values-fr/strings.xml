@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AAC Parole</string>
+    <string name="blah">Bla</string>
+    <string name="menu_gesture_search">Trouver un mot</string>
+    <string name="loading_nlg">S\'il vous plaît patienter. Chargement de la
+		bibliothèque de traitement du langage naturel.</string>
+    <string name="go_back">Retour</string>
+
+    <!-- special image Buttons -->
+    <string name="negation">négation</string>
+    <string name="remove_icon">Supprimer cette icône</string>
+    <string name="cancel">Annuler</string>
+    <string name="update_icons">Instaler/metre a jour les pictogrames</string>
+    <string name="update_icons_description">Ceci va télécharger ~ 20Mo de données. Utilisez WiFi si possible.</string>
+    <string name="update_icons_wait_msg">Chargement des icons… S\'il vous plaît patienter.</string>
+    <string name="please_wait">S\'il vous plaît patienter.</string>
+    <string name="category_filter_hint">Tapez ici pour filtrer.</string>
+    <string name="menu_about">Info</string>
+    <string name="menu_history">Histoire des Phrases</string>
+    <string name="menu_preferences">Préférences</string>
+    <string name="pref_lang">Langue</string>
+    <string name="pref_gender">Mon sexe</string>
+    <string name="pref_uppercase">Affichage en MAJUSCULES</string>
+    <string name="pref_clear_phrase_after_speak">Effacer les mots prononcés</string>
+    <string name="pref_about_user">Utilisateur (moi)</string>
+
+    <!-- home screen buttons -->
+    <string name="btn_negated">ne..(pas)</string>
+    <string name="btn_quesion">question</string>
+    <string name="btn_I">je</string>
+    <string name="btn_you">tu</string>
+    <string name="btn_he">il</string>
+    <string name="btn_she">elle</string>
+    <string name="btn_we">nouns</string>
+    <string name="btn_you_pl">vous</string>
+    <string name="btn_they_m">ils</string>
+    <string name="btn_they_f">elles</string>
+    <string name="btn_that">ça</string>
+    <string name="btn_lets">on</string>
+    <string name="btn_past">passé</string>
+    <string name="btn_present">present</string>
+    <string name="btn_future">futur</string>
+    <string name="btn_dot">point</string>
+    <string name="btn_to_want">vouloir</string>
+    <string name="btn_can">pouvoir</string>
+    <string name="btn_to_be">être</string>
+    <string name="btn_to_have">avoir</string>
+
+</resources>

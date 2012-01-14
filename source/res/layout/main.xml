@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.epfl.android.aac_speech"
+    android:id="@+id/main"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="1" >
+
+    <include layout="@layout/top_status_bar" />
+
+    <ViewFlipper
+        android:id="@+id/view_switcher"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="1dp"
+        android:layout_weight="1.0" >
+
+        <!-- home screen -->
+
+        <LinearLayout
+            android:id="@+id/home_screen"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <!-- categories view -->
+
+        <LinearLayout
+            android:id="@+id/category_linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/category_linearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_weight="1.0"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/category_go_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:layout_weight="1.0"
+                    android:background="#000000"
+                    android:drawableLeft="@drawable/go_back"
+                    android:gravity="left"
+                    android:text="@string/go_back" />
+
+                <!-- TODO: why this is not visible -->
+
+                <TextView
+                    android:id="@+id/category_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:layout_weight="1.0"
+                    android:text="Category Title"
+                    android:textColor="#999"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- gridview for current category -->
+
+            <include layout="@layout/gridview" />
+            
+            
+        </LinearLayout>
+
+        <!-- listview: search or history -->
+
+        <LinearLayout
+            android:id="@+id/listview_search_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <ListView
+                android:id="@+id/search_results_listview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:smoothScrollbar="false" >
+            </ListView>
+
+            <LinearLayout
+                android:id="@+id/listview_search_layout_cont"
+                android:layout_width="fill_parent"
+                android:layout_height="120dp"
+                android:layout_weight="1.0"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/listview_search_go_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_gravity="right|top"
+                    android:layout_weight="1.0"
+                    android:drawableLeft="@drawable/go_back"
+                    android:gravity="left"
+                    android:text="@string/go_back" />
+
+                <EditText
+                    android:id="@+id/listview_search_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="100dp"
+                    android:layout_gravity="left|top"
+                    android:layout_weight="1.0"
+                    android:drawableLeft="@android:drawable/ic_menu_search"
+                    android:height="100dp"
+                    android:hint="@string/category_filter_hint"
+                    android:minHeight="100dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="10pt" >
+
+                    <requestFocus />
+                </EditText>
+            </LinearLayout>
+        </LinearLayout>
+    </ViewFlipper>
+
+</LinearLayout>

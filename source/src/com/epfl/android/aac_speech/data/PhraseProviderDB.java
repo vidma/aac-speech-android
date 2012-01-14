@@ -1,0 +1,326 @@
+/*
+ * Copyright 2011 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.epfl.android.aac_speech.data;
+
+import java.util.HashMap;
+import java.util.List;
+import com.epfl.android.aac_speech.MainActivity;
+
+import android.app.SearchManager;
+import android.content.ContentProvider;
+import android.content.ContentValues;
+import android.content.UriMatcher;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.net.Uri;
+import android.provider.BaseColumns;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.epfl.android.aac_speech.data.LowLevelDatabaseHelper;
+import com.epfl.android.aac_speech.data.models.Category;
+import com.epfl.android.aac_speech.data.models.IndividualIcons;
+import com.epfl.android.aac_speech.data.models.PhraseHistory;
+
+/**
+ * This example shows how to create a data provider that can be searched by
+ * Gesture Search.
+ * 
+ * To improve search results we may assign some of the word wit the categories.
+ * 
+ * TODO: THIS CANNOT HANDLE INTERNATIONAL LETTERS YET!!! ecole for example!!!
+ * can we search by ecole and display the one with french accent?
+ */
+public class PhraseProviderDB extends ContentProvider {
+	static final String AUTHORITY = "com.epfl.android.aac_speech.icons";
+
+	private LowLevelDatabaseHelper mOpenHelper;
+
+	private static final String TAG = "PhraseProviderDB";
+
+	// TODO: sort order -- shall that be the real collumn or the one in AS
+	private static final String GESTURE_SEARCH_DEFAULT_SUGGESTION_SORT_ORDER = "word ASC";
+
+	public static final String URI_AUTHORITY = "content://" + AUTHORITY + "/";
+
+	/* CONSTANTS DEFINING PATHS AND URIS */
+	public static final String ICON_LISTING_BY_CATEGORY_PATH_STR = IndividualIcons.TABLE_NAME
+			+ "_by_category";
+
+	public static final String GESTURE_ICON_LISTING_BY_CATEGORY_PATH_STR = IndividualIcons.TABLE_NAME
+			+ "_by_category" + "_gesture";
+
+	public static final String GESTURE_SEARCH_PATH_STR = IndividualIcons.TABLE_NAME
+			+ "_gesture_search";
+
+	public static final Uri GESTURE_SEARCH_CONTENT_URI = Uri
+			.parse(URI_AUTHORITY + GESTURE_SEARCH_PATH_STR);
+
+	public static final Uri GESTURE_SEARCH_BY_CATEGORY_CONTENT_URI = Uri
+			.parse(URI_AUTHORITY + GESTURE_ICON_LISTING_BY_CATEGORY_PATH_STR);
+
+	public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.epfl.android.acc_speech.icons";
+	public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.epfl.android.acc_speech.icons";
+
+	/* PROJECTION MAP FOR GESTURE SEARCH */
+	private static HashMap<String, String> gestureSearchSuggestionProjectionMap;
+	static {
+		gestureSearchSuggestionProjectionMap = new HashMap<String, String>();
+		gestureSearchSuggestionProjectionMap.put(BaseColumns._ID, "_id");
+		gestureSearchSuggestionProjectionMap.put(
+				SearchManager.SUGGEST_COLUMN_TEXT_1, "word_ascii_only AS "
+						+ SearchManager.SUGGEST_COLUMN_TEXT_1);
+		gestureSearchSuggestionProjectionMap.put(
+				SearchManager.SUGGEST_COLUMN_TEXT_2, "word AS "
+						+ SearchManager.SUGGEST_COLUMN_TEXT_2);
+		gestureSearchSuggestionProjectionMap.put(
+				SearchManager.SUGGEST_COLUMN_ICON_1, "icon_path AS "
+						+ SearchManager.SUGGEST_COLUMN_ICON_1);
+	}
+
+	/* URI MATCHER */
+	private static final int URI_MATCH_GESTURE_SUGGESTION = 0;
+	private static final int URI_MATCH_SUGGESTION_ID = 10;
+	private static final int URI_MATCH_ICON_LISTING_BY_CATID_FULL = 100;
+	private static final int URI_MATCH_GESTURE_BYCATEGORY = 1000;
+	private static final int URI_MATCH_ICON_HISTORY = 10000;
+	private static final int URI_MATCH_CATEGORY_ICON_HISTORY = 100000;
+
+	private static final int URI_MATCH_CATEGORY_INFO = 1000000;
+
+	private static final UriMatcher sUriMatcher;
+	static {
+		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+		sUriMatcher.addURI(AUTHORITY, GESTURE_SEARCH_PATH_STR,
+				URI_MATCH_GESTURE_SUGGESTION);
+
+		sUriMatcher.addURI(AUTHORITY, GESTURE_SEARCH_PATH_STR + "/#",
+				URI_MATCH_SUGGESTION_ID);
+
+		sUriMatcher.addURI(AUTHORITY, IndividualIcons.PATH_STR + "/#",
+				URI_MATCH_ICON_LISTING_BY_CATID_FULL);
+
+		/* param: category_id */
+		sUriMatcher.addURI(AUTHORITY, GESTURE_ICON_LISTING_BY_CATEGORY_PATH_STR
+				+ "/#", URI_MATCH_GESTURE_BYCATEGORY);
+
+		sUriMatcher.addURI(AUTHORITY, PhraseHistory.HISTORY_PATH_STR,
+				URI_MATCH_ICON_HISTORY);
+
+		sUriMatcher.addURI(AUTHORITY, Category.PATH_STR,
+				URI_MATCH_CATEGORY_INFO);
+
+	}
+
+	@Override
+	public boolean onCreate() {
+		mOpenHelper = new LowLevelDatabaseHelper(getContext());
+		// Log.d("Phrase provider", "context" + getContext().toString());
+		return true;
+	}
+
+	@Override
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String sortOrder) {
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+		/*
+		 * qb.appendWhere do no add AND automatically, so we have to append in
+		 * manually
+		 */
+		int whereChunkCount = 0;
+
+		int match = match_uri(uri);
+
+		/* Set Projection for Gesture search */
+		String orderBy = sortOrder;
+		if (match == URI_MATCH_GESTURE_SUGGESTION
+				|| match == URI_MATCH_SUGGESTION_ID
+				|| match == URI_MATCH_GESTURE_BYCATEGORY) {
+			qb.setProjectionMap(gestureSearchSuggestionProjectionMap);
+
+			if (TextUtils.isEmpty(orderBy)) {
+				orderBy = GESTURE_SEARCH_DEFAULT_SUGGESTION_SORT_ORDER;
+			}
+		}
+
+		/* Set category filter if any */
+		if (match == URI_MATCH_GESTURE_BYCATEGORY) {
+
+			List<String> uri_segments = uri.getPathSegments();
+			String category_id = uri_segments.get(uri_segments.size() - 1);
+
+			// TODO: allow icons to belong to multiple categories (there are not
+			// many such yet, only ~30 in 5000)
+			CharSequence whereChunk = "main_category_id=" + category_id;
+			appendWhereChunkSmart(qb, whereChunkCount++, whereChunk);
+
+		}
+
+		SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+
+		/*
+		 * easiest way to do language filtering is to append it into the query
+		 * right here
+		 */
+		if (match == URI_MATCH_ICON_HISTORY) {
+			/* TODO: language filtering for History !!! */
+			qb.setTables(PhraseHistory.TABLE_NAME);
+			appendWhereChunkSmart(
+					qb,
+					whereChunkCount++,
+					PhraseHistory.COL_LANGUAGE + " = '"
+							+ MainActivity.getPreferedLanguage() + "'");
+		} else if (match == URI_MATCH_CATEGORY_INFO) {
+			qb.setTables(Category.TABLE_NAME);
+			appendWhereChunkSmart(
+					qb,
+					whereChunkCount++,
+					Category.COL_LANGUAGE + " = '"
+							+ MainActivity.getPreferedLanguage() + "'");
+
+		} else {
+			qb.setTables(IndividualIcons.TABLE_NAME);
+			appendWhereChunkSmart(
+					qb,
+					whereChunkCount++,
+					IndividualIcons.COL_LANG + " = '"
+							+ MainActivity.getPreferedLanguage() + "'");
+
+		}
+
+		// if (MainActivity.DEBUG) {
+		// Log.i(TAG, "selection: " + selection + "; sel args:"
+		// + ((selectionArgs != null) ? selectionArgs.toString() : ""));
+		// }
+
+		Cursor c = qb.query(db, projection, selection, selectionArgs, null,
+				null, orderBy);
+
+		c.setNotificationUri(getContext().getContentResolver(), uri);
+		return c;
+	}
+
+	/**
+	 * @param qb
+	 * @param whereChunkCount
+	 * @param whereChunk
+	 */
+	private static void appendWhereChunkSmart(SQLiteQueryBuilder qb,
+			int whereChunkCount, CharSequence whereChunk) {
+		whereChunk = ((whereChunkCount > 0) ? "AND" : "") + " (" + whereChunk
+				+ ") ";
+		qb.appendWhere(whereChunk);
+	}
+
+	@Override
+	public String getType(Uri url) {
+		int match = sUriMatcher.match(url);
+		switch (match) {
+
+		case URI_MATCH_GESTURE_BYCATEGORY:
+		case URI_MATCH_GESTURE_SUGGESTION:
+			return CONTENT_TYPE;
+
+		case URI_MATCH_SUGGESTION_ID:
+			return CONTENT_ITEM_TYPE;
+
+		default:
+			throw new IllegalArgumentException("Unknown URL");
+		}
+	}
+
+	@Override
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Uri insert(Uri uri, ContentValues values) {
+		String tableName = get_matched_tablename(uri);
+
+		/** Append LANGUAGE to PhraseHistory */
+		if (tableName == PhraseHistory.TABLE_NAME) {
+			if (!values.containsKey(PhraseHistory.COL_LANGUAGE)) {
+				values.put(PhraseHistory.COL_LANGUAGE,
+						MainActivity.getPreferedLanguage());
+
+			}
+		}
+
+		if (tableName != null) {
+			SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+			// Performs the insert and returns the ID of the new note.
+			long rowId = db.insert(tableName, null, values);
+			db.close();
+			return null;
+		}
+		// If the insert didn't succeed, then the rowID is <= 0. Throws an
+		// exception.
+		throw new SQLException("Failed to insert row into " + uri);
+	}
+
+	/**
+	 * @param uri
+	 * @return
+	 */
+	private int match_uri(Uri uri) {
+		int match = sUriMatcher.match(uri);
+		if (match == -1) {
+			throw new IllegalArgumentException(uri + " -- Unknown URL");
+		}
+		return match;
+	}
+
+	@Override
+	public int update(Uri uri, ContentValues values, String whereClause,
+			String[] whereArgs) {
+		String tableName = get_matched_tablename(uri);
+
+		if (tableName != null) {
+			SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+			String[] bindArgs;
+
+			db.update(tableName, values, whereClause, whereArgs);
+			db.close();
+		}
+
+		return 0;
+	}
+
+	/**
+	 * @param uri
+	 * @return
+	 */
+	private String get_matched_tablename(Uri uri) {
+		int match = match_uri(uri);
+
+		String tableName = null;
+		if (match == URI_MATCH_ICON_HISTORY) {
+			tableName = PhraseHistory.TABLE_NAME;
+		}
+
+		if (match == URI_MATCH_CATEGORY_ICON_HISTORY) {
+			tableName = IndividualIcons.TABLE_NAME;
+		}
+		return tableName;
+	}
+}
