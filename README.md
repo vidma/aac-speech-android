@@ -19,6 +19,9 @@ accessibility
 Below application screen-shots on mobile phone. On tablet everything is bigger and fits more icons.
 
 
+<img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000011.png" width="300px" />
+<img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000029.png" width="300px" />
+
 ![](https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000011.png)
 ![](https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000029.png) 
 ![](https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000030.png)  
