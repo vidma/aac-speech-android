@@ -16,6 +16,9 @@ accessibility
 * option to display text in capital letters
 * compatibility with both Tablets and mobile phones
 
+Also, my friends have found it to be a fun toy to learn basics of foreign language :)
+
+
 Below application screen-shots on mobile phone. On tablet everything is bigger and fits more icons.
 
 
