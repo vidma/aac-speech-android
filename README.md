@@ -30,8 +30,9 @@ Below application screen-shots on mobile phone. On tablet everything is bigger a
 
 INSTALATION
 -----------
-
-![](https://github.com/vidma/aac-speech-android/raw/master/qr-code2.png) 
+<div style="float:left;margin:5px 5px 5px 5px" markdown="1">
+    ![](https://github.com/vidma/aac-speech-android/raw/master/qr-code2.png) 
+</div>
 
 * enable installing apps from not-verified-sources (Settings->Applications; tick 'Unknown sources')
 * Download and install the latest apk: https://github.com/vidma/aac-speech-android/raw/master/acc_speech_latest.apk
@@ -53,6 +54,11 @@ CURRENT ISSUES AND WORK-AROUNDS
 * personal pronouns like me, te, etc do not work if seleted before the verb. just select the verb first, and the pronoun afterwards and it will be placed in the right position.
 * many of the icons are not correctly part-of-speech tagged (this is hard manual work; we use some simple guesses), so have in mind that the application may not allways give expected results
 
+
+REPORTING PROBLEMS
+------------------
+
+To report a bug or other problem, submit a ticket at GitHub: https://github.com/vidma/aac-speech-android/issues/new
 
 LICENSE
 -------
