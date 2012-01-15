@@ -47,6 +47,12 @@ you will also need text to speech engine to be installed (go to Settings->Instal
 For much higher quality voices you may get the SVOX voices from android market ( https://market.android.com/details?id=com.svox.classic ) for around 3 EUR (include free fully featured two week trial). Note: I'm not affiliated with them, just used and liked their quality.
 
 
+CURRENT ISSUES AND WORK-AROUNDS
+-------------------------------
+
+* personal pronouns like me, te, etc do not work if seleted before the verb. just select the verb first, and the pronoun afterwards and it will be placed in the right position.
+* many of the icons are not correctly part-of-speech tagged (this is hard manual work; we use some simple guesses), so have in mind that the application may not allways give expected results
+
 
 LICENSE
 -------
@@ -67,3 +73,22 @@ The application includes 5000+ <a href="http://arasaac.org/condiciones_uso.php">
 DEVELOPMENT
 -----------
 just use eclipse and import the the project
+
+
+FUTURE WORK
+-----------
+* clean up the icon-set
+    * see if better categorizations are possible
+    * provide better part-of-speech tags
+    * remove duplicate icons so that only best icons are selected for each word (currently any icon is selected)
+* extend/improve natural language processing
+    * automatic guessing, compound words: avoir besoin etc, personal pronouns (me, te, etc)1, add other question and negation types (ne..que, ne..guerre etc, in addition to ne .. pas)
+* extend user interface
+    * more options for word icons (e.g. overriding number/gender for each icon)
+    * better UI for tablets: have filtering options on the side of category view 
+* implement English properly
+* misc    
+    * could we further speed up the loading time?
+    * Gesture search do not handle French accents yet (bug in Google's app)
+currently we use the ascii version of French word for search
+
