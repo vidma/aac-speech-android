@@ -50,7 +50,7 @@ public class PicWordActionFactory {
 	public static final String ACT_DOT = ".";
 
 	public static final String ACT_QUESTION = "?";
-	
+
 	public static final String ACT_TENSE_PAST = "PAST";
 	public static final String ACT_TENSE_FUTURE = "FUTURE";
 	public static final String ACT_TENSE_CLOSE_FUTURE = "FUTUR-PROCHE";
@@ -66,7 +66,20 @@ public class PicWordActionFactory {
 	public static final String ACT_PRONOUN_THEY_F = "THEY_F";
 	public static final String ACT_PRONOUN_THAT = "THAT";
 
-	
+	// TODO
+	public static final String ACT_PRONOUN_OBJ_MYSELF = "MYSELF"; // me - me
+	public static final String ACT_PRONOUN_OBJ_YOU = "YOU;OBJ"; // te -you
+	public static final String ACT_PRONOUN_OBJ_HIM = "HIM"; // lui -him
+	public static final String ACT_PRONOUN_OBJ_HER = "HER"; // lui -her
+
+	public static final String ACT_PRONOUN_OBJ_US = "US"; // nous -us
+	public static final String ACT_PRONOUN_OBJ_YOU_PL = "YOU;PL;OBJ"; // vous -
+																		// you
+	public static final String ACT_PRONOUN_OBJ_THEM = "THEM"; // eux -them
+
+	// TODO: this is not really needed right?
+	public static final String ACT_PRONOUN_OBJ_THEM_F = "THEM;FEM"; // eux -them
+
 	public static final String ACT_LETS_DO_SMF = "LETS";
 
 	public static final String ACT_VERB_WANT = "WANT";
@@ -183,10 +196,9 @@ public class PicWordActionFactory {
 				ActionType.NOUN, R.string.btn_you_pl, R.drawable.vous));
 		action_defs.put(ACT_PRONOUN_THEY_M, new ActionDefinition(
 				ActionType.NOUN, R.string.btn_they_m, R.drawable.ils));
-		action_defs.put(ACT_PRONOUN_THAT, new ActionDefinition(
-				ActionType.NOUN, R.string.btn_that, R.drawable.that_one));
+		action_defs.put(ACT_PRONOUN_THAT, new ActionDefinition(ActionType.NOUN,
+				R.string.btn_that, R.drawable.that_one));
 
-		
 		action_defs.put(ACT_PRONOUN_THEY_F, new ActionDefinition(
 				ActionType.NOUN, R.string.btn_they_f, R.drawable.elles));
 
@@ -205,8 +217,39 @@ public class PicWordActionFactory {
 				R.string.btn_to_want, R.drawable.vouloir));
 
 		/*
-		 * TODO: personal pronouns: me, te, .... -- no English equivalent!
+		 * Clitic pronouns: me, te,
 		 */
+
+		action_defs.put(ACT_PRONOUN_OBJ_MYSELF, new ActionDefinition(
+				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_myself,
+				R.drawable.je));
+
+		action_defs.put(ACT_PRONOUN_OBJ_YOU, new ActionDefinition(
+				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_you,
+				R.drawable.tu));
+
+		action_defs.put(ACT_PRONOUN_OBJ_HIM, new ActionDefinition(
+				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_him,
+				R.drawable.il));
+
+		action_defs.put(ACT_PRONOUN_OBJ_HER, new ActionDefinition(
+				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_her,
+				R.drawable.elle));
+
+		action_defs.put(ACT_PRONOUN_OBJ_US, new ActionDefinition(
+				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_us,
+				R.drawable.nous));
+
+		action_defs.put(ACT_PRONOUN_OBJ_YOU_PL, new ActionDefinition(
+				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_you_pl,
+				R.drawable.vous));
+		action_defs.put(ACT_PRONOUN_OBJ_THEM, new ActionDefinition(
+				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_them_m,
+				R.drawable.ils));
+
+		action_defs.put(ACT_PRONOUN_OBJ_THEM_F, new ActionDefinition(
+				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_them_f,
+				R.drawable.elles));
 
 		// TODO: NUMBER_AGREEMENT doesn't seem to be important nor useful
 	}
@@ -235,10 +278,12 @@ public class PicWordActionFactory {
 			// we just map homescreen icons by their resourceID, what's the
 			// simplest solution now
 			if (icon.imageResourceId != 0 && icon.type == ActionType.NOUN
-					|| icon.type == ActionType.VERB) {
+					|| icon.type == ActionType.VERB
+					|| icon.type == ActionType.CLITIC_PRONOUN) {
 				for (Entry<String, ActionDefinition> entry : action_defs
 						.entrySet()) {
-					if (entry.getValue().imageResourceId == icon.imageResourceId) {
+					if (entry.getValue().imageResourceId == icon.imageResourceId
+							&& entry.getValue().actType == icon.type) {
 						return entry.getKey();
 					}
 				}

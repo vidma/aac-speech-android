@@ -722,6 +722,17 @@ public class MainActivity extends TTSButtonActivity implements
 		search_q.requestFocus();
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		// TODO Auto-generated method stub
+		this.dbHelper =null;
+		this.iconsFactory = null;
+		this.uiFactory = null;
+		this.nlgConverter = null;
+	}
+	
 	/**
 	 * Returns the text either in uppercase or normal, according to prefs
 	 * 

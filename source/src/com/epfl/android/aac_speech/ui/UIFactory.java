@@ -63,7 +63,7 @@ public class UIFactory {
 					currentButton.imageFileURI, appContext);
 			img.setImageBitmap(bMap);
 		}
-		
+
 		/* only if SPC colors are not disabled */
 		if (currentButton.type != ActionType.CATEGORY
 				&& !MainActivity.getPrefHideSPCColor())
@@ -81,10 +81,14 @@ public class UIFactory {
 		 * http://french.about.com/od/grammar/a/pronouns_3.htm
 		 */
 		PicWordAction[] stuff1 = {
-				new PicWordAction("me", ActionType.NOUN, R.drawable.je),
-				new PicWordAction("te", ActionType.NOUN, R.drawable.tu),
-				new PicWordAction("lui", ActionType.NOUN, R.drawable.il),
-				new PicWordAction("lui", ActionType.NOUN, R.drawable.elle),
+				new PicWordAction("me", ActionType.CLITIC_PRONOUN,
+						R.drawable.je),
+				new PicWordAction("te", ActionType.CLITIC_PRONOUN,
+						R.drawable.tu),
+				new PicWordAction("lui", ActionType.CLITIC_PRONOUN,
+						R.drawable.il),
+				new PicWordAction("lui", ActionType.CLITIC_PRONOUN,
+						R.drawable.elle),
 				iconsFactory.get(iconsFactory.ACT_PRONOUN_THAT), };
 
 		PicWordAction[] stuff2 = {
@@ -97,15 +101,16 @@ public class UIFactory {
 		PicWordAction[][] buttons = {
 				nlg_state_subject_selected ? stuff1 : stuff2,
 				{
+					/* TODO: then here I shall change the tyoe to CLITIC_PRONOUN too */
 						iconsFactory.get(iconsFactory.ACT_PRONOUN_WE),
 						iconsFactory.get(iconsFactory.ACT_PRONOUN_YOU_PL),
 						(nlg_state_subject_selected ? (new PicWordAction("eux",
-								ActionType.NOUN, R.drawable.ils))
+								ActionType.CLITIC_PRONOUN, R.drawable.ils))
 								: iconsFactory
 										.get(iconsFactory.ACT_PRONOUN_THEY_M)),
 
 						(nlg_state_subject_selected ? (new PicWordAction("eux",
-								ActionType.NOUN, R.drawable.ils))
+								ActionType.CLITIC_PRONOUN, R.drawable.ils))
 								: iconsFactory
 										.get(iconsFactory.ACT_PRONOUN_THEY_F)),
 						/*

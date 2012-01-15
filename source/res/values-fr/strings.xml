@@ -39,6 +39,17 @@
     <string name="btn_you_pl">vous</string>
     <string name="btn_they_m">ils</string>
     <string name="btn_they_f">elles</string>
+    <!-- clitic pronouns -->
+    <string name="btn_clitic_myself">me</string>
+    <string name="btn_clitic_you">te</string>
+    <string name="btn_clitic_him">lui</string>
+    <string name="btn_clitic_her">lui</string>
+    <string name="btn_clitic_us">nous</string>
+    <string name="btn_clitic_you_pl">vous</string>
+    <string name="btn_clitic_them_m">eux</string>
+    <string name="btn_clitic_them_f">eux</string>
+    <!-- other stuff -->
+
     <string name="btn_that">ça</string>
     <string name="btn_lets">on</string>
     <string name="btn_past">passé</string>

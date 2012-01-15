@@ -36,6 +36,16 @@
     <string name="btn_you_pl">You</string>
     <string name="btn_they_m">They</string>
     <string name="btn_they_f">They</string>
+    <!-- clitic pronouns -->
+    <string name="btn_clitic_myself">myself</string>
+    <string name="btn_clitic_you">you</string>
+    <string name="btn_clitic_him">him</string>
+    <string name="btn_clitic_her">her</string>
+    <string name="btn_clitic_us">us</string>
+    <string name="btn_clitic_you_pl">you</string>
+    <string name="btn_clitic_them_m">them</string>
+    <string name="btn_clitic_them_f">them</string>
+    <!-- other stuff -->
     <string name="btn_that">That</string>
     <string name="btn_lets">let\'s</string>
     <string name="btn_past">past</string>

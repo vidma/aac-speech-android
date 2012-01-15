@@ -51,7 +51,7 @@ import com.epfl.android.aac_speech.data.PicWordAction;
 public class Pic2NLG {
 
 	public enum ActionType {
-		NOUN, VERB, ADVERB, TENSE_PRESENT, TENSE_PAST, TENSE_FUTURE, TENSE_FUTUR_PROCHE, NUMBER_AGREEMENT, NEGATED, ADJECTIVE, PREPOSITION, QUESTION, DOT, CATEGORY
+		NOUN, CLITIC_PRONOUN, VERB, ADVERB, TENSE_PRESENT, TENSE_PAST, TENSE_FUTURE, TENSE_FUTUR_PROCHE, NUMBER_AGREEMENT, NEGATED, ADJECTIVE, PREPOSITION, QUESTION, DOT, CATEGORY
 	};
 
 	public static Lexicon lexicon;
@@ -208,18 +208,48 @@ public class Pic2NLG {
 			// because, for instance the adjevctive as complement to the clause
 			// must not be mixed with adjective belonging to an noun, and in
 			// french adjective may go both before and after a noun
-			NLGElement currentNounPrase = matchCoordinatedNounPhraseList(stack);
+
+			// TODO: To fix the problem with me, te, etc we do not allow subject
+			// to consist of more than one coordinate for now
+			// TODO: long term solution may be to create a separate action_type
+			// for CLITIC_PRONOUN (je [te] donne, that should (?) allow to have
+			// coordinated
+			// subject and pronouns at the same type
+
+			// TODO: for words like tomorrow, today -- these shall not be just
+			// Nouns.
+			// as we do not need to guess specifier for a time of clause
+			// e.g. je mange de bonbons apres-midi
+
+			NLGElement currentNounPrase;
+
+			currentNounPrase = matchCoordinatedNounPhraseList(stack);
 
 			if (currentNounPrase != null) {
-				log("NP returned:" + currentNounPrase);
+				log("NP matched:" + currentNounPrase);
 
 				if (clause.getSubject() == null) {
 					clause.setSubject(currentNounPrase);
 					// TODO: plural
 					log("set subject:" + currentNounPrase);
 				} else {
-					clause.setObject(currentNounPrase);
-					log("set object:" + currentNounPrase);
+					/*
+					 * if object is already set, i.e. in je [te] aime beaucaup,
+					 * the [te] is a direct object and have will be set as
+					 * object.
+					 * 
+					 * however afterwards if we had indirect object, we have to
+					 * make sure it would not override the earlier
+					 * 
+					 * -- in short, this append one more object coordinate
+					 */
+
+					log("setting object to:" + currentNounPrase);
+
+					clauseAddObject(clause, currentNounPrase);
+
+					if (clause.getObject() != null)
+						log("clause.object afterwards:" + clause.getObject());
 
 					String intelligent_guess = intelligentGuessSpecifier(clause);
 
@@ -247,8 +277,14 @@ public class Pic2NLG {
 
 			if (stack.isEmpty())
 				break;
+
 			PicWordAction action = stack.peek();
+
 			switch (action.type) {
+
+			case CLITIC_PRONOUN:
+				clauseAddObject(clause, action.element);
+				break;
 
 			case VERB:
 				/*
@@ -263,9 +299,11 @@ public class Pic2NLG {
 							.getFeatureAsBoolean(LexicalFeature.REFLEXIVE)) {
 						clause.setIndirectObject("se");
 					}
-					
-					//TODO: action.element.removeFeature(LexicalFeature.REFLEXIVE);
-					// just not to create copy of object I don't remove this feature now
+
+					// TODO:
+					// action.element.removeFeature(LexicalFeature.REFLEXIVE);
+					// just not to create copy of object I don't remove this
+					// feature now
 				}
 
 				if (clause.getVerb() == null) {
@@ -326,7 +364,7 @@ public class Pic2NLG {
 				text = text.replace('.', '?');
 
 				prefixClause = prefixClause + text + " ";
-				
+
 				// reset defaults
 				clause = factory.createClause();
 
@@ -448,6 +486,50 @@ public class Pic2NLG {
 
 	}
 
+	/**
+	 * TODO: it is not clear how to handle direct object pronoun together with
+	 * (indirect object?? or shall that be complement and I just have to get
+	 * proper tagging)
+	 * 
+	 * e.g. je te coifferai aujourdhui apres-midi
+	 * 
+	 * [now we get je coifferai toi et aujourdhui apres-midi ]
+	 * 
+	 * 
+	 * 
+	 * @param clause
+	 * @param object_to_add
+	 */
+	private void clauseAddObject(SPhraseSpec clause, NLGElement object_to_add) {
+		NLGElement currentObject;
+		if ((currentObject = clause.getObject()) != null) {
+			CoordinatedPhraseElement objectCoordinate;
+			if (currentObject instanceof CoordinatedPhraseElement) {
+				objectCoordinate = (CoordinatedPhraseElement) currentObject;
+			} else {
+				objectCoordinate = factory.createCoordinatedPhrase();
+				objectCoordinate.addCoordinate(currentObject);
+			}
+
+			/*
+			 * if (object_to_add instanceof CoordinatedPhraseElement) {
+			 * CoordinatedPhraseElement to_add = (CoordinatedPhraseElement)
+			 * object_to_add;
+			 * 
+			 * for (NLGElement child : to_add.getChildren()) {
+			 * objectCoordinate.addCoordinate(child); }
+			 * 
+			 * } else { objectCoordinate.addCoordinate(object_to_add); }
+			 */
+
+			objectCoordinate.addCoordinate(object_to_add);
+
+			clause.setObject(objectCoordinate);
+		} else {
+			clause.setObject(object_to_add);
+		}
+	}
+
 	private String intelligentGuessSpecifier(SPhraseSpec clause) {
 		log("starting intellingent guess for specifier!");
 
@@ -546,11 +628,6 @@ public class Pic2NLG {
 		NPPhraseSpec currentNounPrase = factory.createNounPhrase();
 
 		/* What part of speech are not allowed inside NounPhrase */
-		ActionType not_allowed_POS[] = { ActionType.TENSE_FUTUR_PROCHE,
-				ActionType.TENSE_FUTURE, ActionType.TENSE_PAST,
-				ActionType.TENSE_PRESENT, ActionType.PREPOSITION,
-				ActionType.VERB, ActionType.ADVERB, ActionType.NEGATED,
-				ActionType.DOT, ActionType.QUESTION };
 
 		ActionType allowed_POS[] = { ActionType.NOUN, ActionType.ADJECTIVE,
 				ActionType.NUMBER_AGREEMENT };
@@ -565,9 +642,7 @@ public class Pic2NLG {
 		for (int i = stack.size() - 1; i >= 0; i--) {
 			PicWordAction item = stack.get(i);
 
-			log("NP N containement check: " + item);
-			// if (ArrayUtils.contains(not_allowed_POS, item.type))
-			// break;
+			// log("NP N containement check: " + item);
 
 			if (!ArrayUtils.contains(allowed_POS, item.type)) {
 				break;
