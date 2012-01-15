@@ -30,9 +30,9 @@ Below application screen-shots on mobile phone. On tablet everything is bigger a
 
 INSTALATION
 -----------
-<div style="float:left;margin:5px 5px 5px 5px" markdown="1">
-    ![](https://github.com/vidma/aac-speech-android/raw/master/qr-code2.png) 
-</div>
+
+<img src="https://github.com/vidma/aac-speech-android/raw/master/qr-code2.png" style="float:right" />
+
 
 * enable installing apps from not-verified-sources (Settings->Applications; tick 'Unknown sources')
 * Download and install the latest apk: https://github.com/vidma/aac-speech-android/raw/master/acc_speech_latest.apk
