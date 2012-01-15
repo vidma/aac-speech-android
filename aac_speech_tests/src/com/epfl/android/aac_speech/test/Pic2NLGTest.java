@@ -14,14 +14,13 @@ import simplenlg.framework.NLGElement;
 import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
 
-
 public class Pic2NLGTest extends AndroidTestCase {
-	Pic2NLG converter;
+	static Pic2NLG converter = null;
 
-	
 	protected void setUp() throws Exception {
 		super.setUp();
-		converter = new Pic2NLG();
+		if (converter == null)
+			converter = new Pic2NLG();
 	}
 
 	protected void tearDown() throws Exception {
@@ -34,14 +33,14 @@ public class Pic2NLGTest extends AndroidTestCase {
 	 */
 	public void test_jai_eu_assez_de_bonbons() {
 		assertEquals(
-				"J'ai eu assez bonbons.",
+				"J'ai eu assez bonbons",
 				converter
 						.convertPhrasesToNLG(text_jai_eu_assez_de_bonbons(false)));
 	}
 
 	public void test_jai_eu_assez_de_bonbons_explicit_de() {
 		assertEquals(
-				"J'ai eu assez de bonbons.",
+				"J'ai eu assez de bonbons",
 				converter
 						.convertPhrasesToNLG(text_jai_eu_assez_de_bonbons(true)));
 	}
@@ -50,7 +49,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		ArrayList<PicWordAction> phrases = text_jai_eu_assez_de_bonbons(false);
 		phrases.add(new PicWordAction("délicieux", Pic2NLG.ActionType.ADJECTIVE));
 
-		assertEquals("J'ai eu assez de bonbons délicieux.",
+		assertEquals("J'ai eu assez de bonbons délicieux",
 				converter.convertPhrasesToNLG(phrases));
 
 	}
@@ -88,7 +87,8 @@ public class Pic2NLGTest extends AndroidTestCase {
 		}
 
 		phrases.add(new PicWordAction("bonbon", Pic2NLG.ActionType.NOUN));
-		phrases.add(new PicWordAction("plural", Pic2NLG.ActionType.NUMBER_AGREEMENT));
+		phrases.add(new PicWordAction("plural",
+				Pic2NLG.ActionType.NUMBER_AGREEMENT));
 		return phrases;
 	}
 
@@ -99,7 +99,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		phrases.add(new PicWordAction("manger", Pic2NLG.ActionType.VERB));
 		phrases.add(new PicWordAction("future", Pic2NLG.ActionType.TENSE_FUTURE));
 
-		assertEquals("On mangera.", converter.convertPhrasesToNLG(phrases));
+		assertEquals("On mangera", converter.convertPhrasesToNLG(phrases));
 	}
 
 	/* object not specified directly */
@@ -109,23 +109,22 @@ public class Pic2NLGTest extends AndroidTestCase {
 		phrases.add(new PicWordAction("être", Pic2NLG.ActionType.VERB));
 		phrases.add(new PicWordAction("joli", Pic2NLG.ActionType.ADJECTIVE));
 
-		assertEquals("Tu es joli.", converter.convertPhrasesToNLG(phrases));
+		assertEquals("Tu es joli", converter.convertPhrasesToNLG(phrases));
 	}
 
 	/* gender specified for je/I */
 	public void test_je_suis_heureuse() {
 		ArrayList<PicWordAction> phrases = new ArrayList<PicWordAction>();
-		
+
 		NPPhraseSpec je = Pic2NLG.factory.createNounPhrase("je");
 		je.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
-		
+
 		phrases.add(new PicWordAction(je, Pic2NLG.ActionType.NOUN));
 
 		phrases.add(new PicWordAction("être", Pic2NLG.ActionType.VERB));
 		phrases.add(new PicWordAction("heureux", Pic2NLG.ActionType.ADJECTIVE));
 
-		assertEquals("Je suis heureuse.",
-				converter.convertPhrasesToNLG(phrases));
+		assertEquals("Je suis heureuse", converter.convertPhrasesToNLG(phrases));
 	}
 
 	/* adverb phrase */
@@ -136,7 +135,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		phrases.add(new PicWordAction("très", Pic2NLG.ActionType.ADVERB));
 		phrases.add(new PicWordAction("joli", Pic2NLG.ActionType.ADJECTIVE));
 
-		assertEquals("Tu es très joli.", converter.convertPhrasesToNLG(phrases));
+		assertEquals("Tu es très joli", converter.convertPhrasesToNLG(phrases));
 	}
 
 	/* triple adverb phrase */
@@ -149,7 +148,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 
 		phrases.add(new PicWordAction("joli", Pic2NLG.ActionType.ADJECTIVE));
 
-		assertEquals("Tu es très très joli.",
+		assertEquals("Tu es très très joli",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -161,7 +160,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		phrases.add(new PicWordAction("joli", Pic2NLG.ActionType.ADJECTIVE));
 		phrases.add(new PicWordAction("aujourd'hui", Pic2NLG.ActionType.ADVERB));
 
-		assertEquals("Tu es joli aujourd'hui.",
+		assertEquals("Tu es joli aujourd'hui",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -173,7 +172,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		phrases.add(new PicWordAction("très", Pic2NLG.ActionType.ADVERB));
 		phrases.add(new PicWordAction("vite", Pic2NLG.ActionType.ADVERB));
 
-		assertEquals("Il court très vite.",
+		assertEquals("Il court très vite",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -187,7 +186,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 
 		phrases.add(new PicWordAction("vite", Pic2NLG.ActionType.ADVERB));
 
-		assertEquals("Il court très très vite.",
+		assertEquals("Il court très très vite",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -200,10 +199,10 @@ public class Pic2NLGTest extends AndroidTestCase {
 		se_coucher.setFeature(LexicalFeature.REFLEXIVE, true);
 
 		phrases.add(new PicWordAction(se_coucher, Pic2NLG.ActionType.VERB));
-		phrases.add(new PicWordAction("futur_proche", Pic2NLG.ActionType.TENSE_PRESENT));
+		phrases.add(new PicWordAction("futur_proche",
+				Pic2NLG.ActionType.TENSE_PRESENT));
 
-		assertEquals("On va se coucher.",
-				converter.convertPhrasesToNLG(phrases));
+		assertEquals("On va se coucher", converter.convertPhrasesToNLG(phrases));
 	}
 
 	/* TODO: future proche do not work if selected before the verb */
@@ -213,12 +212,12 @@ public class Pic2NLGTest extends AndroidTestCase {
 
 		NLGElement se_coucher = Pic2NLG.factory.createNLGElement("coucher");
 		se_coucher.setFeature(LexicalFeature.REFLEXIVE, true);
-		phrases.add(new PicWordAction("futur_proche", Pic2NLG.ActionType.TENSE_FUTUR_PROCHE));
+		phrases.add(new PicWordAction("futur_proche",
+				Pic2NLG.ActionType.TENSE_FUTUR_PROCHE));
 
 		phrases.add(new PicWordAction(se_coucher, Pic2NLG.ActionType.VERB));
 
-		assertEquals("On va se coucher.",
-				converter.convertPhrasesToNLG(phrases));
+		assertEquals("On va se coucher", converter.convertPhrasesToNLG(phrases));
 	}
 
 	/* reflexive verbs - past */
@@ -235,7 +234,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		phrases.add(new PicWordAction(se_coucher, Pic2NLG.ActionType.VERB));
 		phrases.add(new PicWordAction("past", Pic2NLG.ActionType.TENSE_PAST));
 
-		assertEquals("On s'est couché.", converter.convertPhrasesToNLG(phrases));
+		assertEquals("On s'est couché", converter.convertPhrasesToNLG(phrases));
 	}
 
 	/*
@@ -253,15 +252,16 @@ public class Pic2NLGTest extends AndroidTestCase {
 		verb.setFeature(LexicalFeature.REFLEXIVE, true);
 
 		phrases.add(new PicWordAction(verb, Pic2NLG.ActionType.VERB));
-		phrases.add(new PicWordAction("futur_proche", Pic2NLG.ActionType.TENSE_FUTUR_PROCHE));
+		phrases.add(new PicWordAction("futur_proche",
+				Pic2NLG.ActionType.TENSE_FUTUR_PROCHE));
 
-		assertEquals("Le chat va se coucher.",
+		assertEquals("Le chat va se coucher",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
 	/* a simple phrase with a modal: vouloir, pouvoir, devoir, etc */
 	public void test_je_veux_manger() {
-		assertEquals("Je veux manger.",
+		assertEquals("Je veux manger",
 				converter.convertPhrasesToNLG(text_je_veux_manger()));
 	}
 
@@ -270,7 +270,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		ArrayList<PicWordAction> phrases = text_je_veux_manger();
 		phrases.add(new PicWordAction("true", Pic2NLG.ActionType.NEGATED));
 
-		assertEquals("Je ne veux pas manger.",
+		assertEquals("Je ne veux pas manger",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -281,7 +281,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		phrases.set(0, new PicWordAction("nous", Pic2NLG.ActionType.NOUN));
 		phrases.add(new PicWordAction("true", Pic2NLG.ActionType.NEGATED));
 
-		assertEquals("Nous ne voulons pas manger.",
+		assertEquals("Nous ne voulons pas manger",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -298,7 +298,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		phrases.add(new PicWordAction("carrotes", Pic2NLG.ActionType.NOUN));
 
 		assertEquals(
-				"Nous voulons manger des patates, du poisson, du chou et des carrotes.",
+				"Nous voulons manger des patates, du poisson, du chou et des carrotes",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -314,7 +314,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		// TODO: after second noun the context is object!
 		// TODO: phrases.add(new PicWordAction("plural",
 		// Pic2NLG.ActionType.NUMBER_AGREEMENT));
-		assertEquals("Je ne veux pas manger de soupe.",
+		assertEquals("Je ne veux pas manger de soupe",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -323,7 +323,8 @@ public class Pic2NLGTest extends AndroidTestCase {
 
 		phrases.add(new PicWordAction("on", Pic2NLG.ActionType.NOUN));
 		phrases.add(new PicWordAction("partir", Pic2NLG.ActionType.VERB));
-		phrases.add(new PicWordAction("futur_proche", Pic2NLG.ActionType.TENSE_FUTUR_PROCHE));
+		phrases.add(new PicWordAction("futur_proche",
+				Pic2NLG.ActionType.TENSE_FUTUR_PROCHE));
 
 		NPPhraseSpec noun = Pic2NLG.factory.createNounPhrase("Nice");
 		// TODO: try to determine the determiner automatically
@@ -332,7 +333,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		// TODO: after second noun the context is object!
 		// TODO: phrases.add(new PicWordAction("plural",
 		// Pic2NLG.ActionType.NUMBER_AGREEMENT));
-		assertEquals("On va partir de Nice.",
+		assertEquals("On va partir de Nice",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -353,7 +354,8 @@ public class Pic2NLGTest extends AndroidTestCase {
 		phrases.add(new PicWordAction("continuer", Pic2NLG.ActionType.VERB));
 		phrases.add(new PicWordAction("manger", Pic2NLG.ActionType.VERB));
 
-		phrases.add(new PicWordAction("futur_proche", Pic2NLG.ActionType.TENSE_FUTUR_PROCHE));
+		phrases.add(new PicWordAction("futur_proche",
+				Pic2NLG.ActionType.TENSE_FUTUR_PROCHE));
 
 		NPPhraseSpec noun = Pic2NLG.factory.createNounPhrase("le", "crêpe");
 		noun.setPlural(true);
@@ -363,7 +365,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		// TODO: after second noun the context is object!
 		// TODO: phrases.add(new PicWordAction("plural",
 		// Pic2NLG.ActionType.NUMBER_AGREEMENT));
-		assertEquals("On va continuer de manger les crêpes.",
+		assertEquals("On va continuer de manger les crêpes",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -373,7 +375,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		// TODO: after second noun the context is object!
 		// TODO: phrases.add(new PicWordAction("plural",
 		// Pic2NLG.ActionType.NUMBER_AGREEMENT));
-		assertEquals("Je veux vous remercier de tout.",
+		assertEquals("Je veux vous remercier de tout",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -383,7 +385,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		// TODO: after second noun the context is object!
 		// TODO: phrases.add(new PicWordAction("plural",
 		// Pic2NLG.ActionType.NUMBER_AGREEMENT));
-		assertEquals("Je veux vous remercier de tout.",
+		assertEquals("Je veux vous remercier de tout",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -417,7 +419,8 @@ public class Pic2NLGTest extends AndroidTestCase {
 
 		phrases.add(new PicWordAction("je", Pic2NLG.ActionType.NOUN));
 		phrases.add(new PicWordAction("habiter", Pic2NLG.ActionType.VERB));
-		phrases.add(new PicWordAction("futur_proche", Pic2NLG.ActionType.TENSE_FUTUR_PROCHE));
+		phrases.add(new PicWordAction("futur_proche",
+				Pic2NLG.ActionType.TENSE_FUTUR_PROCHE));
 
 		NPPhraseSpec noun = Pic2NLG.factory.createNounPhrase("Paris");
 		// TODO: try to determine the determiner automatically
@@ -426,7 +429,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		// TODO: after second noun the context is object!
 		// TODO: phrases.add(new PicWordAction("plural",
 		// Pic2NLG.ActionType.NUMBER_AGREEMENT));
-		assertEquals("Je vais habiter à Paris.",
+		assertEquals("Je vais habiter à Paris",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -458,8 +461,9 @@ public class Pic2NLGTest extends AndroidTestCase {
 		phrases.add(new PicWordAction(noun, Pic2NLG.ActionType.NOUN));
 
 		// TODO: after second noun the context is the object!
-		phrases.add(new PicWordAction("plural", Pic2NLG.ActionType.NUMBER_AGREEMENT));
-		assertEquals("Je ne veux pas manger de bonbons.",
+		phrases.add(new PicWordAction("plural",
+				Pic2NLG.ActionType.NUMBER_AGREEMENT));
+		assertEquals("Je ne veux pas manger de bonbons",
 				converter.convertPhrasesToNLG(phrases));
 	}
 
@@ -481,7 +485,7 @@ public class Pic2NLGTest extends AndroidTestCase {
 		System.out.println(chanteuse);
 		phrases.add(new PicWordAction(chanteuse, Pic2NLG.ActionType.NOUN));
 
-		assertEquals("Je veux etre une chanteuse.",
+		assertEquals("Je veux etre une chanteuse",
 				converter.convertPhrasesToNLG(phrases));
 	}
 

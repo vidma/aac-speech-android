@@ -482,7 +482,7 @@ public class Pic2NLG {
 			e.printStackTrace();
 			// Log.e("Pic2NLG", "cant release sentence");
 		}
-		return prefixClause + text;
+		return (prefixClause + text).trim();
 
 	}
 
