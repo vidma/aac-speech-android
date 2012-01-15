@@ -1,10 +1,15 @@
 AAC app for children with speech disabilities
 =============================================
 
+LICENSE
+-------
+
+This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/ .
 
 
 ABOUT
 -----
+
 An Android application for children with speech disabilities,  a generic and easy to learn communication method for anyone with speech disabilities that forms sentences from a list of pictograms clicked. It is different from most of existing products by being free, by it's natural language processing features (inflection, tenses, using the setting user gender to alter first person sentences1 and more) and by usage of gesture search on mobile phones where keyboard is not reliable because is small screen.
 
 The application includes ~5000 icons obtained from arasaac.org, where ~900 are properly categorized, and others are accessible through search. It supports French language well, and there is an early prototype for English too.
