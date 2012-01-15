@@ -88,7 +88,7 @@ FUTURE WORK
     * provide better part-of-speech tags
     * remove duplicate icons so that only best icons are selected for each word (currently any icon is selected)
 * extend/improve natural language processing
-    * automatic guessing, compound words: avoir besoin etc, personal pronouns (me, te, etc)1, add other question and negation types (ne..que, ne..guerre etc, in addition to ne .. pas)
+    * automatic guessing, compound words: avoir besoin etc, add other question and negation types (ne..que, ne..guerre etc, in addition to ne .. pas)
 * extend user interface
     * more options for word icons (e.g. overriding number/gender for each icon)
     * better UI for tablets: have filtering options on the side of category view 
