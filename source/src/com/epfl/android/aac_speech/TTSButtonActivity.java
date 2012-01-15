@@ -2,6 +2,8 @@ package com.epfl.android.aac_speech;
 
 import java.util.Locale;
 
+import com.epfl.android.aac_speech.lib.ArrayUtils;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +26,7 @@ import android.widget.TextView;
 public abstract class TTSButtonActivity extends Activity implements
 		OnInitListener {
 
-	protected static String pref_lang = "FR";
+	// protected static String pref_lang = "FR";
 
 	protected TextToSpeech mTts;
 
@@ -34,6 +36,12 @@ public abstract class TTSButtonActivity extends Activity implements
 	private ImageButton speakBtn = null;
 
 	private static final String TAG = "TTSButtonActivity";
+
+	public static final String LANG_FR = "fr";
+	public static final String LANG_EN = "en";
+
+	private static String[] SUPPORTED_LANGUAGES = { LANG_FR, LANG_EN };
+	private static String DEFAULT_LANGUAGE = LANG_FR;
 
 	public TTSButtonActivity() {
 		super();
@@ -59,14 +67,6 @@ public abstract class TTSButtonActivity extends Activity implements
 		mTts.speak(text, TextToSpeech.QUEUE_ADD, null);
 	}
 
-	protected void setLanguage(String lang) {
-		pref_lang = lang;
-
-		if (mTts != null) {
-			mTts.setLanguage(getLocale());
-		}
-	}
-
 	protected void initTTS_UI() {
 		speakBtn = (ImageButton) findViewById(R.id.speak);
 		speakBtn.setOnClickListener(new OnClickListener() {
@@ -84,9 +84,9 @@ public abstract class TTSButtonActivity extends Activity implements
 		// Now that the TTS engine is ready, we enable the button
 		if (status == TextToSpeech.SUCCESS) {
 
-			Locale lang = getLocale();
-
+			Locale lang = getCurrentLocale();
 			int result = mTts.setLanguage(lang);
+
 			if (result == TextToSpeech.LANG_MISSING_DATA
 					|| result == TextToSpeech.LANG_NOT_SUPPORTED) {
 				// Lanuage data is missing or the language is not supported.
@@ -101,12 +101,24 @@ public abstract class TTSButtonActivity extends Activity implements
 	/**
 	 * @return
 	 */
-	private Locale getLocale() {
+	private static Locale getCurrentLocale() {
 		Locale lang = Locale.FRENCH;
 
-		if (pref_lang.equals("EN"))
+		if (LANG_EN.equals(getPreferedLanguage()))
 			lang = Locale.ENGLISH;
 		return lang;
+	}
+
+	public static String getPreferedLanguage() {
+		String lang = java.util.Locale.getDefault().getLanguage();
+
+		if (!ArrayUtils.contains(SUPPORTED_LANGUAGES, lang))
+			lang = DEFAULT_LANGUAGE;
+
+		Log.i(TAG, "Language=" + lang);
+		return lang;
+
+		// return pref_lang.toLowerCase();
 	}
 
 	@Override

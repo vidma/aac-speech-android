@@ -130,18 +130,19 @@ public final class R {
         public static final int about=0x7f030000;
         public static final int gridview=0x7f030001;
         public static final int gridview_icon_entry=0x7f030002;
-        public static final int horizontal_flip_layout=0x7f030003;
-        public static final int icontable_category_imagebutton=0x7f030004;
-        public static final int icontable_imagebutton=0x7f030005;
-        public static final int icontable_imagetext=0x7f030006;
-        public static final int icontable_tablerow=0x7f030007;
-        public static final int linearlayout=0x7f030008;
-        public static final int main=0x7f030009;
-        public static final int popup_icon_settings=0x7f03000a;
-        public static final int search_list_entry=0x7f03000b;
-        public static final int tablelayout=0x7f03000c;
-        public static final int top_status_bar=0x7f03000d;
-        public static final int top_status_current_phrase_imagebutton=0x7f03000e;
+        public static final int history_list_entry=0x7f030003;
+        public static final int horizontal_flip_layout=0x7f030004;
+        public static final int icontable_category_imagebutton=0x7f030005;
+        public static final int icontable_imagebutton=0x7f030006;
+        public static final int icontable_imagetext=0x7f030007;
+        public static final int icontable_tablerow=0x7f030008;
+        public static final int linearlayout=0x7f030009;
+        public static final int main=0x7f03000a;
+        public static final int popup_icon_settings=0x7f03000b;
+        public static final int search_list_entry=0x7f03000c;
+        public static final int tablelayout=0x7f03000d;
+        public static final int top_status_bar=0x7f03000e;
+        public static final int top_status_current_phrase_imagebutton=0x7f03000f;
     }
     public static final class raw {
         public static final int search=0x7f050000;

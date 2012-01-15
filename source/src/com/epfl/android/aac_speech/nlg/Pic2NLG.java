@@ -88,7 +88,7 @@ public class Pic2NLG {
 	}
 
 	public Pic2NLG(String lang) {
-		if (lang.equals("EN")) {
+		if (lang.equals("en")) {
 			initEnglish();
 		} else {
 			initFrench();

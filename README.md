@@ -39,9 +39,9 @@ INSTALATION
 (note the tablets I tested the app with did not support Gesture Search -- you will get some more poor homemade search capabilities)
 * Run the app; then go to application's Menu->Preferences and click on 'Install pictograms'.
 
-to use French you have to set your phone/tablet language to French for now.
+to use French or English you have to set your phone/tablet language to you wish to use (go to your phone Settings). 
 
-English support is very experimental (go to preferences->language). 
+English support is very experimental. 
 
 LICENSE
 -------

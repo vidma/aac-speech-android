@@ -14,6 +14,7 @@
             android:summary=""
             android:title="@string/pref_clear_phrase_after_speak" />
 
+        <!--
         <ListPreference
             android:defaultValue="FR"
             android:entries="@array/langArray"
@@ -21,6 +22,7 @@
             android:key="pref_lang"
             android:summary=""
             android:title="@string/pref_lang" />
+        -->
 
         <Preference
             android:key="installIcons"

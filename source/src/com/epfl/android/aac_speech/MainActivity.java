@@ -310,10 +310,6 @@ public class MainActivity extends TTSButtonActivity implements
 		getPreferences();
 	}
 
-	public static String getPreferedLanguage() {
-		return pref_lang.toLowerCase();
-	}
-
 	/**
 	 * 
 	 */
@@ -326,31 +322,15 @@ public class MainActivity extends TTSButtonActivity implements
 		pref_clear_phrase_after_speak = prefs.getBoolean(
 				"pref_clear_phrase_after_speak", false);
 		pref_gender = prefs.getString("pref_gender", "MALE");
-		String lang_new = prefs.getString("pref_lang", "FR");
 
-		/*
-		 * if we've just changed the language, it needs to be reloaed (onCreate
-		 * would be fired)
-		 */
-		if (lang_new != null && !lang_new.equals(pref_lang)) {
-			pref_lang = lang_new;
-
-			// load the NLG in new language
-			loadNLG();
-		} else {
-			// if preferences changed, we need to re-render the text. no need to
-			// do so if nlg not loaded yet, as everything is initialized
-			// afterwards
-			if (nlgConverter != null) {
-				// TODO: that do not work anymore
-				// updatePhraseDisplay();
-				// createImageButtons();
-			}
+		// if preferences changed, we need to re-render the text. no need to
+		// do so if nlg not loaded yet, as everything is initialized
+		// afterwards
+		if (nlgConverter != null) {
+			// TODO: that do not work anymore
+			// updatePhraseDisplay();
+			// createImageButtons();
 		}
-
-		// TODO: set the TTS language
-		// TODO: gender may also change the Voice used!!!
-		this.setLanguage(pref_lang);
 
 	}
 
@@ -417,9 +397,9 @@ public class MainActivity extends TTSButtonActivity implements
 		Thread init_nlg = new Thread() {
 			@Override
 			public void run() {
-				Log.d(TAG, "creating NLG for lang=" + pref_lang);
+				Log.d(TAG, "creating NLG for lang=" + getPreferedLanguage());
 
-				MainActivity.nlgConverter = new Pic2NLG(pref_lang);
+				MainActivity.nlgConverter = new Pic2NLG(getPreferedLanguage());
 				Message msg = handler.obtainMessage();
 				// msg.arg1 = total;
 				handler.sendMessage(msg);

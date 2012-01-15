@@ -72,9 +72,9 @@ public class PreferencesActivity extends PreferenceActivity {
 
 			@Override
 			protected void onPostExecute(String result) {
-				progr_dlg.dismiss();
-				// TODO Auto-generated method stub
 				super.onPostExecute(result);
+
+				progr_dlg.dismiss();
 			}
 		}
 		;

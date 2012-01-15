@@ -34,7 +34,7 @@
 		<link>
 			<name>simplenlg</name>
 			<type>2</type>
-			<location>/home/vidma/android-workspace/acc_speech/libs</location>
+			<locationURI>PROJECT_LOC/libs</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
