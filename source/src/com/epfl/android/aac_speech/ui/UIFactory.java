@@ -80,44 +80,46 @@ public class UIFactory {
 		 * TODO: that shall have a proper class -- PRONOUN
 		 * http://french.about.com/od/grammar/a/pronouns_3.htm
 		 */
-		PicWordAction[] stuff1 = {
-				new PicWordAction("me", ActionType.CLITIC_PRONOUN,
-						R.drawable.je),
-				new PicWordAction("te", ActionType.CLITIC_PRONOUN,
-						R.drawable.tu),
-				new PicWordAction("lui", ActionType.CLITIC_PRONOUN,
-						R.drawable.il),
-				new PicWordAction("lui", ActionType.CLITIC_PRONOUN,
-						R.drawable.elle),
+		/* pronouns column 1 */
+		PicWordAction[] clitic_pronouns_1 = {
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_MYSELF),
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_YOU),
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_HIM),
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_HER),
+
 				iconsFactory.get(iconsFactory.ACT_PRONOUN_THAT), };
 
-		PicWordAction[] stuff2 = {
+		PicWordAction[] simple_pronouns_1 = {
 				iconsFactory.get(iconsFactory.ACT_PRONOUN_I),
 				iconsFactory.get(iconsFactory.ACT_PRONOUN_YOU),
 				iconsFactory.get(iconsFactory.ACT_PRONOUN_HE),
 				iconsFactory.get(iconsFactory.ACT_PRONOUN_SHE),
 				iconsFactory.get(iconsFactory.ACT_PRONOUN_THAT), };
 
-		PicWordAction[][] buttons = {
-				nlg_state_subject_selected ? stuff1 : stuff2,
-				{
-					/* TODO: then here I shall change the tyoe to CLITIC_PRONOUN too */
-						iconsFactory.get(iconsFactory.ACT_PRONOUN_WE),
-						iconsFactory.get(iconsFactory.ACT_PRONOUN_YOU_PL),
-						(nlg_state_subject_selected ? (new PicWordAction("eux",
-								ActionType.CLITIC_PRONOUN, R.drawable.ils))
-								: iconsFactory
-										.get(iconsFactory.ACT_PRONOUN_THEY_M)),
+		/* pronouns column 2 */
 
-						(nlg_state_subject_selected ? (new PicWordAction("eux",
-								ActionType.CLITIC_PRONOUN, R.drawable.ils))
-								: iconsFactory
-										.get(iconsFactory.ACT_PRONOUN_THEY_F)),
-						/*
-						 * present is by default anyway
-						 * iconsFactory.get(iconsFactory.ACT_TENSE_PRESENT)
-						 */
-						iconsFactory.get(iconsFactory.ACT_TENSE_PAST), },
+		PicWordAction[] clitic_pronouns_2 = {
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_US),
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_YOU_PL),
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_THEM),
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_THEM_F),
+
+				iconsFactory.get(iconsFactory.ACT_TENSE_PAST), };
+
+		PicWordAction[] simple_pronouns_2 = {
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_WE),
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_YOU_PL),
+
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_THEY_M),
+				iconsFactory.get(iconsFactory.ACT_PRONOUN_THEY_F),
+
+				iconsFactory.get(iconsFactory.ACT_TENSE_PAST), };
+
+		PicWordAction[][] buttons = {
+				nlg_state_subject_selected ? clitic_pronouns_1
+						: simple_pronouns_1,
+				nlg_state_subject_selected ? clitic_pronouns_2
+						: simple_pronouns_2,
 
 				{
 

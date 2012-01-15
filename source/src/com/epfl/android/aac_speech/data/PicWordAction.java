@@ -162,28 +162,30 @@ public class PicWordAction {
 		};
 
 		/* color definitions */
-		/* final static String color_white = "ffffff";
-		final static String color_blue = "aaaaff";
-		final static String color_green = "aaffaa";
-		final static String color_yellow = "FFFF66"; // was 00
-		final static String color_pink = "FF99CC"; // F52887
-		final static String color_orange = "ffcc66"; // ffcc66
-		
-
-		final static String color_black = "000000"; // ffcc66
-		*/
+		/*
+		 * final static String color_white = "ffffff"; final static String
+		 * color_blue = "aaaaff"; final static String color_green = "aaffaa";
+		 * final static String color_yellow = "FFFF66"; // was 00 final static
+		 * String color_pink = "FF99CC"; // F52887 final static String
+		 * color_orange = "ffcc66"; // ffcc66
+		 * 
+		 * 
+		 * final static String color_black = "000000"; // ffcc66
+		 */
 
 		/*
 		 * It has been adviced by AAC experts to use more pure colors for easier
 		 * identification even if that would look worse
 		 */
-		
+
 		final static String color_white = "ffffff";
 		final static String color_blue = "0000FF";
 		final static String color_green = "00FF00";
 		final static String color_yellow = "FFFF00"; // was 00
-		final static String color_pink = "FFC0CB"; // same as for html colorname = pink
-		final static String color_orange = "FFA500"; // same as for html colorname = orange
+		final static String color_pink = "FFC0CB"; // same as for html colorname
+													// = pink
+		final static String color_orange = "FFA500"; // same as for html
+														// colorname = orange
 
 		final static String color_black = "000000"; // ffcc66
 
@@ -240,6 +242,7 @@ public class PicWordAction {
 
 		String color = SpcColor.color_white;
 		switch (this.type) {
+		case CLITIC_PRONOUN:
 		case NOUN:
 			// TODO: proper names vs. common names!
 			color = SpcColor.color_orange;

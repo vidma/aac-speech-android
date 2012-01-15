@@ -132,9 +132,9 @@ public abstract class TTSButtonActivity extends Activity implements
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		if (mTts != null)
 			mTts.shutdown();
+		super.onDestroy();
 	}
 
 	@Override

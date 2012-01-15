@@ -155,6 +155,7 @@ public final class R {
         public static final int btn_clitic_her=0x7f070023;
         public static final int btn_clitic_him=0x7f070022;
         /**  clitic pronouns 
+ clitic pronouns 
          */
         public static final int btn_clitic_myself=0x7f070020;
         public static final int btn_clitic_them_f=0x7f070027;
@@ -175,6 +176,7 @@ public final class R {
         public static final int btn_quesion=0x7f070017;
         public static final int btn_she=0x7f07001b;
         /**  other stuff 
+ other stuff 
          */
         public static final int btn_that=0x7f070028;
         public static final int btn_they_f=0x7f07001f;
