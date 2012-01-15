@@ -23,20 +23,6 @@ Below application screen-shots on mobile phone. On tablet everything is bigger a
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000030.png" width="300px" style="margin-right: 10px; margin-bottom: 10px" title="as you can see french is supported fairly well" />
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/screenshot-1326571249316.png" width="300px" style="margin-right: 10px; margin-bottom: 10px" title="Gesture search (by drawing letters) within verbs category" />
 
-LICENSE
--------
-
-This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/ .
-
-CONTENT LICENSE
--------
-
-The application includes 5000+ <a href="http://arasaac.org/condiciones_uso.php">ARASAAC</a> pictograms limited to non-commercial use (Creative Commons) that must be redistributed under the same licence.
-
-* Author of the pictograms: Sergio Palao
-* Origin: ARASAAC
-* License: CC (BY-NC-SA)
-
 
 INSTALATION
 -----------
@@ -52,6 +38,21 @@ INSTALATION
 to use French you have to set your phone/tablet language to French for now.
 
 English support is very experimental (go to preferences->language). 
+
+LICENSE
+-------
+
+This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/ .
+
+CONTENT LICENSE
+-------
+
+The application includes 5000+ <a href="http://arasaac.org/condiciones_uso.php">ARASAAC</a> pictograms limited to non-commercial use (Creative Commons) that must be redistributed under the same licence.
+
+* Author of the pictograms: Sergio Palao
+* Origin: ARASAAC
+* License: CC (BY-NC-SA)
+
 
 
 DEVELOPMENT
