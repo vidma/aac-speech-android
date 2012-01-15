@@ -71,14 +71,17 @@ public class PictogramCursorAdapter extends SimpleCursorAdapter implements
 			Log.d("PictogramCursorAdapter", "setting img to:" + imagePath);
 		}
 
-		/* get the current SPC color (from cursor) and set it as background */
-		Cursor c = this.getCursor();
-		if (COLUMN_INDEX_SPC_COLOR == COLUMN_INDEX_UNDEFINED) {
-			COLUMN_INDEX_SPC_COLOR = c.getColumnIndex("spc_color");
+		/* set the SPC color if it's not set to be hidden */
+		if (!MainActivity.getPrefHideSPCColor()) {
+			/* get the current SPC color (from cursor) and set it as background */
+			Cursor c = this.getCursor();
+			if (COLUMN_INDEX_SPC_COLOR == COLUMN_INDEX_UNDEFINED) {
+				COLUMN_INDEX_SPC_COLOR = c.getColumnIndex("spc_color");
+			}
+			int spc_color = c.getInt(COLUMN_INDEX_SPC_COLOR);
+			v.setBackgroundColor(SpcColor.getColor(spc_color, false));
 		}
-		int spc_color = c.getInt(COLUMN_INDEX_SPC_COLOR);
-		v.setBackgroundColor(SpcColor.getColor(spc_color, false));
-
+		
 		AsyncImageLoaderTask.AsycLoadImage(imagePath, v);
 	}
 

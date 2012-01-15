@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="wrap_content"
-	android:layout_weight="1.0">
-	<ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
-		android:id="@+id/icons_imgButton" android:layout_weight="1.0"
-		android:src="@drawable/empty" android:gravity="top|center"
-		android:scaleType="fitCenter" android:layout_width="64px"
-		android:layout_height="64px" android:padding="1dip"
-		android:background="#f00" android:layout_marginLeft="1dip"
-		android:layout_marginRight="1dip" android:maxWidth="64px"></ImageButton>
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1.0" >
+
+    <!-- TODO: bg could be transparent but with curent images don't look good on black @android:color/transparent -->
+
+    <ImageButton
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/icons_imgButton"
+        android:layout_width="64px"
+        android:layout_height="64px"
+        android:layout_marginLeft="1dip"
+        android:layout_marginRight="1dip"
+        android:layout_weight="1.0"
+        android:background="@android:color/transparent"
+        android:gravity="top|center"
+        android:maxWidth="64px"
+        android:padding="1dip"
+        android:scaleType="fitCenter"
+        android:src="@drawable/empty" >
+    </ImageButton>
+
 </LinearLayout>

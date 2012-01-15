@@ -63,7 +63,10 @@ public class UIFactory {
 					currentButton.imageFileURI, appContext);
 			img.setImageBitmap(bMap);
 		}
-		if (currentButton.type != ActionType.CATEGORY)
+		
+		/* only if SPC colors are not disabled */
+		if (currentButton.type != ActionType.CATEGORY
+				&& !MainActivity.getPrefHideSPCColor())
 			img.setBackgroundColor(currentButton.getBgColor());
 
 		img.setTag(currentButton);
@@ -246,15 +249,13 @@ public class UIFactory {
 				new PicWordAction("17", "(le)temps", SPC_ColorCode.DESCRIPTIVE,
 						Pic2NLG.ActionType.CATEGORY, R.drawable.time_weather),
 
-						
-				new PicWordAction("5", "forme couleur etc", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY,
+				new PicWordAction("5", "forme couleur etc",
+						SPC_ColorCode.DESCRIPTIVE, Pic2NLG.ActionType.CATEGORY,
 						R.drawable.color),
 
-				new PicWordAction("7", "vacances etc", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.holiday),
-						
-						
+				new PicWordAction("7", "vacances etc",
+						SPC_ColorCode.DESCRIPTIVE, Pic2NLG.ActionType.CATEGORY,
+						R.drawable.holiday),
 
 				new PicWordAction("15", "particles", SPC_ColorCode.MISC,
 						Pic2NLG.ActionType.CATEGORY, R.drawable.empty),

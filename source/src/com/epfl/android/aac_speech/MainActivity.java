@@ -67,9 +67,9 @@ public class MainActivity extends TTSButtonActivity implements
 		UncaughtExceptionHandler {
 
 	DBHelper dbHelper = null;
-	private PicWordActionFactory iconsFactory;
-	private UIFactory uiFactory;
-	public static Pic2NLG nlgConverter;
+	private PicWordActionFactory iconsFactory = null;
+	private UIFactory uiFactory = null;
+	public static Pic2NLG nlgConverter = null;
 
 	// initialized in onCreate
 	private LayoutInflater inflater;
@@ -93,11 +93,18 @@ public class MainActivity extends TTSButtonActivity implements
 	ProgressDialog progressDialog;
 
 	// default Preferences
-	private static boolean pref_uppercase = false;
 
-	// inherited from TTSButtonActivity: private String pref_lang = "FR";
-	private String pref_gender = "MALE";
-	private boolean pref_clear_phrase_after_speak = false;
+	/* Default preferences */
+	private final static boolean PREF_UPERCASE_DEFAULT = false;
+	private final static boolean PREF_HIDE_SPC_DEFAULT = false;
+	private final boolean PREF_CLEAR_PHRASE_AFTER_SPEAK_DEFAULT = false;
+	private final String PREF_GENDER_DEFAULT = "MALE";
+
+	private static boolean pref_uppercase = PREF_UPERCASE_DEFAULT;
+	private static boolean pref_hide_spc_color = PREF_HIDE_SPC_DEFAULT;
+
+	private String pref_gender = PREF_GENDER_DEFAULT;
+	private boolean pref_clear_phrase_after_speak = PREF_CLEAR_PHRASE_AFTER_SPEAK_DEFAULT;
 
 	private boolean pref_switch_back_to_main_screen = true;
 
@@ -318,20 +325,27 @@ public class MainActivity extends TTSButtonActivity implements
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(getBaseContext());
 
-		pref_uppercase = prefs.getBoolean("pref_uppercase", false);
+		pref_uppercase = prefs.getBoolean("pref_uppercase",
+				PREF_UPERCASE_DEFAULT);
 		pref_clear_phrase_after_speak = prefs.getBoolean(
-				"pref_clear_phrase_after_speak", false);
-		pref_gender = prefs.getString("pref_gender", "MALE");
+				"pref_clear_phrase_after_speak",
+				PREF_CLEAR_PHRASE_AFTER_SPEAK_DEFAULT);
+		pref_gender = prefs.getString("pref_gender", PREF_GENDER_DEFAULT);
+		pref_hide_spc_color = prefs
+				.getBoolean("pref_hide_spc_color", PREF_HIDE_SPC_DEFAULT);
 
 		// if preferences changed, we need to re-render the text. no need to
 		// do so if nlg not loaded yet, as everything is initialized
 		// afterwards
-		if (nlgConverter != null) {
-			// TODO: that do not work anymore
-			// updatePhraseDisplay();
-			// createImageButtons();
+		if (nlgConverter != null && uiFactory != null && iconsFactory != null) {
+			updatePhraseDisplay();
+			createImageButtons();
 		}
 
+	}
+
+	public static boolean getPrefHideSPCColor() {
+		return MainActivity.pref_hide_spc_color;
 	}
 
 	/**
@@ -386,10 +400,7 @@ public class MainActivity extends TTSButtonActivity implements
 		final Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				// int total = msg.arg1;
-
 				onNLGload_initGUI();
-
 				nlg_wait.dismiss();
 			}
 		};

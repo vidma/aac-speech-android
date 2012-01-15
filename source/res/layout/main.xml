@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:weightSum="1" >
+    android:weightSum="1"  android:background="#000" >
 
     <include layout="@layout/top_status_bar" />
 

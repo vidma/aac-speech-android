@@ -46,9 +46,12 @@ public class DBHelper {
 		LowLevelDatabaseHelper mOpenHelper = new LowLevelDatabaseHelper(context);
 
 		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-		mOpenHelper.dropTables(db);
-		mOpenHelper.onCreate(db);
-		db.close();
+		try {
+			mOpenHelper.dropTables(db);
+			mOpenHelper.onCreate(db);
+		} finally {
+			db.close();
+		}
 	}
 
 	/*
@@ -89,8 +92,11 @@ public class DBHelper {
 				+ IndividualIcons.COL_USE_COUNT + " + 1 WHERE "
 				+ IndividualIcons.COL_ID + " IN (" + id_list + ") ";
 		Log.d(TAG, "upd sql:" + sql);
-		db.execSQL(sql);
-		db.close();
+		try {
+			db.execSQL(sql);
+		} finally {
+			db.close();
+		}
 	}
 
 	/**
@@ -105,13 +111,15 @@ public class DBHelper {
 
 		String result = null;
 
-		if (cur.moveToFirst()) {
-			result = cur
-					.getString(cur
-							.getColumnIndexOrThrow(PhraseHistory.COL_PHRASE_SERIALISED));
+		try {
+			if (cur.moveToFirst()) {
+				result = cur
+						.getString(cur
+								.getColumnIndexOrThrow(PhraseHistory.COL_PHRASE_SERIALISED));
+			}
+		} finally {
+			cur.close();
 		}
-
-		cur.close();
 		return result;
 	}
 
@@ -152,8 +160,9 @@ public class DBHelper {
 		if (cur.moveToFirst()) {
 			// Log.d("columns", arrayToString(cur.getColumnNames()));
 			newWord = DB_Cursor_to_WordIcon(cur);
-			cur.close();
 		}
+		cur.close();
+
 		return newWord;
 	}
 
@@ -216,7 +225,8 @@ public class DBHelper {
 			selectionArgs = new String[] { search_text + "%", search_text + "%" };
 		}
 		// TODO: here it may return most used on top. and then by alphabet?
-		Cursor cur = cr.query(uri, new String[] { "*", "0 AS is_recent" }, selection, selectionArgs, "word ASC");
+		Cursor cur = cr.query(uri, new String[] { "*", "0 AS is_recent" },
+				selection, selectionArgs, "word ASC");
 		// Log.d("a", cur.toString());
 		return cur;
 	}
@@ -242,15 +252,18 @@ public class DBHelper {
 
 	/* Category info */
 	public String getCategoryInfoTitle(long categoryId) {
+		Cursor cur = null;
 		try {
-			Cursor cur = cr.query(Category.CONTENT_URI, null,
-					Category.COL_CATEGORY_ID + " = " + categoryId, null, null);
+			cur = cr.query(Category.CONTENT_URI, null, Category.COL_CATEGORY_ID
+					+ " = " + categoryId, null, null);
 			cur.moveToFirst();
 			return cur.getString(cur.getColumnIndex(Category.COL_TITLE));
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			Log.e(TAG, e.toString());
+			if (cur != null)
+				cur.close();
 			return "";
 		}
 

@@ -13,6 +13,11 @@
             android:key="pref_clear_phrase_after_speak"
             android:summary=""
             android:title="@string/pref_clear_phrase_after_speak" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_hide_spc_color"
+            android:summary="@string/pref_hide_spc_colors_descr"
+            android:title="@string/pref_hide_spc_colors" />
 
         <!--
         <ListPreference
