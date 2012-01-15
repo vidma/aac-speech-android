@@ -6,7 +6,7 @@
     android:layout_marginLeft="1dip"
     android:layout_marginRight="1dip"
     android:layout_weight="1.0"
-    android:background="@android:color/transparent"
+    android:background="#fff"
     android:gravity="top|center"
     android:padding="1dip"
     android:scaleType="fitCenter"

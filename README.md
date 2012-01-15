@@ -31,7 +31,7 @@ Below application screen-shots on mobile phone. On tablet everything is bigger a
 INSTALATION
 -----------
 
-<img src="https://github.com/vidma/aac-speech-android/raw/master/qr-code2.png" style="float:right" />
+<img src="https://github.com/vidma/aac-speech-android/raw/master/qr-code2.png" />
 
 
 * enable installing apps from not-verified-sources (Settings->Applications; tick 'Unknown sources')
