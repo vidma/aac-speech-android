@@ -9,6 +9,7 @@ An Android application for children with speech disabilities,  a generic and eas
 The application includes ~5000 icons obtained from arasaac.org, where ~900 are properly categorized, and others are accessible through search. It supports French language well, and there is an early prototype for English too.
 
 Other features include:
+
 * recent phrases and pictogram history (each category lists most used ones on top)
 accessibility
 * for easier identification icons tagged with the 6 SPC colors (actions, names, descriptives etc)
