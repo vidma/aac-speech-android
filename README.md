@@ -1,12 +1,6 @@
 AAC app for children with speech disabilities
 =============================================
 
-LICENSE
--------
-
-This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/ .
-
-
 ABOUT
 -----
 
@@ -28,6 +22,11 @@ Below application screen-shots on mobile phone. On tablet everything is bigger a
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000029.png" width="300px" style="margin-right: 10px; margin-bottom: 10px" />
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000030.png" width="300px" style="margin-right: 10px; margin-bottom: 10px" />
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/screenshot-1326571249316.png" width="300px" style="margin-right: 10px; margin-bottom: 10px" />
+
+LICENSE
+-------
+
+This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/ .
 
 
 
