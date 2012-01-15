@@ -28,6 +28,14 @@ LICENSE
 
 This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/ .
 
+CONTENT LICENSE
+-------
+
+The application includes 5000+ <a href="http://arasaac.org/condiciones_uso.php">ARASAAC</a> pictograms limited to non-commercial use (Creative Commons) that must be redistributed under the same licence.
+
+* Author of the pictograms: Sergio Palao
+* Origin: ARASAAC
+* License: CC (BY-NC-SA)
 
 
 INSTALATION
