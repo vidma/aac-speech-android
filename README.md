@@ -39,9 +39,14 @@ INSTALATION
 (note the tablets I tested the app with did not support Gesture Search -- you will get some more poor homemade search capabilities)
 * Run the app; then go to application's Menu->Preferences and click on 'Install pictograms'.
 
-to use French or English you have to set your phone/tablet language to you wish to use (go to your phone Settings). 
 
-English support is very experimental. 
+to use French or English you have to set your phone/tablet language to you wish to use (go to your phone Settings). English support is very experimental. 
+
+you will also need text to speech engine to be installed (go to Settings->Install voice data etc). 
+
+For much higher quality voices you may get the SVOX voices from android market ( https://market.android.com/details?id=com.svox.classic ) for around 3 EUR (include free full features 2 week trial). Note: I'm not affiliated with them, just used and liked their quality.
+
+
 
 LICENSE
 -------
