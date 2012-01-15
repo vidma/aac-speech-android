@@ -20,9 +20,10 @@ Below application screen-shots on mobile phone. On tablet everything is bigger a
 
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000011.png" width="300px" style="margin-right: 10px; margin-bottom: 10px" title="experimental english support (based on french)" />
 
-
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000029.png" width="300px" style="margin-right: 10px; margin-bottom: 10px" title="most used icons displayed on top" />
+
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000030.png" width="300px" style="margin-right: 10px; margin-bottom: 10px" title="as you can see french is supported fairly well" />
+
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/screenshot-1326571249316.png" width="300px" style="margin-right: 10px; margin-bottom: 10px" title="Gesture search (by drawing letters) within verbs category" />
 
 LICENSE
