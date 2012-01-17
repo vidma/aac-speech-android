@@ -39,11 +39,11 @@ INSTALATION
 
 
 * enable installing apps from not-verified-sources (Settings->Applications; tick 'Unknown sources')
-* Download and install the latest apk: https://github.com/vidma/aac-speech-android/raw/master/acc_speech_latest.apk
+* Download and install the latest version (you can use the QR code above): https://github.com/vidma/aac-speech-android/raw/master/acc_speech_latest.apk
 * Install gesture search http://www.google.com/mobile/gesture-search/  or from android market: https://market.android.com/details?id=com.google.android.apps.gesturesearch
 (note the tablets I tested the app with did not support Gesture Search -- you will get some more poor homemade search capabilities)
 * Run the application
-    * This will ask you to download the datafiles to continue (select Yes). This will download the 5000 icons and the vocabularies (~20MB), so better do this on WiFi. 
+    * This will ask you to download the datafiles to continue (select Yes). This will download the 5000+ icons and the vocabularies (~20MB), so better do this on WiFi. Notes that all this will take long time... :)
     * You may later update the dataset from menu->Settings->Update icons
 
 
