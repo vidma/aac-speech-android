@@ -31,6 +31,8 @@ Below application screen-shots on mobile phone. On tablet everything is bigger a
 INSTALATION
 -----------
 
+**Requirements**: Android 2.3+
+
 <img src="https://github.com/vidma/aac-speech-android/raw/master/qr-code2.png" />
 
 
