@@ -4,7 +4,9 @@ AAC app for children with speech disabilities
 ABOUT
 -----
 
-An Android application for children with speech disabilities,  a generic and easy to learn communication method for anyone with speech disabilities that forms sentences from a list of pictograms clicked. It is different from most of existing products by being free, by it's natural language processing features (inflection, tenses, using the setting user gender to alter first person sentences1 and more) and by usage of gesture search on mobile phones where keyboard is not reliable because is small screen.
+An Android **application for children with speech disabilities**,  a generic and easy to learn communication method for anyone with speech disabilities that forms sentences from a list of pictograms clicked. It is different from most of existing products by being **free**, by it's **natural language processing** features (inflection, tenses, using the setting user gender to alter first person sentences1 and more) and by usage of gesture search on mobile phones where keyboard is not reliable because is small screen.
+
+Also, my friends have found it to be a **fun toy to learn basics of foreign language** :)
 
 The application includes ~5000 icons obtained from arasaac.org, where ~900 are properly categorized, and others are accessible through search. It supports French language well, and there is an early prototype for English too.
 
@@ -16,7 +18,7 @@ accessibility
 * option to display text in capital letters
 * compatibility with both Tablets and mobile phones
 
-Also, my friends have found it to be a fun toy to learn basics of foreign language :)
+
 
 
 Below application screen-shots on mobile phone. On tablet everything is bigger and fits more icons.
