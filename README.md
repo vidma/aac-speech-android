@@ -47,6 +47,8 @@ INSTALATION
     * You may later update the dataset from menu->Settings->Update icons
 
 
+
+
 About Languages and Text-to-Speech:
 
 * to use French or English you have to set your phone/tablet language to the one you wish to use (go to your phone Settings)
