@@ -52,7 +52,7 @@ you will also need text to speech engine to be installed (go to Settings->Instal
 For much higher quality voices you may get the SVOX voices from android market ( https://market.android.com/details?id=com.svox.classic ) for around 3 EUR (include free fully featured two week trial). Note: I'm not affiliated with them, just used and liked their quality.
 
 
-CURRENT ISSUES AND WORK-AROUNDS
+CURRENT ISSUES
 -------------------------------
 
 * many of the icons are not correctly part-of-speech tagged (this is hard manual work; we use some simple guesses), so have in mind that the application may not allways give expected results
