@@ -42,14 +42,17 @@ INSTALATION
 * Download and install the latest apk: https://github.com/vidma/aac-speech-android/raw/master/acc_speech_latest.apk
 * Install gesture search http://www.google.com/mobile/gesture-search/  or from android market: https://market.android.com/details?id=com.google.android.apps.gesturesearch
 (note the tablets I tested the app with did not support Gesture Search -- you will get some more poor homemade search capabilities)
-* Run the app; then go to application's Menu->Preferences and click on 'Install pictograms'.
+* Run the application
+    * This will ask you to download the datafiles to continue (select Yes). This will download the 5000 icons and the vocabularies (~20MB), so better do this on WiFi. 
+    * You may later update the dataset from menu->Settings->Update icons
 
 
-to use French or English you have to set your phone/tablet language to you wish to use (go to your phone Settings). English support is very experimental. 
+About Languages and Text-to-Speech:
+* to use French or English you have to set your phone/tablet language to the one you wish to use (go to your phone Settings)
+* you will also need text to speech engine to be installed (go to Settings->Install voice data etc). 
+    * For much higher quality voices you may get the SVOX voices from android market ( https://market.android.com/details?id=com.svox.classic ) for around 3 EUR (include free fully featured two week trial). Note: I'm not affiliated with them, just used and liked their quality.
+* English support is very experimental so far.
 
-you will also need text to speech engine to be installed (go to Settings->Install voice data etc). 
-
-For much higher quality voices you may get the SVOX voices from android market ( https://market.android.com/details?id=com.svox.classic ) for around 3 EUR (include free fully featured two week trial). Note: I'm not affiliated with them, just used and liked their quality.
 
 
 CURRENT ISSUES
@@ -57,6 +60,7 @@ CURRENT ISSUES
 
 * many of the icons are not correctly part-of-speech tagged (this is hard manual work; we use some simple guesses), so have in mind that the application may not allways give expected results
 
+* installation (including English lang) is very slow!
 
 REPORTING PROBLEMS
 ------------------

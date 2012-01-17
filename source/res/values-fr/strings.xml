@@ -12,9 +12,16 @@
     <string name="negation">négation</string>
     <string name="remove_icon">Supprimer cette icône</string>
     <string name="cancel">Annuler</string>
+    <!-- data installation -->
     <string name="update_icons">Instaler/metre a jour les pictogrames</string>
     <string name="update_icons_description">Ceci va télécharger ~ 20Mo de données. Utilisez WiFi si possible.</string>
+    <string name="no_datafiles_found_question">Pour exécuter cette application ~ 20Mo de données des fichiers sont nécessaires. Voulez-vous de les télécharger maintenant? Avant de continuer s\'il vous plaît activer la connexion WiFi, si possible.</string>
+    <string name="no_datafiles_found_question_yes">Oui</string>
+    <string name="no_datafiles_found_question_no">Non</string>
+    <string name="no_datafiles_found_msg_quit">L\'application doit s\'arrêter maintenant. S\'il vous plaît revenir alors accès Internet est disponible pour installer les données.</string>
+    <string name="files_downloaded_updating_db">Datafiles downloaded. Now updating database. This will take some time.</string>
     <string name="update_icons_wait_msg">Chargement des icons… S\'il vous plaît patienter.</string>
+    <!-- application -->
     <string name="please_wait">S\'il vous plaît patienter.</string>
     <string name="category_filter_hint">Tapez ici pour filtrer.</string>
     <string name="menu_about">Info</string>

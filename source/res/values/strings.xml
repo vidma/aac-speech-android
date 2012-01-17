@@ -11,6 +11,12 @@
     <string name="cancel">Cancel</string>
     <string name="update_icons">Install/update pictograms</string>
     <string name="update_icons_description">This will download ~20MB of icons. Use WiFi if possible.</string>
+    <string name="no_datafiles_found_question">To run this application ~20MB data-files are needed. Do you want to download them now? Before continuing enable the WiFi connection if possible.</string>
+    <string name="no_datafiles_found_question_yes">Yes</string>
+    <string name="no_datafiles_found_question_no">No</string>
+    <string name="no_datafiles_found_msg_quit">Application have to quit now. Please return then internet connection is available to install the data.</string>
+        <string name="files_downloaded_updating_db">Datafiles downloaded. Now updating database. This will take some time.</string>
+    
     <string name="update_icons_wait_msg">Downloading the files. This will take some time…</string>
     <string name="please_wait">Loading… Please wait.</string>
     <string name="category_filter_hint">Type here to filter the icons.</string>

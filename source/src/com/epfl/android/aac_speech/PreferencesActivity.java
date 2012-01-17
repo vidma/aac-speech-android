@@ -4,6 +4,9 @@ import com.epfl.android.aac_speech.data.DBHelper;
 import com.epfl.android.aac_speech.lib.ZipDownloaderTask;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.res.Resources;
@@ -26,21 +29,26 @@ public class PreferencesActivity extends PreferenceActivity {
 
 					@Override
 					public boolean onPreferenceClick(Preference preference) {
-						// TODO Auto-generated method stub
-						update_pictograms();
+						// PreferencesActivity.this
+						update_pictograms(PreferencesActivity.this);
 						return true;
 					}
 				});
 	}
 
-	void update_pictograms() {
+	/**
+	 * downloads the datafiles (icons + database data) and updates the database
+	 * 
+	 * @param context
+	 *            - must be SomeActivity.this but not app context
+	 */
+	public static void update_pictograms(final Context context) {
+
 		Log.i("update_pictograms", "starting...");
 
-		Resources res = getResources();
-
-		final ProgressDialog progr_dlg = new ProgressDialog(
-				PreferencesActivity.this);
-		progr_dlg.setMessage(res.getString(R.string.update_icons_wait_msg));
+		final ProgressDialog progr_dlg = new ProgressDialog(context);
+		progr_dlg.setMessage(context.getResources().getString(
+				R.string.update_icons_wait_msg));
 		progr_dlg.setCancelable(true);
 		progr_dlg.setMax(ZipDownloaderTask.PROGRESS_RANGE);
 		progr_dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -52,8 +60,14 @@ public class PreferencesActivity extends PreferenceActivity {
 			protected void onProgressUpdate(Integer... progress) {
 				Log.i("onProgressUpdate", "pr:" + progress[0]);
 
+				int current_progress = progress[0];
 				if (progr_dlg.isShowing()) {
-					progr_dlg.setProgress(progress[0]);
+					progr_dlg.setProgress(current_progress);
+
+					/* if downloading is done, we're updating DB */
+					if (current_progress == ZipDownloaderTask.PROGRESS_DONE)
+						progr_dlg.setMessage(context.getResources().getString(
+								R.string.files_downloaded_updating_db));
 				}
 				// TODO Auto-generated method stub
 				super.onProgressUpdate(progress);
@@ -62,10 +76,16 @@ public class PreferencesActivity extends PreferenceActivity {
 			@Override
 			protected String doInBackground(String... params) {
 				String result = super.doInBackground(params);
+				Log.i("aac update_pictograms", "Downloading finished");
 
 				if (result != null && result.equals(DONE)) {
-					DBHelper dbHelper = new DBHelper(getContentResolver());
-					dbHelper.forceUpdateDatabase(getApplicationContext());
+					DBHelper dbHelper = new DBHelper(
+							context.getContentResolver());
+					Log.i("aac update_pictograms", "get CR");
+
+					dbHelper.forceUpdateDatabase(context);
+					Log.i("aac update_pictograms", "DB updated");
+
 				}
 				return result;
 			}
@@ -79,7 +99,8 @@ public class PreferencesActivity extends PreferenceActivity {
 		}
 		;
 		/* TODO: Make sure all resources are referenced with this path!!! */
-		ZipDownloaderTask.OUTPUT_DIR = getExternalFilesDir(null);
+
+		ZipDownloaderTask.OUTPUT_DIR = context.getExternalFilesDir(null);
 		Log.i("upd picts", "output dir: " + ZipDownloaderTask.OUTPUT_DIR);
 		// download URL
 		final AsyncTask<String, Integer, String> task = new PictogramZipDownloaderTask()

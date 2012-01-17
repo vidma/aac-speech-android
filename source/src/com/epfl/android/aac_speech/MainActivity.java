@@ -4,11 +4,13 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -23,6 +25,7 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.InputFilter.LengthFilter;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -49,9 +52,11 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.epfl.android.aac_speech.data.DBHelper;
+import com.epfl.android.aac_speech.data.LowLevelDatabaseHelper;
 import com.epfl.android.aac_speech.data.PhraseProviderDB;
 import com.epfl.android.aac_speech.data.PicWordAction;
 import com.epfl.android.aac_speech.data.PicWordActionFactory;
@@ -331,8 +336,8 @@ public class MainActivity extends TTSButtonActivity implements
 				"pref_clear_phrase_after_speak",
 				PREF_CLEAR_PHRASE_AFTER_SPEAK_DEFAULT);
 		pref_gender = prefs.getString("pref_gender", PREF_GENDER_DEFAULT);
-		pref_hide_spc_color = prefs
-				.getBoolean("pref_hide_spc_color", PREF_HIDE_SPC_DEFAULT);
+		pref_hide_spc_color = prefs.getBoolean("pref_hide_spc_color",
+				PREF_HIDE_SPC_DEFAULT);
 
 		// if preferences changed, we need to re-render the text. no need to
 		// do so if nlg not loaded yet, as everything is initialized
@@ -727,12 +732,12 @@ public class MainActivity extends TTSButtonActivity implements
 		super.onDestroy();
 
 		// TODO Auto-generated method stub
-		this.dbHelper =null;
+		this.dbHelper = null;
 		this.iconsFactory = null;
 		this.uiFactory = null;
 		this.nlgConverter = null;
 	}
-	
+
 	/**
 	 * Returns the text either in uppercase or normal, according to prefs
 	 * 
@@ -802,12 +807,81 @@ public class MainActivity extends TTSButtonActivity implements
 		// TODO: make this at least async!
 		// TODO: for now simpleNLG needs to be loaded before any other stuff
 		getPreferences();
-		loadNLG();
+
+		if (checkIfDataInstalledOrQuit()) {
+			// There is no use in loading the slow simpleNLG is now data is
+			// installed
+			loadNLG();
+		}
 
 		// after UI is loaded, enable speaking button: init TTS
 		initTTS_UI();
 		Log.v(TAG, "on create end");
 
+	}
+
+	/**
+	 * @return
+	 * 
+	 */
+	private boolean checkIfDataInstalledOrQuit() {
+		/*
+		 * even before loading NLG check if categories and icons data have been
+		 * a) downloaded (TODO: what if download have failed earlier!) and b)
+		 * database was successfully created
+		 * 
+		 * DB would be created only if download finished succesfully
+		 */
+
+		if (!LowLevelDatabaseHelper.getDataFile(getApplicationContext(),
+				LowLevelDatabaseHelper.ICON_MEANINGS_DATAFILE).exists()) {
+			// surely no data has been downloaded -- new installation
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+			String msg = getResources().getString(
+					R.string.no_datafiles_found_question);
+			String yes = getResources().getString(
+					R.string.no_datafiles_found_question_yes);
+			String no = getResources().getString(
+					R.string.no_datafiles_found_question_no);
+
+			builder.setMessage(msg)
+					.setCancelable(false)
+					.setPositiveButton(yes,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									// download icons
+									dialog.cancel();
+									PreferencesActivity
+											.update_pictograms(MainActivity.this);
+								}
+							})
+					.setNegativeButton(no,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+									// show the message
+									String cancel_msg = getResources()
+											.getString(
+													R.string.no_datafiles_found_msg_quit);
+									Toast.makeText(MainActivity.this,
+											cancel_msg, Toast.LENGTH_SHORT)
+											.show();
+
+									// close the application
+									MainActivity.this.finish();
+
+								}
+							});
+			AlertDialog alert = builder.create();
+			alert.show();
+			return false;
+		}
+		// TODO: check database
+		return true;
 	}
 
 	/**

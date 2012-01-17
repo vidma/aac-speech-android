@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.security.PublicKey;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -34,12 +35,26 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 2;
 
 	private static final String TAG = "PhraseProviderDB: LowLevelDatabaseHelper";
+	public static final String ICON_MEANINGS_DATAFILE = "icon_meanings.data";
+	private static final String CATEGORIES_DATAFILE = "categories.data";
 
 	Context context;
 
 	public LowLevelDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		this.context = context;
+	}
+
+	/**
+	 * @param context
+	 */
+	public static File getDatafilesStorageDirectory(Context context) {
+		return context.getExternalFilesDir(null);
+	}
+
+	public static File getDataFile(Context context, String fileName) {
+		File file = new File(getDatafilesStorageDirectory(context), fileName);
+		return file;
 	}
 
 	class CsvDatafileReader {
@@ -54,7 +69,8 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 			try {
 				// reader = new InputStreamReader(, "UTF-8");
 
-				storage_dir = context.getExternalFilesDir(null);
+				storage_dir = LowLevelDatabaseHelper
+						.getDatafilesStorageDirectory(context);
 				Log.d("Phrase provider", "dir: " + storage_dir);
 
 				/*
@@ -146,16 +162,21 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 	protected void createDatabase(SQLiteDatabase db) {
 		/* TODO: create table categories */
 
+		Log.d(TAG, "createDatabase starting");
+
 		db.execSQL("CREATE TABLE icon_meanings"
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT, word_ascii_only TEXT, part_of_speech TEXT, spc_color INT,"
 				+ " icon_path TEXT, lang TEXT,  main_category_id INT, "
 				+ IndividualIcons.COL_USE_COUNT + " INT);");
 
-		db.execSQL("CREATE INDEX icon_meanings_main_category_idx ON icon_meanings(main_category_id);");
-		db.execSQL("CREATE INDEX icon_meanings_lang_idx ON icon_meanings(lang);");
-		db.execSQL("CREATE INDEX icon_meanings_count_idx ON icon_meanings("
+		db.execSQL("CREATE INDEX icon_meanings_main_category_idx ON "
+				+ IndividualIcons.TABLE_NAME + "(main_category_id);");
+		db.execSQL("CREATE INDEX icon_meanings_lang_idx ON "
+				+ IndividualIcons.TABLE_NAME + "(lang);");
+		db.execSQL("CREATE INDEX icon_meanings_count_idx ON "
+				+ IndividualIcons.TABLE_NAME + "("
 				+ IndividualIcons.COL_USE_COUNT + ");");
-
+		Log.d(TAG, IndividualIcons.TABLE_NAME + " OK");
 
 		db.execSQL("CREATE TABLE "
 				+ PhraseHistory.TABLE_NAME
@@ -165,6 +186,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE INDEX phrasehistory_lang_idx ON "
 				+ PhraseHistory.TABLE_NAME + " (" + PhraseHistory.COL_LANGUAGE
 				+ ");");
+		Log.d(TAG, PhraseHistory.TABLE_NAME + " OK");
 
 		db.execSQL("CREATE TABLE phrase_lists"
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, phrase TEXT, phrase_items TEXT);");
@@ -178,6 +200,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 		db.execSQL("CREATE INDEX categories_catid_idx ON "
 				+ Category.TABLE_NAME + " (" + Category.COL_CATEGORY_ID + ");");
+		Log.d(TAG, Category.TABLE_NAME + " created OK");
 
 		// we've put the SQL file to preferred storage place (sdcard,
 		// tablets "internal sdcard") as assets are too small (limit of
@@ -185,7 +208,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 		/* import icons */
 		CsvDatafileReader csvReader = new CsvDatafileReader(context,
-				"icon_meanings.data");
+				ICON_MEANINGS_DATAFILE);
 		Iterator<String> it;
 		while ((it = csvReader.getNextLineItemsIterator()) != null) {
 			ContentValues values = new ContentValues();
@@ -217,15 +240,18 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 			values.put(IndividualIcons.COL_MAIN_CATEGORY, it.next());
 			values.put(IndividualIcons.COL_USE_COUNT, 0);
 
+			
 			long id = db.insert(IndividualIcons.TABLE_NAME, null, values);
-			/*
-			 * Log.d("SQL", "line:" + line + "  word: " + word + "i d:" + id);
-			 */
+
+			if (id % 100 == 0)
+				Log.d(TAG, "inserted icon with local id:" + id);
+
 		}
 		csvReader.close();
+		Log.d(TAG, IndividualIcons.TABLE_NAME + "loaded OK");
 
 		/* import categories */
-		csvReader = new CsvDatafileReader(context, "categories.data");
+		csvReader = new CsvDatafileReader(context, CATEGORIES_DATAFILE);
 		while ((it = csvReader.getNextLineItemsIterator()) != null) {
 			ContentValues values = new ContentValues();
 
@@ -243,8 +269,8 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 			long id = db.insert(Category.TABLE_NAME, null, values);
 		}
+		Log.d(TAG, Category.TABLE_NAME + "loaded OK");
 
-		
 	}
 
 	public static void itemCallback() {
@@ -255,8 +281,8 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
 				+ newVersion);
-		
-		dropTables(db);		
+
+		dropTables(db);
 		onCreate(db);
 		// TODO: keep track of migration SQL between versions!!!
 	}

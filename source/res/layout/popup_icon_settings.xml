@@ -32,7 +32,7 @@ Number
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:drawableLeft="@drawable/no"
+            android:drawableLeft="@drawable/rubber"
             android:text="@string/remove_icon" >
         </Button>
 

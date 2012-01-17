@@ -28,6 +28,8 @@ import android.util.Log;
  */
 public class ZipDownloaderTask extends AsyncTask<String, Integer, String> {
 	public static int PROGRESS_RANGE = 100;
+	public static int PROGRESS_DONE = PROGRESS_RANGE;
+
 	/*
 	 * TODO: set the output dir as the preffered data directory, SDCARD on
 	 * phones, Disk on tablets
@@ -65,6 +67,7 @@ public class ZipDownloaderTask extends AsyncTask<String, Integer, String> {
 		}
 		Log.i("ZipDownloaderTask", "done");
 
+		publishProgress(PROGRESS_DONE);
 		return DONE;
 	}
 
