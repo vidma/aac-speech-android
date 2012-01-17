@@ -48,6 +48,7 @@ INSTALATION
 
 
 About Languages and Text-to-Speech:
+
 * to use French or English you have to set your phone/tablet language to the one you wish to use (go to your phone Settings)
 * you will also need text to speech engine to be installed (go to Settings->Install voice data etc). 
     * For much higher quality voices you may get the SVOX voices from android market ( https://market.android.com/details?id=com.svox.classic ) for around 3 EUR (include free fully featured two week trial). Note: I'm not affiliated with them, just used and liked their quality.
