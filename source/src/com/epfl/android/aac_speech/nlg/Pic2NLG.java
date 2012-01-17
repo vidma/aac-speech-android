@@ -559,10 +559,10 @@ public class Pic2NLG {
 		 * TODO: handle modals/double words: avoir besoin
 		 */
 
-		String[] de_verb_IndObj = { "avoir besoin", "avoir envie", "dépendre",
-				"douter", "féliciter", "jouer", "jouir", "manquer", "partir",
-				"penser", "profiter", "punir", "recompenser", "remercier",
-				"rire", "vivre",
+		String[] de_verb_IndObj = { "acheter", "avoir besoin", "avoir envie",
+				"dépendre", "douter", "féliciter", "jouer", "jouir", "manquer",
+				"partir", "penser", "profiter", "punir", "recompenser",
+				"remercier", "rire", "vivre",
 
 				/*
 				 * these there not specified in grammar rules, but seem to be

@@ -81,16 +81,17 @@ public final class R {
         public static final int que=0x7f020037;
         public static final int question=0x7f020038;
         public static final int rounded_borders=0x7f020039;
-        public static final int sports=0x7f02003a;
-        public static final int temps=0x7f02003b;
-        public static final int that_one=0x7f02003c;
-        public static final int time_weather=0x7f02003d;
-        public static final int transport=0x7f02003e;
-        public static final int tu=0x7f02003f;
-        public static final int venir=0x7f020040;
-        public static final int verbes=0x7f020041;
-        public static final int vouloir=0x7f020042;
-        public static final int vous=0x7f020043;
+        public static final int rubber=0x7f02003a;
+        public static final int sports=0x7f02003b;
+        public static final int temps=0x7f02003c;
+        public static final int that_one=0x7f02003d;
+        public static final int time_weather=0x7f02003e;
+        public static final int transport=0x7f02003f;
+        public static final int tu=0x7f020040;
+        public static final int venir=0x7f020041;
+        public static final int verbes=0x7f020042;
+        public static final int vouloir=0x7f020043;
+        public static final int vous=0x7f020044;
     }
     public static final class id {
         public static final int category_go_back=0x7f09000e;

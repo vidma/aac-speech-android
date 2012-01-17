@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/search_list_entry_icon"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:gravity="left|top"
         android:padding="5dp"
         android:scaleType="fitXY" />

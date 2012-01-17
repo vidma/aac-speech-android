@@ -3,5 +3,5 @@
 
 <GridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/category_gridView"
-    android:columnWidth="128dp" style="@style/GridViewStyle">
+    android:columnWidth="130dp" style="@style/GridViewStyle">
 </GridView>

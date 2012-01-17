@@ -235,7 +235,11 @@ public class PicWordAction {
 	 * 6. Miscellanea: white
 	 */
 	public int getBgColor() {
-		/* get color */
+
+		/** Category has it's background, so icons shall be transparent */
+		if (this.type == ActionType.CATEGORY)
+			return Color.TRANSPARENT;
+
 		int hexColor = SpcColor.getColor(this.colorCode, true);
 		if (hexColor != 0)
 			return hexColor;

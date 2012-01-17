@@ -19,7 +19,8 @@
             android:id="@+id/icon_history_scrollview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="horizontal" android:minHeight="48dp" >
+            android:minHeight="48dp"
+            android:scrollbars="horizontal" >
 
             <LinearLayout
                 android:id="@+id/icon_history_layout"
@@ -68,12 +69,13 @@
         android:layout_gravity="top|right"
         android:layout_margin="0dp"
         android:layout_weight="0.0"
-        android:gravity="right"
-        android:height="68dp"
-        android:minHeight="64dp"
+        android:contentDescription="Delete"
+        android:gravity="top|right"
+        android:height="64dp"
+        android:scaleType="centerInside"
         android:padding="0dp"
-        android:src="@drawable/backspace"
-        android:text="Delete" />
+        android:src="@drawable/rubber"
+        android:width="64dp" />
 
     <ImageButton
         android:id="@+id/speak"
