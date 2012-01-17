@@ -51,7 +51,6 @@ For much higher quality voices you may get the SVOX voices from android market (
 CURRENT ISSUES AND WORK-AROUNDS
 -------------------------------
 
-* personal pronouns like me, te, etc do not work if seleted before the verb. just select the verb first, and the pronoun afterwards and it will be placed in the right position.
 * many of the icons are not correctly part-of-speech tagged (this is hard manual work; we use some simple guesses), so have in mind that the application may not allways give expected results
 
 
@@ -83,6 +82,7 @@ just use eclipse and import the the project
 
 FUTURE WORK
 -----------
+* possibility to manually add words
 * clean up the icon-set
     * see if better categorizations are possible
     * provide better part-of-speech tags
