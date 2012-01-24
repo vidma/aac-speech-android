@@ -63,7 +63,9 @@ CURRENT ISSUES
 
 * many of the icons are not correctly part-of-speech tagged (this is hard manual work; we use some simple guesses), so have in mind that the application may not allways give expected results
 
-* installation (including English lang) is very slow!
+* installation (then including English language) is very slow!
+
+* Very large phones (smaller than tablet) -- shall still be in phone mode (with flig changing windows) 
 
 REPORTING PROBLEMS
 ------------------

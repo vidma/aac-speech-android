@@ -9,6 +9,7 @@ import simplenlg.features.Feature;
 import simplenlg.features.Gender;
 import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
+import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
 import simplenlg.phrasespec.NPPhraseSpec;
 //import android.R;
@@ -39,30 +40,53 @@ public class PicWordAction {
 		this.type = type;
 		if (type != Pic2NLG.ActionType.NUMBER_AGREEMENT
 				&& type != Pic2NLG.ActionType.NEGATED) {
-			// TODO: this requires the simpleNLG to be fully initialized!
-			this.element = Pic2NLG.factory.createNLGElement(word);
-			// TODO: Temporal hack to handle plural automatically. seems to work
-			// not so badly! :)
-			if (type == Pic2NLG.ActionType.NOUN && word.endsWith("s")) {
+
+			switch (type) {
+			case ADJECTIVE:
+				this.element = Pic2NLG.factory.createNLGElement(word,
+						LexicalCategory.ADJECTIVE);
+				break;
+
+			case NOUN:
 				this.element = Pic2NLG.factory.createNounPhrase(word);
-				this.element.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+
+				// TODO: Temporal hack to handle plural automatically. work OK
+				if (word.endsWith("s")) {
+					this.element.setFeature(Feature.NUMBER,
+							NumberAgreement.PLURAL);
+				}
+				break;
+
+			case VERB:
+				this.element = Pic2NLG.factory.createNLGElement(word,
+						LexicalCategory.VERB);
+
+				// TODO: a hack to handle reflexivity
+				if (word.startsWith("se ")
+						&& MainActivity.getPreferedLanguage().equals("fr")) {
+					this.element = Pic2NLG.factory.createNLGElement(
+							word.replaceFirst("se ", ""), LexicalCategory.VERB);
+					this.element.setFeature(LexicalFeature.REFLEXIVE, true);
+				}
+
+				// TODO: temporal hack to fix "to do smf" in English.
+				if (word.startsWith("to ")
+						&& MainActivity.getPreferedLanguage().equals("en")) {
+					this.element = Pic2NLG.factory.createNLGElement(
+							word.replaceFirst("to ", ""), LexicalCategory.VERB);
+				}
+				break;
+
+			case ADVERB:
+				this.element = Pic2NLG.factory.createNLGElement(word,
+						LexicalCategory.ADVERB);
+				break;
+
+			default:
+				this.element = Pic2NLG.factory.createNLGElement(word);
+				break;
 			}
 
-			// TODO: a hack handle reflexivity (check if allways work)
-			if (type == Pic2NLG.ActionType.VERB && word.startsWith("se ")
-					&& MainActivity.getPreferedLanguage().equals("fr")) {
-				this.element = Pic2NLG.factory.createNLGElement(word
-						.replaceFirst("se ", ""));
-				this.element.setFeature(LexicalFeature.REFLEXIVE, true);
-			}
-
-			// TODO: temporal hack to fix "to do smf" in English. that seem not
-			// be recognized nicely
-			if (type == Pic2NLG.ActionType.VERB && word.startsWith("to ")
-					&& MainActivity.getPreferedLanguage().equals("en")) {
-				this.element = Pic2NLG.factory.createNLGElement(word
-						.replaceFirst("to ", ""));
-			}
 		}
 	}
 

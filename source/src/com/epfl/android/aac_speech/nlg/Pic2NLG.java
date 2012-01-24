@@ -20,6 +20,7 @@ import android.util.Log;
 
 import simplenlg.aggregation.ClauseCoordinationRule;
 import simplenlg.features.Feature;
+import simplenlg.features.Gender;
 import simplenlg.features.InternalFeature;
 import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
@@ -176,16 +177,9 @@ public class Pic2NLG {
 			stack.push(stack0.pop());
 		}
 
-		/*
-		 * [NOUN (ADjective (adverb adj) etc) ] VERB [ [adverb... [adj]] ] [noun
-		 * - optional!]
-		 */
-
 		/* for simplicity now, this will store anything before the last dot */
 		String prefixClause = "";
 		SPhraseSpec clause = factory.createClause();
-		// NPPhraseSpec currentNounPrase = factory.createNounPhrase();
-		boolean is_question = false;
 
 		/*
 		 * These POS will pop out from stack immediately as they require
@@ -233,45 +227,10 @@ public class Pic2NLG {
 					// TODO: plural
 					log("set subject:" + currentNounPrase);
 				} else {
-					/*
-					 * if object is already set, i.e. in je [te] aime beaucaup,
-					 * the [te] is a direct object and have will be set as
-					 * object.
-					 * 
-					 * however afterwards if we had indirect object, we have to
-					 * make sure it would not override the earlier
-					 * 
-					 * -- in short, this append one more object coordinate
-					 */
-
-					log("setting object to:" + currentNounPrase);
 
 					clauseAddObject(clause, currentNounPrase);
+					setIndirectObjectSpecifier(clause, currentNounPrase);
 
-					if (clause.getObject() != null)
-						log("clause.object afterwards:" + clause.getObject());
-
-					String intelligent_guess = intelligentGuessSpecifier(clause);
-
-					if (currentNounPrase instanceof CoordinatedPhraseElement) {
-						/* set determiner to each of coordinated phrases */
-						for (NLGElement NP : currentNounPrase.getChildren()) {
-
-							if (((NPPhraseSpec) NP)
-									.getFeature(InternalFeature.SPECIFIER) == null) {
-
-								((NPPhraseSpec) NP)
-										.setDeterminer(intelligent_guess);
-							}
-						}
-					}
-					if (currentNounPrase instanceof NPPhraseSpec
-							&& ((NPPhraseSpec) currentNounPrase)
-									.getFeature(InternalFeature.SPECIFIER) == null) {
-						((NPPhraseSpec) currentNounPrase)
-								.setDeterminer(intelligent_guess);
-
-					}
 				}
 			}
 
@@ -375,7 +334,6 @@ public class Pic2NLG {
 						+ " ";
 				// reset defaults
 				clause = factory.createClause();
-				is_question = false;
 				break;
 
 			case NEGATED:
@@ -480,6 +438,7 @@ public class Pic2NLG {
 			// TODO: handle exception
 			System.out.println(e);
 			e.printStackTrace();
+			return prefixClause.trim();
 			// Log.e("Pic2NLG", "cant release sentence");
 		}
 		return (prefixClause + text).trim();
@@ -501,6 +460,18 @@ public class Pic2NLG {
 	 * @param object_to_add
 	 */
 	private void clauseAddObject(SPhraseSpec clause, NLGElement object_to_add) {
+		/*
+		 * if object is already set, i.e. in je [te] aime beaucaup, the [te] is
+		 * a direct object and have will be set as object.
+		 * 
+		 * however afterwards if we had indirect object, we have to make sure it
+		 * would not override the earlier
+		 * 
+		 * -- in short, this append one more object coordinate
+		 */
+
+		log("setting object to:" + object_to_add);
+
 		NLGElement currentObject;
 		if ((currentObject = clause.getObject()) != null) {
 			CoordinatedPhraseElement objectCoordinate;
@@ -527,6 +498,39 @@ public class Pic2NLG {
 			clause.setObject(objectCoordinate);
 		} else {
 			clause.setObject(object_to_add);
+		}
+
+		if (clause.getObject() != null)
+			log("clause.object afterwards:" + clause.getObject());
+
+	}
+
+	/**
+	 * Try to guess indirect object specifier (de, a, nothing)
+	 * 
+	 * @param clause
+	 * @param object
+	 */
+	private void setIndirectObjectSpecifier(SPhraseSpec clause,
+			NLGElement object) {
+		/* === Try to guess indirect object specifier (de, a, nothing) == */
+		String intelligent_guess = intelligentGuessSpecifier(clause);
+
+		if (object instanceof CoordinatedPhraseElement) {
+			/* set determiner to each of coordinated phrases */
+			for (NLGElement NP : object.getChildren()) {
+
+				if (((NPPhraseSpec) NP).getFeature(InternalFeature.SPECIFIER) == null) {
+
+					((NPPhraseSpec) NP).setDeterminer(intelligent_guess);
+				}
+			}
+		}
+		if (object instanceof NPPhraseSpec
+				&& ((NPPhraseSpec) object)
+						.getFeature(InternalFeature.SPECIFIER) == null) {
+			((NPPhraseSpec) object).setDeterminer(intelligent_guess);
+
 		}
 	}
 
@@ -670,6 +674,7 @@ public class Pic2NLG {
 
 				if (nNounsFound == 1) {
 					currentNounPrase.setNoun(action.element);
+
 				}
 
 				break;
@@ -680,16 +685,18 @@ public class Pic2NLG {
 				break;
 
 			case ADJECTIVE:
+				/*
+				 * TODO: I may want to create an adjective phrase with
+				 * premodifiers, like 'very happy child' (TODO: check what's
+				 * better)
+				 */
 				currentNounPrase.addModifier(action.element);
 
 				break;
 
 			default:
-				/*
-				 * not allowed action, the NP is over. TODO: handle if NP is not
-				 * set. e.g. no NP then try adjective phrase on the clause
-				 */
 
+				/* not allowed action, the NP is over. */
 				return currentNounPrase;
 			}
 

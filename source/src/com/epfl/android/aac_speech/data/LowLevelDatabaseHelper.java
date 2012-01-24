@@ -13,6 +13,7 @@ import java.util.Locale;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
@@ -210,44 +211,65 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		CsvDatafileReader csvReader = new CsvDatafileReader(context,
 				ICON_MEANINGS_DATAFILE);
 		Iterator<String> it;
-		while ((it = csvReader.getNextLineItemsIterator()) != null) {
-			ContentValues values = new ContentValues();
-			/**
-			 * The field order in CSV is: word, part_of_speech, spc_color,
-			 * icon_path, lang, main_category_id
-			 * 
-			 */
-			String word = it.next();
-			values.put(IndividualIcons.COL_WORD, word);
-			/*
-			 * ascii representation to work-around google gesture search bug for
-			 * now
-			 */
-			values.put(IndividualIcons.COL_WORD_ASCI, it.next());
-			values.put(IndividualIcons.COL_PART_OF_SPEECH, it.next());
-			values.put(IndividualIcons.COL_SPC_COLOR, it.next());
 
-			String icon_path = it.next();
+		/*
+		 * starting transaction explicitly shall improve the performance
+		 * (otherwise each insert() call would create a separate transaction).
+		 * 
+		 * TODO: use DatabaseUtils.InsertHelper
+		 */
+		db.beginTransaction();
 
-			// TODO: gesture search seems to require absolute
-			// paths... just a hack fix it for now
-			icon_path = icon_path.replace("/sdcard",
-					(CharSequence) csvReader.storage_dir.toString()); // .replace("file:///mnt/",
-			// "file:///");
-			values.put(IndividualIcons.COL_ICON_PATH, icon_path);
+		try {
+			while ((it = csvReader.getNextLineItemsIterator()) != null) {
+				ContentValues values = new ContentValues();
+				/**
+				 * The field order in CSV is: word, part_of_speech, spc_color,
+				 * icon_path, lang, main_category_id
+				 * 
+				 */
+				String word = it.next();
+				values.put(IndividualIcons.COL_WORD, word);
+				/*
+				 * ascii representation to work-around google gesture search bug
+				 * for now
+				 */
+				values.put(IndividualIcons.COL_WORD_ASCI, it.next());
+				values.put(IndividualIcons.COL_PART_OF_SPEECH, it.next());
+				values.put(IndividualIcons.COL_SPC_COLOR, it.next());
 
-			values.put(IndividualIcons.COL_LANG, it.next());
-			values.put(IndividualIcons.COL_MAIN_CATEGORY, it.next());
-			values.put(IndividualIcons.COL_USE_COUNT, 0);
+				String icon_path = it.next();
 
-			
-			long id = db.insert(IndividualIcons.TABLE_NAME, null, values);
+				// TODO: gesture search seems to require absolute
+				// paths... just a hack fix it for now
+				icon_path = icon_path.replace("/sdcard",
+						(CharSequence) csvReader.storage_dir.toString()); // .replace("file:///mnt/",
+				// "file:///");
+				values.put(IndividualIcons.COL_ICON_PATH, icon_path);
 
-			if (id % 100 == 0)
-				Log.d(TAG, "inserted icon with local id:" + id);
+				values.put(IndividualIcons.COL_LANG, it.next());
+				values.put(IndividualIcons.COL_MAIN_CATEGORY, it.next());
+				values.put(IndividualIcons.COL_USE_COUNT, 0);
 
+				long id = db.insert(IndividualIcons.TABLE_NAME, null, values);
+
+				if (id % 1000 == 0)
+					Log.d(TAG, "inserted icon with local id:" + id);
+
+			}
+
+			db.setTransactionSuccessful();
+		}
+
+		catch (SQLException e) {
+			Log.e(TAG, e.toString());
+			Log.e(TAG, e.getStackTrace().toString());
+
+		} finally {
+			db.endTransaction();
 		}
 		csvReader.close();
+
 		Log.d(TAG, IndividualIcons.TABLE_NAME + "loaded OK");
 
 		/* import categories */

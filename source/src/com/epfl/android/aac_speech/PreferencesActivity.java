@@ -65,9 +65,13 @@ public class PreferencesActivity extends PreferenceActivity {
 					progr_dlg.setProgress(current_progress);
 
 					/* if downloading is done, we're updating DB */
-					if (current_progress == ZipDownloaderTask.PROGRESS_DONE)
+					if (current_progress == ZipDownloaderTask.PROGRESS_DONE) {
 						progr_dlg.setMessage(context.getResources().getString(
 								R.string.files_downloaded_updating_db));
+						progr_dlg.setProgress(100);
+						progr_dlg.setIndeterminate(true);
+
+					}
 				}
 				// TODO Auto-generated method stub
 				super.onProgressUpdate(progress);
