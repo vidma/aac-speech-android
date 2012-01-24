@@ -39,7 +39,7 @@ INSTALATION
 
 
 * enable installing apps from not-verified-sources (Settings->Applications; tick 'Unknown sources')
-* Download and install the latest version (you can scan the QR code above): https://github.com/vidma/aac-speech-android/raw/master/acc_speech_latest.apk
+* Download and install the latest version (you can scan the QR code above): https://github.com/vidma/aac-speech-android/raw/master/aac_speech_latest.apk
 * Install gesture search http://www.google.com/mobile/gesture-search/  or from android market: https://market.android.com/details?id=com.google.android.apps.gesturesearch
 (note the tablets I tested the app with did not support Gesture Search -- you will get some more poor homemade search capabilities)
 * Run the application
@@ -62,8 +62,6 @@ CURRENT ISSUES
 -------------------------------
 
 * many of the icons are not correctly part-of-speech tagged (this is hard manual work; we use some simple guesses), so have in mind that the application may not allways give expected results
-
-* installation (then including English language) is very slow!
 
 * Very large phones (smaller than tablet) -- shall still be in phone mode (with flig changing windows) 
 
@@ -111,3 +109,8 @@ FUTURE WORK
     * Gesture search do not handle French accents yet (bug in Google's app)
 currently we use the ascii version of French word for search
 
+
+ISSUES JUST FIXED
+---------------------
+* installation was very slow
+* adjectives now allways agree gender and number with noun
