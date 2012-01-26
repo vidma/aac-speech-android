@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import com.epfl.android.aac_speech.data.PicWordAction;
+import com.epfl.android.aac_speech.data.Pictogram;
 import com.epfl.android.aac_speech.data.models.Category;
 import com.epfl.android.aac_speech.data.models.IndividualIcons;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
@@ -58,7 +58,7 @@ public class DBHelper {
 	 * ==== HISTORY ===
 	 */
 
-	public void updateIconHistory(ArrayList<PicWordAction> phrase,
+	public void updateIconHistory(ArrayList<Pictogram> phrase,
 			String serialized, String phrase_txt) {
 		ContentValues values = new ContentValues();
 		values.put(PhraseHistory.COL_PHRASE, phrase_txt);
@@ -69,7 +69,7 @@ public class DBHelper {
 	/**
 	 * @param phrase
 	 */
-	public void update_icon_use_count(ArrayList<PicWordAction> phrase,
+	public void update_icon_use_count(ArrayList<Pictogram> phrase,
 			Context context) {
 		LowLevelDatabaseHelper mOpenHelper = new LowLevelDatabaseHelper(context);
 
@@ -77,7 +77,7 @@ public class DBHelper {
 
 		StringBuilder sb = new StringBuilder();
 		int i = 0;
-		for (PicWordAction word : phrase) {
+		for (Pictogram word : phrase) {
 			if (word.wordID > 0) {
 				if (i++ > 0) {
 					sb.append(",");
@@ -150,8 +150,8 @@ public class DBHelper {
 	 * ==== ICONS ===
 	 */
 
-	public PicWordAction getIconById(long itemId) {
-		PicWordAction newWord = null;
+	public Pictogram getIconById(long itemId) {
+		Pictogram newWord = null;
 		Uri uri = Uri.parse(IndividualIcons.URI_STR + "/" + itemId);
 
 		Cursor cur = cr.query(uri, null, BaseColumns._ID + " = " + itemId,
@@ -166,8 +166,8 @@ public class DBHelper {
 		return newWord;
 	}
 
-	public PicWordAction DB_Cursor_to_WordIcon(Cursor cur) {
-		PicWordAction newWord;
+	public Pictogram DB_Cursor_to_WordIcon(Cursor cur) {
+		Pictogram newWord;
 		String word = cur.getString(cur.getColumnIndexOrThrow("word"));
 		String part_of_speech = cur.getString(cur
 				.getColumnIndexOrThrow("part_of_speech"));
@@ -177,7 +177,7 @@ public class DBHelper {
 		int use_count = cur.getInt(cur
 				.getColumnIndexOrThrow(IndividualIcons.COL_USE_COUNT));
 
-		newWord = new PicWordAction(word, part_of_speech, icon_path, spc_color);
+		newWord = new Pictogram(word, part_of_speech, icon_path, spc_color);
 		newWord.wordID = cur.getInt(cur.getColumnIndexOrThrow("_id"));
 		// newWord.use_count = use_count;
 
@@ -191,10 +191,10 @@ public class DBHelper {
 	}
 
 	/*
-	 * not used anymore: public ArrayList<PicWordAction> getIconsByCategory(long
-	 * categoryId) { PicWordAction newWord = null;
+	 * not used anymore: public ArrayList<Pictogram> getIconsByCategory(long
+	 * categoryId) { Pictogram newWord = null;
 	 * 
-	 * ArrayList<PicWordAction> icon_list = new ArrayList<PicWordAction>();
+	 * ArrayList<Pictogram> icon_list = new ArrayList<Pictogram>();
 	 * 
 	 * Cursor cur = getIconsCursorByCategory(categoryId, null);
 	 * 
@@ -251,23 +251,40 @@ public class DBHelper {
 	}
 
 	/* Category info */
-	public String getCategoryInfoTitle(long categoryId) {
+
+	public String getCategoryTitle(long categoryId, boolean shorten) {
 		Cursor cur = null;
+		String result = "";
+
 		try {
 			cur = cr.query(Category.CONTENT_URI, null, Category.COL_CATEGORY_ID
 					+ " = " + categoryId, null, null);
 			cur.moveToFirst();
-			return cur.getString(cur.getColumnIndex(Category.COL_TITLE));
+
+			if (shorten)
+				result = cur.getString(cur
+						.getColumnIndex(Category.COL_TITLE_SHORT));
+			else
+				result = cur.getString(cur.getColumnIndex(Category.COL_TITLE));
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			Log.e(TAG, e.toString());
+		} finally {
 			if (cur != null)
 				cur.close();
-			return "";
 		}
 
+		return result;
 		// Log.d("a", cur.toString());
+	}
+
+	public String getCategoryTitle(long categoryId) {
+		return getCategoryTitle(categoryId, false);
+	}
+
+	public String getCategoryTitleShort(long categoryId) {
+		return getCategoryTitle(categoryId, true);
 	}
 
 }

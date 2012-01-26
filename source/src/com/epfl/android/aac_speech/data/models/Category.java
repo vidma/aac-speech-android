@@ -22,6 +22,10 @@ public class Category {
 	public static final String COL_CATEGORY_ID = "category_id";
 
 	public static final String COL_TITLE = "title";
+	
+	/* short title for home screen */
+	public static final String COL_TITLE_SHORT = "title_short";
+
 	public static final String COL_ICON_PATH = "icon_path";
 	public static final String COL_ORDER = "cat_order";
 

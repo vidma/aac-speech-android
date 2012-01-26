@@ -58,8 +58,8 @@ import android.widget.ViewFlipper;
 import com.epfl.android.aac_speech.data.DBHelper;
 import com.epfl.android.aac_speech.data.LowLevelDatabaseHelper;
 import com.epfl.android.aac_speech.data.PhraseProviderDB;
-import com.epfl.android.aac_speech.data.PicWordAction;
-import com.epfl.android.aac_speech.data.PicWordActionFactory;
+import com.epfl.android.aac_speech.data.Pictogram;
+import com.epfl.android.aac_speech.data.PictogramFactory;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
 import com.epfl.android.aac_speech.nlg.Pic2NLG;
 import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
@@ -72,7 +72,7 @@ public class MainActivity extends TTSButtonActivity implements
 		UncaughtExceptionHandler {
 
 	DBHelper dbHelper = null;
-	private PicWordActionFactory iconsFactory = null;
+	private PictogramFactory iconsFactory = null;
 	private UIFactory uiFactory = null;
 	public static Pic2NLG nlgConverter = null;
 
@@ -80,7 +80,7 @@ public class MainActivity extends TTSButtonActivity implements
 	private LayoutInflater inflater;
 	Resources res;
 
-	public static ArrayList<PicWordAction> phrase_list = new ArrayList<PicWordAction>();
+	public static ArrayList<Pictogram> phrase_list = new ArrayList<Pictogram>();
 
 	public static final boolean DEBUG = false;
 
@@ -377,7 +377,7 @@ public class MainActivity extends TTSButtonActivity implements
 		drawCurrentIcons();
 	}
 
-	private final void addWord(final PicWordAction currentButton) {
+	private final void addWord(final Pictogram currentButton) {
 		Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(100);
 		phrase_list.add(currentButton);
@@ -438,7 +438,7 @@ public class MainActivity extends TTSButtonActivity implements
 		int index = 0;
 
 		/* Add icons */
-		for (PicWordAction currentButton : phrase_list) {
+		for (Pictogram currentButton : phrase_list) {
 			View view = uiFactory.createImageButton(icon_list, currentButton,
 					R.layout.top_status_current_phrase_imagebutton);
 			ImageButton img = (ImageButton) view
@@ -610,7 +610,7 @@ public class MainActivity extends TTSButtonActivity implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v,
 					int position, long id) {
-				PicWordAction selected_icon = dbHelper.getIconById(id);
+				Pictogram selected_icon = dbHelper.getIconById(id);
 
 				addWord(selected_icon);
 
@@ -629,7 +629,7 @@ public class MainActivity extends TTSButtonActivity implements
 
 		// TODO: display category title
 		TextView category_title = (TextView) findViewById(R.id.category_title);
-		category_title.setText(dbHelper.getCategoryInfoTitle(category_id));
+		category_title.setText(dbHelper.getCategoryTitle(category_id));
 
 		currentCategoryId = category_id;
 
@@ -700,7 +700,7 @@ public class MainActivity extends TTSButtonActivity implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v,
 					int position, long id) {
-				PicWordAction selected_icon = dbHelper.getIconById(id);
+				Pictogram selected_icon = dbHelper.getIconById(id);
 
 				addWord(selected_icon);
 
@@ -938,7 +938,7 @@ public class MainActivity extends TTSButtonActivity implements
 				long selectedItemId = data.getLongExtra(SELECTED_ITEM_ID, -1);
 
 				// Get the complete Icon+word data
-				PicWordAction newWord = null;
+				Pictogram newWord = null;
 				newWord = dbHelper.getIconById(selectedItemId);
 				if (newWord != null) {
 					addWord(newWord);
@@ -954,7 +954,7 @@ public class MainActivity extends TTSButtonActivity implements
 
 	}
 
-	private void historyAdd(String text, ArrayList<PicWordAction> phrase) {
+	private void historyAdd(String text, ArrayList<Pictogram> phrase) {
 		// TODO: store main icons on DB too
 
 		String serialized = iconsFactory.getSerialized(phrase);
@@ -991,12 +991,12 @@ public class MainActivity extends TTSButtonActivity implements
 		 * not be created before NLG is loaded
 		 */
 
-		iconsFactory = new PicWordActionFactory(dbHelper, pref_gender, res);
+		iconsFactory = new PictogramFactory(dbHelper, pref_gender, res);
 
 		OnClickListener items_onclick_listener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				PicWordAction currentButton = (PicWordAction) v.getTag();
+				Pictogram currentButton = (Pictogram) v.getTag();
 
 				if (currentButton != null) {
 					if (currentButton.type == ActionType.CATEGORY) {

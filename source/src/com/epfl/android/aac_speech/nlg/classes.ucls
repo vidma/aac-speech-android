@@ -48,7 +48,7 @@
       <operations public="false" package="false" protected="false" private="false"/>    
     </display>  
   </class>  
-  <class id="7" corner="BOTTOM_RIGHT" language="java" name="com.epfl.android.aac_speech.data.PicWordAction" 
+  <class id="7" corner="BOTTOM_RIGHT" language="java" name="com.epfl.android.aac_speech.data.Pictogram" 
     project="acc_speech" file="/acc_speech/src/com/epfl/android/aac_speech/data/PicWordAction.java" binary="false">    
     <position height="-1" width="-1" x="484" y="403"/>    
     <display autosize="true" package="true" initial-value="false" signature="false" visibility="true">      

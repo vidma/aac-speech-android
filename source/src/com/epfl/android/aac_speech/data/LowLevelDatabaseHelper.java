@@ -195,9 +195,9 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE " + Category.TABLE_NAME
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
 				+ Category.COL_CATEGORY_ID + " INT, " + Category.COL_TITLE
-				+ " TEXT, " + Category.COL_ICON_PATH + " TEXT, "
-				+ Category.COL_LANGUAGE + " TEXT, " + Category.COL_ORDER
-				+ " INT );");
+				+ " TEXT, " + Category.COL_TITLE_SHORT + " TEXT, "
+				+ Category.COL_ICON_PATH + " TEXT, " + Category.COL_LANGUAGE
+				+ " TEXT, " + Category.COL_ORDER + " INT );");
 
 		db.execSQL("CREATE INDEX categories_catid_idx ON "
 				+ Category.TABLE_NAME + " (" + Category.COL_CATEGORY_ID + ");");

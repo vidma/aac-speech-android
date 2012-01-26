@@ -1,7 +1,7 @@
 package com.epfl.android.aac_speech.ui;
 
 import com.epfl.android.aac_speech.MainActivity;
-import com.epfl.android.aac_speech.data.PicWordAction.SpcColor;
+import com.epfl.android.aac_speech.data.Pictogram.SpcColor;
 import com.epfl.android.aac_speech.data.models.Category;
 import com.epfl.android.aac_speech.lib.AsyncImageLoaderTask;
 import android.util.Log;

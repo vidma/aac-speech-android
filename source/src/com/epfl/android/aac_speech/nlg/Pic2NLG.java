@@ -47,7 +47,7 @@ import simplenlg.phrasespec.VPPhraseSpec;
 import simplenlg.realiser.Realiser;
 import simplenlg.syntax.french.VerbPhraseHelper;
 
-import com.epfl.android.aac_speech.data.PicWordAction;
+import com.epfl.android.aac_speech.data.Pictogram;
 
 public class Pic2NLG {
 
@@ -161,15 +161,15 @@ public class Pic2NLG {
 	 *         Adverb(s) The pronoun rien (if not subject) Main verb (if the
 	 *         finite verb is an auxiliary) Adverb(s) and object(s)
 	 */
-	public String convertPhrasesToNLG(ArrayList<PicWordAction> phrases) {
+	public String convertPhrasesToNLG(ArrayList<Pictogram> phrases) {
 
 		/*
 		 * TODO: support multiple clauses
 		 */
 
 		/* reverse the list into a stack */
-		Stack<PicWordAction> stack0 = new Stack<PicWordAction>();
-		Stack<PicWordAction> stack = new Stack<PicWordAction>();
+		Stack<Pictogram> stack0 = new Stack<Pictogram>();
+		Stack<Pictogram> stack = new Stack<Pictogram>();
 		stack0.addAll(phrases);
 		log(stack0.toString());
 
@@ -237,7 +237,7 @@ public class Pic2NLG {
 			if (stack.isEmpty())
 				break;
 
-			PicWordAction action = stack.peek();
+			Pictogram action = stack.peek();
 
 			switch (action.type) {
 
@@ -393,7 +393,7 @@ public class Pic2NLG {
 				 * vite, but this is sufficiently bizare to care for right now
 				 */
 				if (!stack.isEmpty()) {
-					PicWordAction next_pos = stack.peek();
+					Pictogram next_pos = stack.peek();
 					if (next_pos.type == ActionType.ADVERB) {
 						AdvPhraseSpec advPhrase = factory.createAdverbPhrase();
 						advPhrase.addPreModifier(adverb);
@@ -596,7 +596,7 @@ public class Pic2NLG {
 	 * @return list of coordinated Noun phrases or null if there's no noun(s)
 	 * 
 	 */
-	private NLGElement matchCoordinatedNounPhraseList(Stack<PicWordAction> stack) {
+	private NLGElement matchCoordinatedNounPhraseList(Stack<Pictogram> stack) {
 		CoordinatedPhraseElement NP_list = factory.createCoordinatedPhrase();
 		NPPhraseSpec current_NP;
 		Boolean found = false;
@@ -628,7 +628,7 @@ public class Pic2NLG {
 	 * @return Noun phrase or null if there's no noun
 	 * 
 	 */
-	private NPPhraseSpec matchNounPhrase(Stack<PicWordAction> stack) {
+	private NPPhraseSpec matchNounPhrase(Stack<Pictogram> stack) {
 		NPPhraseSpec currentNounPrase = factory.createNounPhrase();
 
 		/* What part of speech are not allowed inside NounPhrase */
@@ -644,7 +644,7 @@ public class Pic2NLG {
 		Boolean noun_exist = false;
 
 		for (int i = stack.size() - 1; i >= 0; i--) {
-			PicWordAction item = stack.get(i);
+			Pictogram item = stack.get(i);
 
 			// log("NP N containement check: " + item);
 
@@ -658,7 +658,7 @@ public class Pic2NLG {
 		if (!noun_exist)
 			return null;
 
-		PicWordAction action;
+		Pictogram action;
 
 		int nNounsFound = 0;
 		while (!stack.isEmpty()) {
@@ -713,9 +713,9 @@ public class Pic2NLG {
 		return currentNounPrase;
 	}
 
-	public Boolean hasSubjectBeenSelected(ArrayList<PicWordAction> phrases) {
+	public Boolean hasSubjectBeenSelected(ArrayList<Pictogram> phrases) {
 		Boolean have_subject = false;
-		for (PicWordAction phrase : phrases) {
+		for (Pictogram phrase : phrases) {
 			if (phrase.type == ActionType.NOUN)
 				have_subject = true;
 
