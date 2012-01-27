@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icons_tableLayout_inflated"
+    android:layout_width="350dip"
+    android:layout_height="400dip"
+    android:clipChildren="true"
+    android:shrinkColumns="*" >
 
-
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="350dip"
-				android:id="@+id/icons_tableLayout_inflated" android:shrinkColumns="*"
-				android:layout_height="400dip">
-			</TableLayout>
+</TableLayout>

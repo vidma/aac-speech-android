@@ -1018,8 +1018,9 @@ public class MainActivity extends TTSButtonActivity implements
 
 			}
 		};
+
 		uiFactory = new UIFactory(inflater, getApplicationContext(),
-				iconsFactory, items_onclick_listener);
+				iconsFactory, items_onclick_listener, dbHelper);
 
 		createImageButtons();
 		drawCurrentIcons();

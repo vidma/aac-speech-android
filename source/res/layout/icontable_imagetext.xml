@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<TextView  	android:id="@+id/icons_imageText" xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_weight="1.0" android:text="Text" android:textStyle="bold"  android:textSize="10dp"
-	android:layout_gravity="center" android:gravity="center"
-	android:layout_width="fill_parent" android:height="14dp"  android:maxHeight="28dp"  android:layout_height="wrap_content" android:layout_marginLeft="-30dp" android:layout_marginRight="-30dp" />
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icons_imageText"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginLeft="-2dp"
+    android:layout_marginRight="-2dp"
+    android:layout_weight="1.0"
+    android:gravity="center"
+    android:maxLines="3"
+    android:singleLine="false"
+    android:textSize="10dp"
+    android:textStyle="bold" />
+<!--  -->

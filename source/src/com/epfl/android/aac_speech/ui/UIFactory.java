@@ -16,6 +16,7 @@ import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +88,8 @@ public class UIFactory {
 	private Pictogram createCategoryButton(int categoryId, int drawbableId) {
 
 		// TODO: refactor the nasty old constructor: e.g. SPC color code is not
-		// needed here..
+		// and also the drawableId is not really needed anymore as we have
+		// iconPath in database
 		return new Pictogram(Integer.toString(categoryId),
 				dbHelper.getCategoryTitleShort(categoryId), SPC_ColorCode.MISC,
 				Pic2NLG.ActionType.CATEGORY, drawbableId);
@@ -101,34 +103,34 @@ public class UIFactory {
 		 */
 		/* pronouns column 1 */
 		Pictogram[] clitic_pronouns_1 = {
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_MYSELF),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_YOU),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_HIM),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_HER),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_MYSELF),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_YOU),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_HIM),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_HER),
 
-				iconsFactory.get(iconsFactory.ACT_LETS_DO_SMF), };
+				iconsFactory.get(PictogramFactory.ACT_LETS_DO_SMF), };
 
 		Pictogram[] simple_pronouns_1 = {
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_I),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_YOU),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_HE),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_SHE),
-				iconsFactory.get(iconsFactory.ACT_LETS_DO_SMF), };
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_I),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_YOU),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_HE),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_SHE),
+				iconsFactory.get(PictogramFactory.ACT_LETS_DO_SMF), };
 
 		/* pronouns column 2 */
 		Pictogram[] clitic_pronouns_2 = {
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_US),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_YOU_PL),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_THEM),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_THEM_F),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_THAT), };
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_US),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_YOU_PL),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_THEM),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_THEM_F),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_THAT), };
 
 		Pictogram[] simple_pronouns_2 = {
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_WE),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_YOU_PL),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_THEY_M),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_THEY_F),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_THAT), };
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_WE),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_YOU_PL),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_THEY_M),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_THEY_F),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_THAT), };
 
 		Pictogram[][] buttons = {
 				/* col 1 */
@@ -139,49 +141,25 @@ public class UIFactory {
 						: simple_pronouns_2,
 
 				/* col 3 */
-				{
+				{ iconsFactory.get(PictogramFactory.ACT_TENSE_PAST),
+						iconsFactory.get(PictogramFactory.ACT_NEGATE),
+						iconsFactory.get(PictogramFactory.ACT_VERB_HAVE),
 
-						iconsFactory.get(iconsFactory.ACT_TENSE_PAST),
-						iconsFactory.get(iconsFactory.ACT_NEGATE),
-						iconsFactory.get(iconsFactory.ACT_VERB_HAVE),
-
-						new Pictogram("14", dbHelper.getCategoryTitleShort(14),
-								SPC_ColorCode.DESCRIPTIVE,
-								Pic2NLG.ActionType.CATEGORY,
-								R.drawable.qualities),
-						new Pictogram("1", dbHelper.getCategoryTitleShort(1),
-								SPC_ColorCode.DESCRIPTIVE,
-								Pic2NLG.ActionType.CATEGORY,
-								R.drawable.adv_of_place), },
+						createCategoryButton(14, R.drawable.qualities),
+						createCategoryButton(1, R.drawable.adv_of_place), },
 				/* col 4 */
-				{
-						new Pictogram("19", dbHelper.getCategoryTitleShort(19),
-								SPC_ColorCode.ACTION,
-								Pic2NLG.ActionType.CATEGORY, R.drawable.verbes),
-						iconsFactory.get(iconsFactory.ACT_VERB_TO_BE),
-						iconsFactory.get(iconsFactory.ACT_VERB_CAN),
-
-						new Pictogram("10", dbHelper.getCategoryTitleShort(10),
-								SPC_ColorCode.DESCRIPTIVE,
-								Pic2NLG.ActionType.CATEGORY, R.drawable.food),
-
-						new Pictogram("6", dbHelper.getCategoryTitleShort(6),
-								SPC_ColorCode.SOCIAL,
-								Pic2NLG.ActionType.CATEGORY,
-								R.drawable.common_expressions), },
+				{ createCategoryButton(19, R.drawable.verbes),
+						iconsFactory.get(PictogramFactory.ACT_VERB_TO_BE),
+						iconsFactory.get(PictogramFactory.ACT_VERB_CAN),
+						createCategoryButton(10, R.drawable.food),
+						createCategoryButton(6, R.drawable.common_expressions), },
 
 				/* col 5 */
-				{
-
-						iconsFactory.get(iconsFactory.ACT_TENSE_FUTURE),
-						iconsFactory.get(iconsFactory.ACT_VERB_WANT),
-						iconsFactory.get(iconsFactory.ACT_QUESTION),
-
-						new Pictogram("8", dbHelper.getCategoryTitleShort(8),
-								SPC_ColorCode.COMMON_NAME,
-								Pic2NLG.ActionType.CATEGORY, R.drawable.objets),
-
-						iconsFactory.get(iconsFactory.ACT_DOT),
+				{ iconsFactory.get(PictogramFactory.ACT_TENSE_FUTURE),
+						iconsFactory.get(PictogramFactory.ACT_VERB_WANT),
+						iconsFactory.get(PictogramFactory.ACT_QUESTION),
+						createCategoryButton(8, R.drawable.objets),
+						iconsFactory.get(PictogramFactory.ACT_DOT),
 
 				}, };
 
@@ -194,147 +172,8 @@ public class UIFactory {
 			for (int col = 0; col < MAINPAGE_ITEMS_PER_COL; col++) {
 				final Pictogram currentButton = buttons[col][row];
 
-				View view = createImageButton(
-						img_row,
-						currentButton,
-						(currentButton.type == ActionType.CATEGORY) ? R.layout.icontable_category_imagebutton
-								: R.layout.icontable_imagebutton);
-
-				ImageButton img = (ImageButton) view
-						.findViewById(R.id.icons_imgButton);
-
-				// TODO: instead of final use, tag!
-				img.setOnClickListener(this.table_item_icon_onclick_listener);
-				/*
-				 * img.setOnLongClickListener(new OnLongClickListener() {
-				 * 
-				 * @Override public boolean onLongClick(View v) { // TODO
-				 * Auto-generated method stub Vibrator vibrator = (Vibrator)
-				 * getSystemService(Context.VIBRATOR_SERVICE);
-				 * vibrator.vibrate(1000); return true; } });
-				 */
-				img_row.addView(view);
-			}
-			tl.addView(img_row);
-
-			// Add the display_text below each icon
-
-			TableRow text_row = (TableRow) inflater.inflate(
-					R.layout.icontable_tablerow, tl, false);
-			for (int col = 0; col < MAINPAGE_ITEMS_PER_COL; col++) {
-				Pictogram currentButton = buttons[col][row];
-
-				TextView text = (TextView) inflater.inflate(
-						R.layout.icontable_imagetext, text_row, false);
-
-				text.setText(getText(currentButton.toString()));
-
-				text_row.addView(text);
-			}
-			tl.addView(text_row);
-
-		}
-	}
-
-	public void createHomePictogramTable_old(TableLayout tl) {
-
-		/*
-		 * TODO: that shall have a proper class -- PRONOUN
-		 * http://french.about.com/od/grammar/a/pronouns_3.htm
-		 */
-		/* pronouns column 1 */
-		Pictogram[] clitic_pronouns_1 = {
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_MYSELF),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_YOU),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_HIM),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_HER),
-
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_THAT), };
-
-		Pictogram[] simple_pronouns_1 = {
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_I),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_YOU),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_HE),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_SHE),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_THAT), };
-
-		/* pronouns column 2 */
-
-		Pictogram[] clitic_pronouns_2 = {
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_US),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_YOU_PL),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_THEM),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_OBJ_THEM_F),
-
-				iconsFactory.get(iconsFactory.ACT_TENSE_PAST), };
-
-		Pictogram[] simple_pronouns_2 = {
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_WE),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_YOU_PL),
-
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_THEY_M),
-				iconsFactory.get(iconsFactory.ACT_PRONOUN_THEY_F),
-
-				iconsFactory.get(iconsFactory.ACT_TENSE_PAST), };
-
-		Pictogram[][] buttons = {
-				nlg_state_subject_selected ? clitic_pronouns_1
-						: simple_pronouns_1,
-				nlg_state_subject_selected ? clitic_pronouns_2
-						: simple_pronouns_2,
-
-				{
-
-				iconsFactory.get(iconsFactory.ACT_LETS_DO_SMF),
-						iconsFactory.get(iconsFactory.ACT_NEGATE),
-						iconsFactory.get(iconsFactory.ACT_VERB_WANT),
-						iconsFactory.get(iconsFactory.ACT_VERB_CAN),
-						iconsFactory.get(iconsFactory.ACT_TENSE_FUTURE) },
-				{
-						new Pictogram("19", "verbes", SPC_ColorCode.ACTION,
-								Pic2NLG.ActionType.CATEGORY, R.drawable.verbes),
-						new Pictogram("8", "objets", SPC_ColorCode.COMMON_NAME,
-								Pic2NLG.ActionType.CATEGORY, R.drawable.objets),
-						new Pictogram("10", "aliments",
-								SPC_ColorCode.DESCRIPTIVE,
-								Pic2NLG.ActionType.CATEGORY, R.drawable.food),
-
-						iconsFactory.get(iconsFactory.ACT_VERB_TO_BE),
-						iconsFactory.get(iconsFactory.ACT_DOT), },
-
-				{
-						new Pictogram("1", "adv.place",
-								SPC_ColorCode.DESCRIPTIVE,
-								Pic2NLG.ActionType.CATEGORY,
-								R.drawable.adv_of_place),
-						new Pictogram("14", "qualités",
-								SPC_ColorCode.DESCRIPTIVE,
-								Pic2NLG.ActionType.CATEGORY,
-								R.drawable.qualities),
-
-						new Pictogram("6", "expr.comun", SPC_ColorCode.SOCIAL,
-								Pic2NLG.ActionType.CATEGORY,
-								R.drawable.common_expressions),
-
-						iconsFactory.get(iconsFactory.ACT_VERB_HAVE),
-						iconsFactory.get(iconsFactory.ACT_QUESTION),
-
-				}, };
-
-		for (int row = 0; row < MAINPAGE_ITEMS_PER_ROW; row++) {
-			// create Icons
-
-			TableRow img_row = (TableRow) inflater.inflate(
-					R.layout.icontable_tablerow, tl, false);
-
-			for (int col = 0; col < MAINPAGE_ITEMS_PER_COL; col++) {
-				final Pictogram currentButton = buttons[col][row];
-
-				View view = createImageButton(
-						img_row,
-						currentButton,
-						(currentButton.type == ActionType.CATEGORY) ? R.layout.icontable_category_imagebutton
-								: R.layout.icontable_imagebutton);
+				View view = createImageButton(img_row, currentButton,
+						getButtonInflatingTemplate(currentButton.type));
 
 				ImageButton img = (ImageButton) view
 						.findViewById(R.id.icons_imgButton);
@@ -381,52 +220,23 @@ public class UIFactory {
 	 */
 	public TableLayout createImageButtonsCategoriesRight(ViewGroup parent) {
 		Pictogram but[] = {
-				new Pictogram("16", "émotion", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.emotions),
-
-				// TODO:
-				new Pictogram("3", "body", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY,
-						R.drawable.body_health_hygiene),
-
-				new Pictogram("4", "vetements", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.clothing),
-
-				new Pictogram("12", "peuple", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.people),
-
-				new Pictogram("11", "jeux-sports", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.games_sports),
-
-				new Pictogram("13", "lieux", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.places),
-
-				new Pictogram("2", "animaux-plantes",
-						SPC_ColorCode.DESCRIPTIVE, Pic2NLG.ActionType.CATEGORY,
-						R.drawable.plants_animas),
-
-				new Pictogram("18", "transport", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.transport),
-
-				new Pictogram("9", "équipement", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY,
-						R.drawable.equipment_furniture),
-
-				new Pictogram("17", "(le)temps", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.time_weather),
-
-				new Pictogram("5", "forme couleur etc",
-						SPC_ColorCode.DESCRIPTIVE, Pic2NLG.ActionType.CATEGORY,
-						R.drawable.color),
-
-				new Pictogram("7", "vacances etc", SPC_ColorCode.DESCRIPTIVE,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.holiday),
-
-				new Pictogram("15", "particles", SPC_ColorCode.MISC,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.empty),
+				createCategoryButton(16, R.drawable.emotions),
+				createCategoryButton(3, R.drawable.body_health_hygiene),
+				createCategoryButton(4, R.drawable.clothing),
+				createCategoryButton(12, R.drawable.people),
+				createCategoryButton(11, R.drawable.games_sports),
+				createCategoryButton(13, R.drawable.places),
+				createCategoryButton(2, R.drawable.plants_animas),
+				createCategoryButton(18, R.drawable.transport),
+				createCategoryButton(9, R.drawable.equipment_furniture),
+				createCategoryButton(17, R.drawable.time_weather),
+				createCategoryButton(5, R.drawable.color),
+				createCategoryButton(7, R.drawable.holiday),
+				createCategoryButton(15, R.drawable.empty),
 
 				new Pictogram("0", "non-classif.", SPC_ColorCode.MISC,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.question),
+						Pic2NLG.ActionType.CATEGORY, R.drawable.not_classified),
+				null, null
 
 		};
 		ArrayList<Pictogram> buttons = new ArrayList<Pictogram>(
@@ -434,10 +244,14 @@ public class UIFactory {
 
 		TableLayout tl1 = (TableLayout) inflater.inflate(R.layout.tablelayout,
 				parent, false);
-		createIconsTable(buttons.iterator(), MAINPAGE_ITEMS_PER_COL,
-				MAINPAGE_ITEMS_PER_COL, tl1);
+		createIconsTable(buttons.iterator(), 4, MAINPAGE_ITEMS_PER_COL, tl1);
 		return tl1;
 
+	}
+
+	private static int getButtonInflatingTemplate(ActionType type) {
+		return (type == ActionType.CATEGORY) ? R.layout.icontable_category_imagebutton
+				: R.layout.icontable_imagebutton;
 	}
 
 	private void createIconsTable(Iterator<Pictogram> buttons_it, int cols,
@@ -460,37 +274,39 @@ public class UIFactory {
 
 				final Pictogram currentButton = buttons_it.next();
 
-				// View view = createImageButton(img_row, currentButton,
-				// R.layout.icons_imagebutton);
-				View view = createImageButton(
-						img_row,
-						currentButton,
-						(currentButton.type == ActionType.CATEGORY) ? R.layout.icontable_category_imagebutton
-								: R.layout.icontable_imagebutton);
+				if (currentButton == null) {
+					/* empty slots */
 
-				ImageButton img = (ImageButton) view
-						.findViewById(R.id.icons_imgButton);
+					View v = inflater.inflate(
+							getButtonInflatingTemplate(ActionType.TENSE_PAST),
+							img_row, false);
+					((ImageButton) v).setBackgroundColor(Color.TRANSPARENT);
+					img_row.addView(v);
 
-				// TODO: img.setTag("aaa"+i);
-				img.setOnClickListener(table_item_icon_onclick_listener);
+					// Add the display_text below each icon
+					TextView text = (TextView) inflater.inflate(
+							R.layout.icontable_imagetext, text_row, false);
+					text.setText("  ");
+					text_row.addView(text);
+				} else {
 
-				/*
-				 * img.setOnLongClickListener(new OnLongClickListener() {
-				 * 
-				 * @Override public boolean onLongClick(View v) { // TODO
-				 * Auto-generated method stub Vibrator vibrator = (Vibrator)
-				 * getSystemService(Context.VIBRATOR_SERVICE);
-				 * vibrator.vibrate(1000); return true; } });
-				 */
-				img_row.addView(view);
+					View view = createImageButton(img_row, currentButton,
+							getButtonInflatingTemplate(currentButton.type));
 
-				// Add the display_text below each icon
-				TextView text = (TextView) inflater.inflate(
-						R.layout.icontable_imagetext, text_row, false);
+					ImageButton img = (ImageButton) view
+							.findViewById(R.id.icons_imgButton);
 
-				text.setText(getText(currentButton.toString()));
+					// TODO: img.setTag("aaa"+i);
+					img.setOnClickListener(table_item_icon_onclick_listener);
+					img_row.addView(view);
 
-				text_row.addView(text);
+					// Add the display_text below each icon
+					TextView text = (TextView) inflater.inflate(
+							R.layout.icontable_imagetext, text_row, false);
+					text.setText(getText(currentButton.toString()));
+
+					text_row.addView(text);
+				}
 			}
 			tl.addView(img_row);
 			tl.addView(text_row);

@@ -284,7 +284,13 @@ public class DBHelper {
 	}
 
 	public String getCategoryTitleShort(long categoryId) {
+		// TODO short
 		return getCategoryTitle(categoryId, true);
+		/*
+		 * int maxLen = 10; String s = getCategoryTitle(categoryId, false);
+		 * return s.substring(0, Math.min(maxLen, s.length()));
+		 */
+
 	}
 
 }

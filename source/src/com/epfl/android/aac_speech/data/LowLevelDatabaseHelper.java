@@ -278,14 +278,24 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 			ContentValues values = new ContentValues();
 
 			String category_id = it.next();
-			String order = it.next();
-			String title = it.next();
+			// TODO: add order
+			String order = "0";
+			/*
+			 * currently long title messes up the home screen
+			 * 
+			 * the TableLayout is real crap!
+			 */
+			String title_short = it.next();
+
+			String title_long = it.next();
 			String icon_path = it.next();
 			String lang = it.next();
 
 			values.put(Category.COL_CATEGORY_ID, category_id);
 			values.put(Category.COL_ORDER, order);
-			values.put(Category.COL_TITLE, title);
+			values.put(Category.COL_TITLE, title_long);
+			values.put(Category.COL_TITLE_SHORT, title_short);
+
 			values.put(Category.COL_ICON_PATH, icon_path);
 			values.put(Category.COL_LANGUAGE, lang);
 
