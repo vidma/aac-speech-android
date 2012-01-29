@@ -330,10 +330,14 @@ public class Pic2NLG {
 				break;
 
 			case DOT:
-				prefixClause = prefixClause + realiser.realiseSentence(clause)
-						+ " ";
-				// reset defaults
-				clause = factory.createClause();
+				String sentence = releaseSentence(clause);
+
+				if (!sentence.equals("")) {
+					prefixClause = prefixClause + sentence + ". ";
+
+					// switch to a new clause
+					clause = factory.createClause();
+				}
 				break;
 
 			case NEGATED:
@@ -424,7 +428,24 @@ public class Pic2NLG {
 				stack.pop();
 		}
 
-		/* Sometimes the structure may not be ready yet, e.g. negation only */
+		String text = releaseSentence(clause);
+
+		return (prefixClause + text).trim();
+
+	}
+
+	/**
+	 * Relizes a sentence using simpleNLG
+	 * 
+	 * This additional level of abstraction is needed to handle specific cases
+	 * then semtence is empty, e.g. negation or dot only
+	 * 
+	 * @param prefixClause
+	 * @param clause
+	 * @return
+	 */
+	private String releaseSentence(SPhraseSpec clause) {
+		/* Sometimes */
 		String text = "";
 		try {
 
@@ -435,14 +456,11 @@ public class Pic2NLG {
 			text = text.replace('.', ' ');
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			Log.e("Pic2NLG", "exception while releasing sentence");
 			System.out.println(e);
 			e.printStackTrace();
-			return prefixClause.trim();
-			// Log.e("Pic2NLG", "cant release sentence");
 		}
-		return (prefixClause + text).trim();
-
+		return text.trim();
 	}
 
 	/**

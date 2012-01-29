@@ -3,11 +3,15 @@ package com.epfl.android.aac_speech;
 import com.epfl.android.aac_speech.data.DBHelper;
 import com.epfl.android.aac_speech.lib.ZipDownloaderTask;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -89,7 +93,6 @@ public class PreferencesActivity extends PreferenceActivity {
 
 					dbHelper.forceUpdateDatabase(context);
 					Log.i("aac update_pictograms", "DB updated");
-
 				}
 				return result;
 			}
@@ -99,6 +102,21 @@ public class PreferencesActivity extends PreferenceActivity {
 				super.onPostExecute(result);
 
 				progr_dlg.dismiss();
+
+				// TODO: after all is done we have to restart the main activity
+				if (context instanceof Activity) {
+					Activity a = (Activity) context;
+
+					PendingIntent restart_intent = PendingIntent.getActivity(a
+							.getBaseContext(), 0, new Intent(a.getIntent()), a
+							.getIntent().getFlags());
+					a.finish();
+					AlarmManager mgr = (AlarmManager) a
+							.getSystemService(Context.ALARM_SERVICE);
+					mgr.set(AlarmManager.RTC,
+							System.currentTimeMillis() + 2000, restart_intent);
+					System.exit(0);
+				}
 			}
 		}
 		;

@@ -4,8 +4,9 @@
     android:id="@+id/main"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#000"
     android:orientation="vertical"
-    android:weightSum="1"  android:background="#000" >
+    android:weightSum="1" >
 
     <include layout="@layout/top_status_bar" />
 
@@ -23,7 +24,9 @@
             android:id="@+id/home_screen"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical" >
+            android:background="@android:color/black"
+            android:orientation="vertical"
+            android:paddingTop="3dp" >
         </LinearLayout>
 
         <!-- categories view -->
@@ -69,8 +72,6 @@
             <!-- gridview for current category -->
 
             <include layout="@layout/gridview" />
-            
-            
         </LinearLayout>
 
         <!-- listview: search or history -->

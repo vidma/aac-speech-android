@@ -72,7 +72,7 @@ public class MainActivity extends TTSButtonActivity implements
 		UncaughtExceptionHandler {
 
 	DBHelper dbHelper = null;
-	private PictogramFactory iconsFactory = null;
+	private PictogramFactory pictogramFactory = null;
 	private UIFactory uiFactory = null;
 	public static Pic2NLG nlgConverter = null;
 
@@ -114,7 +114,7 @@ public class MainActivity extends TTSButtonActivity implements
 	private boolean pref_switch_back_to_main_screen = true;
 
 	private String nlg_text;
-	private PendingIntent uncaught_exception_handler_intent;
+	private PendingIntent restart_activity_intent;
 
 	static TextView wordsToSpeak = null;
 
@@ -293,7 +293,7 @@ public class MainActivity extends TTSButtonActivity implements
 					int position, long phrase_id) {
 				// Recreate the phrase
 				String serialized = dbHelper.getSerializedPhraseById(phrase_id);
-				phrase_list = iconsFactory.createFromSerialized(serialized);
+				phrase_list = pictogramFactory.createFromSerialized(serialized);
 				updatePhraseDisplay();
 
 				// Go back to default view
@@ -320,6 +320,25 @@ public class MainActivity extends TTSButtonActivity implements
 		super.onStart();
 
 		getPreferences();
+
+		// if preferences changed, we need to re-render the text. no need to
+		// do so if nlg not loaded yet, as everything is initialized
+		// afterwards
+		if (nlgConverter != null) {
+			// reload NLG functions again that depend on settings
+			// that includes the pictogramFactory
+			onNLGload_initGUI();
+
+			// a special case is that gender may have affected the phrase_list
+			// easiest work-around is to serialise and de-serialise it again
+
+			phrase_list = pictogramFactory
+					.createFromSerialized(pictogramFactory
+							.getSerialized(phrase_list));
+
+			// repaint the current phrase as it may have changed
+			updatePhraseDisplay();
+		}
 	}
 
 	/**
@@ -338,14 +357,6 @@ public class MainActivity extends TTSButtonActivity implements
 		pref_gender = prefs.getString("pref_gender", PREF_GENDER_DEFAULT);
 		pref_hide_spc_color = prefs.getBoolean("pref_hide_spc_color",
 				PREF_HIDE_SPC_DEFAULT);
-
-		// if preferences changed, we need to re-render the text. no need to
-		// do so if nlg not loaded yet, as everything is initialized
-		// afterwards
-		if (nlgConverter != null && uiFactory != null && iconsFactory != null) {
-			updatePhraseDisplay();
-			createImageButtons();
-		}
 
 	}
 
@@ -733,7 +744,7 @@ public class MainActivity extends TTSButtonActivity implements
 
 		// TODO Auto-generated method stub
 		this.dbHelper = null;
-		this.iconsFactory = null;
+		this.pictogramFactory = null;
 		this.uiFactory = null;
 		this.nlgConverter = null;
 	}
@@ -776,7 +787,7 @@ public class MainActivity extends TTSButtonActivity implements
 			// TODO: send stack trace to server. Have in mind internet may be
 			// not available
 
-			uncaught_exception_handler_intent = PendingIntent.getActivity(
+			restart_activity_intent = PendingIntent.getActivity(
 					getBaseContext(), 0, new Intent(getIntent()), getIntent()
 							.getFlags());
 			Thread.setDefaultUncaughtExceptionHandler(this);
@@ -957,7 +968,7 @@ public class MainActivity extends TTSButtonActivity implements
 	private void historyAdd(String text, ArrayList<Pictogram> phrase) {
 		// TODO: store main icons on DB too
 
-		String serialized = iconsFactory.getSerialized(phrase);
+		String serialized = pictogramFactory.getSerialized(phrase);
 		Log.d(TAG, "history serialized:" + serialized);
 
 		dbHelper.updateIconHistory(phrase, serialized, text);
@@ -991,7 +1002,7 @@ public class MainActivity extends TTSButtonActivity implements
 		 * not be created before NLG is loaded
 		 */
 
-		iconsFactory = new PictogramFactory(dbHelper, pref_gender, res);
+		pictogramFactory = new PictogramFactory(dbHelper, pref_gender, res);
 
 		OnClickListener items_onclick_listener = new OnClickListener() {
 			@Override
@@ -1020,7 +1031,7 @@ public class MainActivity extends TTSButtonActivity implements
 		};
 
 		uiFactory = new UIFactory(inflater, getApplicationContext(),
-				iconsFactory, items_onclick_listener, dbHelper);
+				pictogramFactory, items_onclick_listener, dbHelper);
 
 		createImageButtons();
 		drawCurrentIcons();
@@ -1059,7 +1070,7 @@ public class MainActivity extends TTSButtonActivity implements
 		ex.printStackTrace();
 		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 2000,
-				uncaught_exception_handler_intent);
+				restart_activity_intent);
 		System.exit(2);
 	}
 
