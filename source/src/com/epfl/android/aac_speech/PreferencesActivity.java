@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.res.Resources;
+import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -22,6 +23,8 @@ import android.preference.PreferenceActivity;
 import android.util.Log;
 
 public class PreferencesActivity extends PreferenceActivity {
+	public static final int RESULT_DATA_UPDATED = 69;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,25 +100,32 @@ public class PreferencesActivity extends PreferenceActivity {
 				return result;
 			}
 
+			/**
+			 * If the update was successful restart the MainActivity
+			 */
 			@Override
 			protected void onPostExecute(String result) {
 				super.onPostExecute(result);
 
 				progr_dlg.dismiss();
 
-				// TODO: after all is done we have to restart the main activity
-				if (context instanceof Activity) {
-					Activity a = (Activity) context;
+				// After all the update is (succesfully) done we have to restart
+				// the main activity
 
-					PendingIntent restart_intent = PendingIntent.getActivity(a
-							.getBaseContext(), 0, new Intent(a.getIntent()), a
-							.getIntent().getFlags());
-					a.finish();
-					AlarmManager mgr = (AlarmManager) a
-							.getSystemService(Context.ALARM_SERVICE);
-					mgr.set(AlarmManager.RTC,
-							System.currentTimeMillis() + 2000, restart_intent);
-					System.exit(0);
+				if (DONE.equals(result)) {
+					// either we were started tru intent (return to main)
+					if (context instanceof PreferencesActivity) {
+						Activity a = (Activity) context;
+						a.setResult(PreferencesActivity.RESULT_DATA_UPDATED);
+						// this will call on activity result
+						a.finish();
+					}
+
+					// or directly by passing context: restart directly
+					if (context instanceof MainActivity) {
+						MainActivity mainActivity = (MainActivity) context;
+						mainActivity.restartActivity(0);
+					}
 				}
 			}
 		}

@@ -13,6 +13,8 @@ public class AboutActivity extends Activity {
 
 		WebView mWebView = (WebView) findViewById(R.id.webview);
 		mWebView.getSettings().setJavaScriptEnabled(true);
-		mWebView.loadUrl("file:///android_asset/about.html");
+
+		String lang = TTSButtonActivity.getPreferedLanguage();
+		mWebView.loadUrl("file:///android_asset/about-" + lang + ".html");
 	}
 }

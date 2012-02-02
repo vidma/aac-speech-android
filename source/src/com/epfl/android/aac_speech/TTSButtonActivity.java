@@ -109,6 +109,10 @@ public abstract class TTSButtonActivity extends Activity implements
 		return lang;
 	}
 
+	/**
+	 * 
+	 * @return language code (en, fr) for the currently selected UI language
+	 */
 	public static String getPreferedLanguage() {
 		String lang = java.util.Locale.getDefault().getLanguage();
 

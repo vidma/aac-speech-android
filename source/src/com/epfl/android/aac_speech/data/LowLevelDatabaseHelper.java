@@ -58,6 +58,11 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		return file;
 	}
 
+	public static boolean checkDataFileExistance(Context context) {
+		return getDataFile(context, ICON_MEANINGS_DATAFILE).exists()
+				&& getDataFile(context, CATEGORIES_DATAFILE).exists();
+	}
+
 	class CsvDatafileReader {
 
 		private BufferedReader br;

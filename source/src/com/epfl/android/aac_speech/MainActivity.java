@@ -250,7 +250,7 @@ public class MainActivity extends TTSButtonActivity implements
 		case MENU_PREFS:
 			Intent intent1 = new Intent(MainActivity.this,
 					PreferencesActivity.class);
-			startActivity(intent1);
+			startActivityForResult(intent1, MENU_PREFS);
 			return true;
 
 		case MENU_HISTORY:
@@ -770,14 +770,21 @@ public class MainActivity extends TTSButtonActivity implements
 		// remove title (label bar) to save window
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		MainActivity.isTablet = isTablet();
 		// To further save space on MobilePhones: Remove notification bar
+		MainActivity.isTablet = isTablet();
 		if (!isTablet()) {
 			this.getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
+
 		setContentView(R.layout.main);
+
+		/*
+		 * Allow restarting the activity
+		 */
+		restart_activity_intent = PendingIntent.getActivity(getBaseContext(),
+				0, new Intent(getIntent()), getIntent().getFlags());
 
 		/*
 		 * In production, override any unexpected (non-handled) exceptions with
@@ -786,10 +793,6 @@ public class MainActivity extends TTSButtonActivity implements
 		if (!MainActivity.DEBUG) {
 			// TODO: send stack trace to server. Have in mind internet may be
 			// not available
-
-			restart_activity_intent = PendingIntent.getActivity(
-					getBaseContext(), 0, new Intent(getIntent()), getIntent()
-							.getFlags());
 			Thread.setDefaultUncaughtExceptionHandler(this);
 		}
 
@@ -814,9 +817,9 @@ public class MainActivity extends TTSButtonActivity implements
 		category_back.setOnClickListener(back_to_home_handler);
 		search_back.setOnClickListener(back_to_home_handler);
 
-		// TODO: init NLG (this is slow)
-		// TODO: make this at least async!
-		// TODO: for now simpleNLG needs to be loaded before any other stuff
+		/*
+		 * initialise NLG and Application
+		 */
 		getPreferences();
 
 		if (checkIfDataInstalledOrQuit()) {
@@ -825,10 +828,9 @@ public class MainActivity extends TTSButtonActivity implements
 			loadNLG();
 		}
 
-		// after UI is loaded, enable speaking button: init TTS
+		// after everything is loaded, enable speaking button
 		initTTS_UI();
 		Log.v(TAG, "on create end");
-
 	}
 
 	/**
@@ -844,8 +846,8 @@ public class MainActivity extends TTSButtonActivity implements
 		 * DB would be created only if download finished succesfully
 		 */
 
-		if (!LowLevelDatabaseHelper.getDataFile(getApplicationContext(),
-				LowLevelDatabaseHelper.ICON_MEANINGS_DATAFILE).exists()) {
+		if (!LowLevelDatabaseHelper
+				.checkDataFileExistance(getApplicationContext())) {
 			// surely no data has been downloaded -- new installation
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -961,6 +963,12 @@ public class MainActivity extends TTSButtonActivity implements
 			}
 			break;
 
+		case MENU_PREFS:
+			// if new data was installed then we restart this activity
+			if (resultCode == PreferencesActivity.RESULT_DATA_UPDATED) {
+				restartActivity(0);
+			}
+			break;
 		}
 
 	}
@@ -1068,10 +1076,22 @@ public class MainActivity extends TTSButtonActivity implements
 	public void uncaughtException(Thread thread, Throwable ex) {
 		Log.e(TAG, "uncaughtException" + ex.toString());
 		ex.printStackTrace();
-		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 2000,
-				restart_activity_intent);
-		System.exit(2);
+
+		restartActivity(2);
+	}
+
+	/**
+	 * Restart the activity.
+	 * 
+	 * uses restart_activity_intent initialized in onCreate
+	 */
+	protected void restartActivity(int code) {
+		if (restart_activity_intent != null) {
+			AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+			mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 2000,
+					restart_activity_intent);
+			System.exit(code);
+		}
 	}
 
 }

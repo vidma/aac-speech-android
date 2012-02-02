@@ -101,7 +101,7 @@ public class UIFactory {
 		 * TODO: that shall have a proper class -- PRONOUN
 		 * http://french.about.com/od/grammar/a/pronouns_3.htm
 		 */
-		/* pronouns column 1 */
+		/* pronouns column 1 - singular */
 		Pictogram[] clitic_pronouns_1 = {
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_MYSELF),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_YOU),
@@ -117,7 +117,7 @@ public class UIFactory {
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_SHE),
 				iconsFactory.get(PictogramFactory.ACT_LETS_DO_SMF), };
 
-		/* pronouns column 2 */
+		/* pronouns column 2 - plural */
 		Pictogram[] clitic_pronouns_2 = {
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_US),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_YOU_PL),
