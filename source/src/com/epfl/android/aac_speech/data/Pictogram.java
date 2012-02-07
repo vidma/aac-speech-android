@@ -11,6 +11,7 @@ import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
+import simplenlg.lexicon.Lexicon;
 import simplenlg.phrasespec.NPPhraseSpec;
 //import android.R;
 import android.graphics.Color;
@@ -35,6 +36,14 @@ public class Pictogram {
 		init(word, type);
 	}
 
+	static boolean isEnglish() {
+		return MainActivity.getPreferedLanguage().equals("en");
+	}
+
+	static boolean isFrench() {
+		return MainActivity.getPreferedLanguage().equals("fr");
+	}
+
 	private void init(String word, Pic2NLG.ActionType type) {
 		this.data = this.display_text = word;
 		this.type = type;
@@ -48,7 +57,10 @@ public class Pictogram {
 				break;
 
 			case NOUN:
-				this.element = Pic2NLG.factory.createNounPhrase(word);
+				// TODO: English is crap!: even WE gets wrong number and
+				// person!!!
+				this.element = Pic2NLG.factory.createNLGElement(word,
+						LexicalCategory.NOUN);
 
 				// TODO: Temporal hack to handle plural automatically. work OK
 				if (word.endsWith("s")) {
@@ -62,19 +74,25 @@ public class Pictogram {
 						LexicalCategory.VERB);
 
 				// TODO: a hack to handle reflexivity
-				if (word.startsWith("se ")
-						&& MainActivity.getPreferedLanguage().equals("fr")) {
+				if (word.startsWith("se ") && isFrench()) {
 					this.element = Pic2NLG.factory.createNLGElement(
 							word.replaceFirst("se ", ""), LexicalCategory.VERB);
 					this.element.setFeature(LexicalFeature.REFLEXIVE, true);
 				}
 
 				// TODO: temporal hack to fix "to do smf" in English.
-				if (word.startsWith("to ")
-						&& MainActivity.getPreferedLanguage().equals("en")) {
+				if (word.startsWith("to ") && isEnglish()) {
 					this.element = Pic2NLG.factory.createNLGElement(
 							word.replaceFirst("to ", ""), LexicalCategory.VERB);
 				}
+
+				// in English words like can must have POS specified as modal
+				// not verb, otherwise a verb he cans/he canned/ would be used
+				if (word.equals("can") && isEnglish()) {
+					this.element = Pic2NLG.factory.createNLGElement("can",
+							LexicalCategory.MODAL);
+				}
+
 				break;
 
 			case ADVERB:
@@ -164,8 +182,10 @@ public class Pictogram {
 	}
 
 	public String toDebugString() {
-		return "data: " + this.data + " type: " + this.type + "elm: "
-				+ this.element;
+		return "[type:" + this.type + "d:" + this.element + "]";
+
+		// return "data: " + this.data + " type: " + this.type + "elm: "
+		// + this.element;
 	}
 
 	/**

@@ -1,52 +1,31 @@
 package com.epfl.android.aac_speech.nlg;
 
-import android.R.bool;
-import android.app.Activity;
-import android.graphics.Color;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
-import java.util.Set;
 import java.util.Stack;
 
 import com.epfl.android.aac_speech.lib.ArrayUtils;
-import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
-
 import android.util.Log;
 
-import simplenlg.aggregation.ClauseCoordinationRule;
 import simplenlg.features.Feature;
-import simplenlg.features.Gender;
 import simplenlg.features.InternalFeature;
 import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
 import simplenlg.features.Tense;
-import simplenlg.features.french.FrenchFeature;
-import simplenlg.features.french.FrenchLexicalFeature;
 import simplenlg.framework.CoordinatedPhraseElement;
-import simplenlg.framework.Language;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
 import simplenlg.framework.NLGFactory;
 import simplenlg.framework.WordElement;
 import simplenlg.lexicon.Lexicon;
 
-import simplenlg.lexicon.french.XMLLexiconFast;
-import simplenlg.lexicon.french.XMLLexicon;
-
-import simplenlg.phrasespec.AdjPhraseSpec;
 import simplenlg.phrasespec.AdvPhraseSpec;
 import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.PPPhraseSpec;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
 import simplenlg.realiser.Realiser;
-import simplenlg.syntax.french.VerbPhraseHelper;
-
 import com.epfl.android.aac_speech.data.Pictogram;
 
 public class Pic2NLG {
@@ -173,9 +152,13 @@ public class Pic2NLG {
 		stack0.addAll(phrases);
 		log(stack0.toString());
 
+		String dbg = "";
 		while (!stack0.isEmpty()) {
+			dbg += stack0.peek().toDebugString() + ", ";
+
 			stack.push(stack0.pop());
 		}
+		Log.d("Pic2NLG input", dbg);
 
 		/* for simplicity now, this will store anything before the last dot */
 		String prefixClause = "";

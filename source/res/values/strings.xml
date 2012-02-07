@@ -35,13 +35,13 @@
     <string name="btn_negated">negation</string>
     <string name="btn_quesion">question</string>
     <string name="btn_I">I</string>
-    <string name="btn_you">You</string>
-    <string name="btn_he">He</string>
-    <string name="btn_she">She</string>
-    <string name="btn_we">We</string>
-    <string name="btn_you_pl">You</string>
-    <string name="btn_they_m">They</string>
-    <string name="btn_they_f">They</string>
+    <string name="btn_you">you</string>
+    <string name="btn_he">he</string>
+    <string name="btn_she">she</string>
+    <string name="btn_we">we</string>
+    <string name="btn_you_pl">you</string>
+    <string name="btn_they_m">they</string>
+    <string name="btn_they_f">they</string>
     <!-- clitic pronouns -->
     <string name="btn_clitic_myself">myself</string>
     <string name="btn_clitic_you">you</string>
@@ -52,7 +52,7 @@
     <string name="btn_clitic_them_m">them</string>
     <string name="btn_clitic_them_f">them</string>
     <!-- other stuff -->
-    <string name="btn_that">That</string>
+    <string name="btn_that">that</string>
     <string name="btn_lets">let\'s</string>
     <string name="btn_past">past</string>
     <string name="btn_present">present</string>
