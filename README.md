@@ -110,7 +110,7 @@ FUTURE WORK
 currently we use the ascii version of French word for search
 
 
-ISSUES JUST FIXED
+ISSUES FIXED JUST NOW
 ---------------------
 * improved English support
     * automatic gerund/infinitive for verbs with like/want/to be as a modal
