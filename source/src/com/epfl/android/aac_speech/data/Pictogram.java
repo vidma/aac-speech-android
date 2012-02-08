@@ -57,10 +57,11 @@ public class Pictogram {
 				break;
 
 			case NOUN:
-				// TODO: English is crap!: even WE gets wrong number and
-				// person!!!
-				this.element = Pic2NLG.factory.createNLGElement(word,
-						LexicalCategory.NOUN);
+				// We have to use createNP instead of createNLGElement because
+				// only the earlier automatically differentiates between
+				// PRONOUNS and NOUNS (je, te, you, I, are pronouns, but we use
+				// NOUN type here)
+				this.element = Pic2NLG.factory.createNounPhrase(word);
 
 				// TODO: Temporal hack to handle plural automatically. work OK
 				if (word.endsWith("s")) {

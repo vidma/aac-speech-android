@@ -43,7 +43,7 @@ INSTALATION
 * Install gesture search http://www.google.com/mobile/gesture-search/  or from android market: https://market.android.com/details?id=com.google.android.apps.gesturesearch
 (note the tablets I tested the app with did not support Gesture Search -- you will get some more poor homemade search capabilities)
 * Run the application
-    * This will ask you to download the datafiles to continue (select Yes). This will download the 5000+ icons and the vocabularies (~20MB), so better do this on WiFi. Notes that all this will take long time... :)
+    * This will ask you to download the datafiles to continue (select Yes). This will download the 5000+ icons and the vocabularies (~20MB), so better do this on a stable WiFi connection and this will take couple of minutes.
     * You may later update the dataset from menu->Settings->Update icons
 
 
@@ -54,7 +54,7 @@ About Languages and Text-to-Speech:
 * to use French or English you have to set your phone/tablet language to the one you wish to use (go to your phone Settings)
 * you will also need text to speech engine to be installed (go to Settings->Install voice data etc). 
     * For much higher quality voices you may get the SVOX voices from android market ( https://market.android.com/details?id=com.svox.classic ) for around 3 EUR (include free fully featured two week trial). Note: I'm not affiliated with them, just used and liked their quality.
-* English support is very experimental so far.
+* English support is still experimental
 
 
 
@@ -103,7 +103,7 @@ FUTURE WORK
 * extend user interface
     * more options for word icons (e.g. overriding number/gender for each icon)
     * better UI for tablets: have filtering options on the side of category view 
-* implement English properly
+* extend English functionality
 * misc    
     * could we further speed up the loading time?
     * Gesture search do not handle French accents yet (bug in Google's app)
@@ -112,5 +112,9 @@ currently we use the ascii version of French word for search
 
 ISSUES JUST FIXED
 ---------------------
+* improved English support
+    * automatic gerund/infinitive for verbs with like/want/to be as a modal
+    * now pronouns work as expected
+    * icons for English included (selected to match the French ones)
 * installation was very slow
 * adjectives now allways agree gender and number with noun

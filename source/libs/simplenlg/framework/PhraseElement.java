@@ -418,8 +418,10 @@ public class PhraseElement extends NLGElement {
 
 	/** remove complements of the specified DiscourseFunction
 	 * @param function
+	 * 
+	 * made public by vidmantas
 	 */
-	private void removeComplements(DiscourseFunction function) {
+	public void removeComplements(DiscourseFunction function) {
 		List<NLGElement> complements = getFeatureAsElementList(InternalFeature.COMPLEMENTS);
 		if (function == null || complements == null)
 			return;

@@ -163,16 +163,9 @@ public class Pic2NLG {
 		Log.d("Pic2NLG input", dbg);
 
 		/* for simplicity now, this will store anything before the last dot */
-		String prefixClause = "";
-		SPhraseSpec rootClause = factory.createClause(); // the root clause
-															// including
-															// probably working
-															// subClause (in
-															// case of english
-															// modal like to,
-															// etc) or equal to
-															// it
-		SPhraseSpec workingSubClause = rootClause;
+		String prefixSentance = "";
+		SPhraseSpec modalClauseEN = null;
+		SPhraseSpec clause = factory.createClause();
 
 		/*
 		 * These POS will pop out from stack immediately as they require
@@ -215,15 +208,20 @@ public class Pic2NLG {
 			if (currentNounPrase != null) {
 				log("NP matched:" + currentNounPrase);
 
-				if (rootClause.getSubject() == null) {
-					rootClause.setSubject(currentNounPrase);
+				/**
+				 * The first NP coordinate becomes subject, the second object.
+				 * If we had a modal in separate clause (for English), that
+				 * shall become the Object of it's subclause (because it's more
+				 * than first NP coordinate in total)
+				 */
+				if (clause.getSubject() == null && modalClauseEN == null) {
+					clause.setSubject(currentNounPrase);
 					// TODO: plural
 					log("set subject:" + currentNounPrase);
 				} else {
 
-					clauseAddObject(workingSubClause, currentNounPrase);
-					setIndirectObjectSpecifier(workingSubClause,
-							currentNounPrase);
+					clauseAddObject(clause, currentNounPrase);
+					setIndirectObjectSpecifier(clause, currentNounPrase);
 
 				}
 			}
@@ -236,7 +234,7 @@ public class Pic2NLG {
 			switch (action.type) {
 
 			case CLITIC_PRONOUN:
-				clauseAddObject(rootClause, action.element);
+				clauseAddObject(clause, action.element);
 				break;
 
 			case VERB:
@@ -250,7 +248,7 @@ public class Pic2NLG {
 				if (action.element.hasFeature(LexicalFeature.REFLEXIVE)) {
 					if (action.element
 							.getFeatureAsBoolean(LexicalFeature.REFLEXIVE)) {
-						rootClause.setIndirectObject("se");
+						clause.setIndirectObject("se");
 					}
 
 					// TODO:
@@ -259,8 +257,8 @@ public class Pic2NLG {
 					// feature now
 				}
 
-				if (rootClause.getVerb() == null) {
-					rootClause.setVerb(action.element);
+				if (clause.getVerb() == null) {
+					clause.setVerb(action.element);
 					log("verb:" + action.element);
 
 				} else {
@@ -282,17 +280,13 @@ public class Pic2NLG {
 					 * exchange the verb with modal: the first becomes to modal,
 					 * the second is verb
 					 */
-					NLGElement modal = rootClause.getVerb();
 
-					workingSubClause = engModal_Guess_infinitive_or_gerund(
-							workingSubClause, action, modal);
+					modalClauseEN = engModal_Guess_infinitive_or_gerund(clause,
+							action);
 
-					if (workingSubClause == rootClause) {
-						rootClause.setFeature(Feature.MODAL, modal);
-						rootClause.setVerb(action.element);
-					} else {
-						rootClause.addComplement(workingSubClause);
-						rootClause.setVerb(modal);
+					if (modalClauseEN == null) {
+						clause.setFeature(Feature.MODAL, clause.getVerb());
+						clause.setVerb(action.element);
 					}
 
 				}
@@ -312,7 +306,7 @@ public class Pic2NLG {
 				if (nounPhrase != null)
 					prepPhrase.addComplement(nounPhrase);
 
-				workingSubClause.addComplement(prepPhrase);
+				clause.addComplement(prepPhrase);
 
 				// attach as a complement to current clause
 				break;
@@ -324,29 +318,29 @@ public class Pic2NLG {
 				// set
 				// the object etc
 
-				String text = realiser.realiseSentence(rootClause);
-				text = text.replace('.', '?');
-
-				prefixClause = prefixClause + text + " ";
+				String text = releaseSentence(clause, modalClauseEN) + "?";
+				prefixSentance = prefixSentance + text + " ";
 
 				// reset defaults
-				rootClause = workingSubClause = factory.createClause();
+				clause = factory.createClause();
+				modalClauseEN = null;
 
 				break;
 
 			case DOT:
-				String sentence = releaseSentence(rootClause);
+				String sentence = releaseSentence(clause, modalClauseEN);
 
 				if (!sentence.equals("")) {
-					prefixClause = prefixClause + sentence + ". ";
+					prefixSentance = prefixSentance + sentence + ". ";
 
 					// switch to a new clause
-					rootClause = workingSubClause = factory.createClause();
+					clause = factory.createClause();
+					modalClauseEN = null;
 				}
 				break;
 
 			case NEGATED:
-				rootClause.setFeature(Feature.NEGATED, true);
+				clause.setFeature(Feature.NEGATED, true);
 				log("negated:" + action.data);
 
 				break;
@@ -371,19 +365,21 @@ public class Pic2NLG {
 					// TODO: futur proche do not work if selected before the
 					// word
 
-					rootClause.setVerb(getVerbMainFormAsString(rootClause
-							.getVerb()));
-					rootClause.setFeature(Feature.MODAL,
+					clause.setVerb(getVerbMainFormAsString(clause.getVerb()));
+					clause.setFeature(Feature.MODAL,
 							LangFeature_FutureProche_MODAL);
 
 					log("tense: futur proche");
 
 				} else {
-					rootClause.setFeature(Feature.TENSE, tense);
+					clause.setFeature(Feature.TENSE, tense);
 					log("tense:" + tense);
 
+					if (modalClauseEN != null)
+						modalClauseEN.setFeature(Feature.TENSE, tense);
+
 				}
-				log("clause: " + rootClause);
+				log("clause: " + clause);
 
 				break;
 
@@ -414,7 +410,7 @@ public class Pic2NLG {
 
 				}
 
-				workingSubClause.addComplement(adverb);
+				clause.addComplement(adverb);
 				// clause.addModifier(adverb);
 				break;
 
@@ -423,7 +419,7 @@ public class Pic2NLG {
 				// the clause (there's no noun), therefore we must first
 				// greedily match a noun phrase above
 				// tu es joli
-				rootClause.setComplement(action.element);
+				clause.addComplement(action.element);
 				break;
 
 			default:
@@ -435,7 +431,8 @@ public class Pic2NLG {
 				stack.pop();
 		}
 
-		String result = (prefixClause + releaseSentence(rootClause)).trim();
+		String result = (prefixSentance + releaseSentence(clause, modalClauseEN))
+				.trim();
 		Log.d("Pic2LNG", result);
 
 		return result;
@@ -443,14 +440,20 @@ public class Pic2NLG {
 	}
 
 	/**
-	 * @param workingSubClause
+	 * @param clause
 	 * @param action
 	 * @param modal
 	 * @return
 	 */
-	private SPhraseSpec engModal_Guess_infinitive_or_gerund(
-			SPhraseSpec workingSubClause, Pictogram action, NLGElement modal) {
+	private SPhraseSpec engModal_Guess_infinitive_or_gerund(SPhraseSpec clause,
+			Pictogram action) {
 		if (lexicon.getLanguage() == Language.ENGLISH) {
+
+			NLGElement modal = clause.getVerb();
+			SPhraseSpec modalClause = factory.createClause();
+
+			boolean changed = false;
+
 			String modal_base = getVerbMainFormAsString(modal);
 
 			log("modal: [str: " + modal_base + " ]" + action.element);
@@ -464,24 +467,45 @@ public class Pic2NLG {
 
 			// I want to eat; I have to eat TODO: add more words
 			if ("want".equals(modal_base) || "have".equals(modal_base)) {
-				workingSubClause = factory.createClause();
-				workingSubClause.setVerb(action.element);
-				workingSubClause.setFeature(Feature.FORM,
+				clause.setFeature(Feature.FORM,
 						simplenlg.features.Form.INFINITIVE);
-
+				changed = true;
 			}
 
 			// I like eating; I have to eat TODO: add more words
 			if ("like".equals(modal_base) || "be".equals(modal_base)) {
-				workingSubClause = factory.createClause();
-				workingSubClause.setVerb(action.element);
-				workingSubClause.setFeature(Feature.FORM,
-						simplenlg.features.Form.GERUND);
+				clause.setFeature(Feature.FORM, simplenlg.features.Form.GERUND);
+				changed = true;
 
 			}
 
+			if (changed) {
+				// TODO
+				// modalClause = clause;
+
+				modalClause.setVerb(modal);
+				modalClause.setSubject(clause.getSubject());
+
+				// TODO: move all Modifiers and Complements to modalClause
+				modalClause.setFeature(Feature.NEGATED,
+						clause.getFeature(Feature.NEGATED));
+				clause.setFeature(Feature.NEGATED, false);
+
+				// TODO: HOw to remove clause subject? do I need this?
+				clause.setFeature(InternalFeature.SUBJECTS, null);
+
+				clause.setVerb(action.element);
+
+				modalClause.addComplement(clause);
+
+				// TODO: but how to remove modifiers and complements easily !!!
+				// TODO: clause.removeComplements(function)
+
+				return modalClause;
+			} else
+				return null;
 		}
-		return workingSubClause;
+		return null;
 	}
 
 	/**
@@ -494,12 +518,18 @@ public class Pic2NLG {
 	 * @param clause
 	 * @return
 	 */
-	private String releaseSentence(SPhraseSpec clause) {
+	private String releaseSentence(SPhraseSpec clause,
+			SPhraseSpec opt_modal_clause) {
+
 		/* Sometimes */
 		String text = "";
 		try {
 
-			text = realiser.realiseSentence(clause);
+			if (opt_modal_clause != null) {
+				text = realiser.realiseSentence(opt_modal_clause);
+			} else {
+				text = realiser.realiseSentence(clause);
+			}
 
 			// dot at the end of sentence looks misleading as we have a
 			// button for, so remove it
