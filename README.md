@@ -26,9 +26,9 @@ accessibility
 Below application screen-shots on mobile phone. On tablet everything is bigger and fits more icons.
 
 
-<img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000011.png" width="300px"  title="experimental english support (based on french)" margin="10" />
-<img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000029.png" width="300px"  title="most used icons displayed on top" margin="10" />
-<img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/shot_000030.png" width="300px"  title="as you can see french is supported fairly well" margin="10" />
+<img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/en_phrase.png" width="300px"  title="experimental english support (based on french)" margin="10" />
+<img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/category_en.png" width="300px"  title="most used icons displayed on top" margin="10" />
+<img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/fr_new.png" width="300px"  title="as you can see french is supported fairly well" margin="10" />
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/screenshot-1326571249316.png" width="300px"  title="Gesture search (by drawing letters) within verbs category" margin="10" />
 
 
