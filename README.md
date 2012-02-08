@@ -37,11 +37,11 @@ INSTALATION
 
 **Requirements**: Android 2.3+
 
-<img src="https://github.com/vidma/aac-speech-android/raw/master/qr-code2.png" />
+<img src="https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=https://github.com/downloads/vidma/aac-speech-android/aac_speech_v10_en_fr.apk" />
 
 
 * enable installing apps from not-verified-sources (Settings->Applications; tick 'Unknown sources')
-* Download and install the latest version (scan the QR above or get this: https://github.com/vidma/aac-speech-android/raw/master/aac_speech_latest.apk )
+* Download and install the latest version (scan the QR above or get this: https://github.com/downloads/vidma/aac-speech-android/aac_speech_v10_en_fr.apk )
 * Install gesture search http://www.google.com/mobile/gesture-search/  or from android market: https://market.android.com/details?id=com.google.android.apps.gesturesearch
 (note the tablets I tested the app with did not support Gesture Search -- you will get some more poor homemade search capabilities)
 * Run the application
