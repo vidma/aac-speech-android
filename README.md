@@ -39,7 +39,7 @@ INSTALATION
 
 
 * enable installing apps from not-verified-sources (Settings->Applications; tick 'Unknown sources')
-* Download and install the latest version (you can scan the QR code above): https://github.com/vidma/aac-speech-android/raw/master/aac_speech_latest.apk
+* Download and install the latest version (you can scan the QR code above): https://github.com/vidma/aac-speech-android/raw/88988489d1b0b46fe1f75402af820143cb61074e/aac_speech_latest.apk
 * Install gesture search http://www.google.com/mobile/gesture-search/  or from android market: https://market.android.com/details?id=com.google.android.apps.gesturesearch
 (note the tablets I tested the app with did not support Gesture Search -- you will get some more poor homemade search capabilities)
 * Run the application
