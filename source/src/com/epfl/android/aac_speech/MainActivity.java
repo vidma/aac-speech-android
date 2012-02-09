@@ -82,7 +82,7 @@ public class MainActivity extends TTSButtonActivity implements
 
 	public static ArrayList<Pictogram> phrase_list = new ArrayList<Pictogram>();
 
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	public static final String APP_CONTENT_FILE_DOWN_URL = "http://cloud.github.com/downloads/vidma/aac-speech-android/acc_speech_data.zip";
 
@@ -1094,7 +1094,7 @@ public class MainActivity extends TTSButtonActivity implements
 				pictogramFactory, items_onclick_listener, dbHelper);
 
 		createImageButtons();
-		//drawCurrentIcons();
+		// drawCurrentIcons();
 		updatePhraseDisplay();
 
 		/* activate long-click of backspace as delete all phrase */
