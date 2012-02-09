@@ -280,7 +280,11 @@ public class UIFactory {
 					View v = inflater.inflate(
 							getButtonInflatingTemplate(ActionType.TENSE_PAST),
 							img_row, false);
-					((ImageButton) v).setBackgroundColor(Color.TRANSPARENT);
+					// img button maybe be contained in some container (e.g.
+					// linear layout) depending on template
+					ImageButton img_button_view = (ImageButton) v
+							.findViewById(R.id.icons_imgButton);
+					img_button_view.setBackgroundColor(Color.TRANSPARENT);
 					img_row.addView(v);
 
 					// Add the display_text below each icon
@@ -290,15 +294,15 @@ public class UIFactory {
 					text_row.addView(text);
 				} else {
 
-					View view = createImageButton(img_row, currentButton,
+					View v = createImageButton(img_row, currentButton,
 							getButtonInflatingTemplate(currentButton.type));
 
-					ImageButton img = (ImageButton) view
+					ImageButton img = (ImageButton) v
 							.findViewById(R.id.icons_imgButton);
 
 					// TODO: img.setTag("aaa"+i);
 					img.setOnClickListener(table_item_icon_onclick_listener);
-					img_row.addView(view);
+					img_row.addView(v);
 
 					// Add the display_text below each icon
 					TextView text = (TextView) inflater.inflate(
