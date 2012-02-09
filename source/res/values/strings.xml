@@ -4,7 +4,7 @@
     <string name="app_name">AAC speech</string>
     <string name="blah"></string>
     <string name="menu_gesture_search">Find a word</string>
-    <string name="loading_nlg">Please wait… Loading the slow Natural Language
+    <string name="loading_nlg">Please wait… Loading the complex Natural Language
 		Processing library</string>
     <string name="go_back">Go back</string>
     <string name="remove_icon">Remove this icon</string>

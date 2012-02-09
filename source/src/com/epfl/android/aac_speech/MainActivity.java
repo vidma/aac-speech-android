@@ -82,7 +82,7 @@ public class MainActivity extends TTSButtonActivity implements
 
 	public static ArrayList<Pictogram> phrase_list = new ArrayList<Pictogram>();
 
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 
 	public static final String APP_CONTENT_FILE_DOWN_URL = "http://cloud.github.com/downloads/vidma/aac-speech-android/acc_speech_data.zip";
 
@@ -157,6 +157,7 @@ public class MainActivity extends TTSButtonActivity implements
 
 	/** Keys for results returned by Gesture Search */
 	private static final String SELECTED_ITEM_ID = "selected_item_id";
+	private static final String SAVED_INSTANCE_PHRASELIST_KEY = "phrase_list";
 
 	private void GestureSearch() {
 		try {
@@ -406,10 +407,12 @@ public class MainActivity extends TTSButtonActivity implements
 		return result;
 	}
 
-	private void loadNLG() {
+	private void loadNLG(Bundle savedInstanceState) {
 		final ProgressDialog nlg_wait = ProgressDialog.show(MainActivity.this,
 				"", res.getString(R.string.loading_nlg), true);
 
+		Log.d(TAG, "loadNLG instState=" + savedInstanceState);
+		final Bundle fsavedInstanceState = savedInstanceState;
 		// Define the Handler that receives messages from the thread and update
 		// the GUI then NLG is loaded
 		// GUI has to be manipulated within the same thread
@@ -417,6 +420,9 @@ public class MainActivity extends TTSButtonActivity implements
 			@Override
 			public void handleMessage(Message msg) {
 				onNLGload_initGUI();
+				Log.d(TAG, "loadNLG simpeNLG loading done instState="
+						+ fsavedInstanceState);
+				restoreInstanceState(fsavedInstanceState);
 				nlg_wait.dismiss();
 			}
 		};
@@ -746,7 +752,43 @@ public class MainActivity extends TTSButtonActivity implements
 		this.dbHelper = null;
 		this.pictogramFactory = null;
 		this.uiFactory = null;
-		this.nlgConverter = null;
+		MainActivity.nlgConverter = null;
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		// serialize the current phrase
+
+		if (this.pictogramFactory != null && MainActivity.phrase_list != null)
+			outState.putString(SAVED_INSTANCE_PHRASELIST_KEY,
+					this.pictogramFactory.getSerialized(phrase_list));
+	}
+
+	/**
+	 * restores the current phrase from its serialized form saved in Bundle
+	 * 
+	 * @param savedInstanceState
+	 */
+	protected void restoreInstanceState(Bundle savedInstanceState) {
+		Log.d(TAG, "restoreInstanceState from bundle=" + savedInstanceState
+				+ " picFactory=" + pictogramFactory + " nlgConv="
+				+ nlgConverter);
+		if (savedInstanceState != null
+				&& savedInstanceState
+						.containsKey(SAVED_INSTANCE_PHRASELIST_KEY)
+				&& pictogramFactory != null) {
+			phrase_list = pictogramFactory
+					.createFromSerialized(savedInstanceState
+							.getString(SAVED_INSTANCE_PHRASELIST_KEY));
+			Log.d(TAG,
+					"restoredInstanceState from: "
+							+ savedInstanceState
+									.getString(SAVED_INSTANCE_PHRASELIST_KEY));
+
+			updatePhraseDisplay();
+		}
 	}
 
 	/**
@@ -765,7 +807,8 @@ public class MainActivity extends TTSButtonActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.v(TAG, "Starting...");
+		Log.v(TAG, "Starting. onCreate. nlgConverter= " + nlgConverter
+				+ " nlgText = " + nlg_text);
 
 		// remove title (label bar) to save window
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -825,7 +868,7 @@ public class MainActivity extends TTSButtonActivity implements
 		if (checkIfDataInstalledOrQuit()) {
 			// There is no use in loading the slow simpleNLG is now data is
 			// installed
-			loadNLG();
+			loadNLG(savedInstanceState);
 		}
 
 		// after everything is loaded, enable speaking button
@@ -900,13 +943,20 @@ public class MainActivity extends TTSButtonActivity implements
 	/**
 	 * Switch back to the main View from from the flipper
 	 */
-	public void returnToMainScreen() {
+	public boolean returnToMainScreen() {
 
 		if (currentCategoryId != 0) {
 			currentCategoryId = 0;
 		}
 
+		/* allow default implementation of back button */
+		ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
+		if (switcher.getDisplayedChild() == MainActivity.FLIPPER_VIEW_HOME)
+			return false;
+
 		switchFlipperScreenTo(MainActivity.FLIPPER_VIEW_HOME);
+
+		return true;
 	}
 
 	/**
@@ -923,7 +973,9 @@ public class MainActivity extends TTSButtonActivity implements
 
 	@Override
 	public void onBackPressed() {
-		returnToMainScreen();
+		if (!returnToMainScreen()) {
+			super.onBackPressed();
+		}
 	}
 
 	public static String arrayToString(String[] arr) {
@@ -1042,7 +1094,8 @@ public class MainActivity extends TTSButtonActivity implements
 				pictogramFactory, items_onclick_listener, dbHelper);
 
 		createImageButtons();
-		drawCurrentIcons();
+		//drawCurrentIcons();
+		updatePhraseDisplay();
 
 		/* activate long-click of backspace as delete all phrase */
 		ImageButton btn_backspace = (ImageButton) findViewById(R.id.delete);
