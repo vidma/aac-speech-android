@@ -31,17 +31,25 @@ Below application screen-shots on mobile phone. On tablet everything is bigger a
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/fr_new.png" width="300px"  title="as you can see french is supported fairly well" margin="10" />
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/screenshot-1326571249316.png" width="300px"  title="Gesture search (by drawing letters) within verbs category" margin="10" />
 
+DONATIONS
+-----------
+If you liked the application or its idea, you are  welcome to donate. That would allow me to add more new features more quickly:
+
+https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DY6954755BM48
+
 
 INSTALATION
 -----------
 
+Android market is the easiest way to install it. Then install 
+
+
+
 **Requirements**: Android 2.3+
 
-<img src="https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=https://github.com/downloads/vidma/aac-speech-android/aac_speech_v10_en_fr.apk" />
 
 
-* enable installing apps from not-verified-sources (Settings->Applications; tick 'Unknown sources')
-* Download and install the latest version (scan the QR above or get this: https://github.com/downloads/vidma/aac-speech-android/aac_speech_v10_en_fr.apk )
+* Install the application from Google Market: https://market.android.com/details?id=com.epfl.android.aac_speech 
 * Install gesture search http://www.google.com/mobile/gesture-search/  or from android market: https://market.android.com/details?id=com.google.android.apps.gesturesearch
 (note the tablets I tested the app with did not support Gesture Search -- you will get some more poor homemade search capabilities)
 * Run the application
