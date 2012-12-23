@@ -162,9 +162,10 @@ public abstract class AbstractCoordinatedPhraseHelper {
 		if (phrase.hasFeature(Feature.TENSE)) {
 			child.setTense(phrase.getTense());
 		}
-		if (phrase.hasFeature(Feature.PERSON)) {
-			child.setFeature(Feature.PERSON, phrase.getFeature(Feature.PERSON));
-		}
+		// this makes no sense, removed by DrDub
+//		if (phrase.hasFeature(Feature.PERSON)) {
+//			child.setFeature(Feature.PERSON, phrase.getFeature(Feature.PERSON));
+//		}
 		if (phrase.hasFeature(Feature.NEGATED)) {
 			child.setNegated(phrase.isNegated());
 		}
