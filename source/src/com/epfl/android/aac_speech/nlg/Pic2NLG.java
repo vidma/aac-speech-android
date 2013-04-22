@@ -711,8 +711,10 @@ public class Pic2NLG {
 		 * 
 		 * TODO: fix Je!
 		 */
-		if (NP_list.getChildren().size() == 1)
-			return NP_list.getChildren().get(0);
+		List<NLGElement>children = NP_list.getChildren();
+		if (children.size() == 1) {
+			return children.get(0);
+		}			
 
 		return NP_list;
 	}
@@ -732,7 +734,7 @@ public class Pic2NLG {
 		/* What part of speech are not allowed inside NounPhrase */
 
 		ActionType allowed_POS[] = { ActionType.NOUN, ActionType.ADJECTIVE,
-				ActionType.NUMBER_AGREEMENT };
+				ActionType.NUMBER_AGREEMENT, ActionType.CLITIC_PRONOUN };
 
 		/**
 		 * Assertion 1: Noun phrase must have a Noun, otherwise the current list
@@ -750,7 +752,7 @@ public class Pic2NLG {
 				break;
 			}
 
-			if (item.type == ActionType.NOUN)
+			if (item.type == ActionType.NOUN || item.type == ActionType.CLITIC_PRONOUN)
 				noun_exist = true;
 		}
 		if (!noun_exist)
@@ -763,6 +765,7 @@ public class Pic2NLG {
 			action = stack.peek();
 
 			switch (action.type) {
+			case CLITIC_PRONOUN:
 			case NOUN:
 				/*
 				 * we match only the first noun, the subsequent noun will be

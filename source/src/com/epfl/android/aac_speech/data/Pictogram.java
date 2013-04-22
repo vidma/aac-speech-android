@@ -101,6 +101,11 @@ public class Pictogram {
 						LexicalCategory.ADVERB);
 				break;
 
+			case PREPOSITION:
+				this.element = Pic2NLG.factory.createNLGElement(word,
+						LexicalCategory.PREPOSITION);
+				break;
+
 			default:
 				this.element = Pic2NLG.factory.createNLGElement(word);
 				break;
@@ -122,6 +127,8 @@ public class Pictogram {
 			mtype = ActionType.ADVERB;
 		if (str.equals("verb"))
 			mtype = ActionType.VERB;
+		if (str.equals("preposition"))
+			mtype = ActionType.PREPOSITION;
 
 		return mtype;
 	}
