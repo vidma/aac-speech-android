@@ -65,7 +65,7 @@ public class PreferencesActivity extends PreferenceActivity {
 		class PictogramZipDownloaderTask extends ZipDownloaderTask {
 			@Override
 			protected void onProgressUpdate(Integer... progress) {
-				Log.i("onProgressUpdate", "pr:" + progress[0]);
+				Log.v("onProgressUpdate", "pr:" + progress[0]);
 
 				int current_progress = progress[0];
 				if (progr_dlg.isShowing()) {
@@ -87,15 +87,15 @@ public class PreferencesActivity extends PreferenceActivity {
 			@Override
 			protected String doInBackground(String... params) {
 				String result = super.doInBackground(params);
-				Log.i("aac update_pictograms", "Downloading finished");
+				Log.d("aac update_pictograms", "Downloading finished");
 
 				if (result != null && result.equals(DONE)) {
 					DBHelper dbHelper = new DBHelper(
 							context.getContentResolver());
-					Log.i("aac update_pictograms", "get CR");
+					// Log.i("aac update_pictograms", "get CR");
 
 					dbHelper.forceUpdateDatabase(context);
-					Log.i("aac update_pictograms", "DB updated");
+					Log.d("aac update_pictograms", "DB updated");
 				}
 				return result;
 			}
@@ -133,7 +133,7 @@ public class PreferencesActivity extends PreferenceActivity {
 		/* TODO: Make sure all resources are referenced with this path!!! */
 
 		ZipDownloaderTask.OUTPUT_DIR = context.getExternalFilesDir(null);
-		Log.i("upd picts", "output dir: " + ZipDownloaderTask.OUTPUT_DIR);
+		// Log.d("upd picts", "output dir: " + ZipDownloaderTask.OUTPUT_DIR);
 		// download URL
 		final AsyncTask<String, Integer, String> task = new PictogramZipDownloaderTask()
 				.execute(MainActivity.APP_CONTENT_FILE_DOWN_URL);

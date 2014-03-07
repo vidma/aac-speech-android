@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
+import com.epfl.android.aac_speech.MainActivity;
 import com.epfl.android.aac_speech.lib.ArrayUtils;
 import android.util.Log;
 
@@ -78,7 +79,8 @@ public class Pic2NLG {
 	}
 
 	private static void log(String msg) {
-		System.out.println(msg);
+		if (MainActivity.DEBUG)
+			System.out.println(msg);
 	}
 
 	public static NumberAgreement getNumberAgreement(String data) {
@@ -160,7 +162,8 @@ public class Pic2NLG {
 
 			stack.push(stack0.pop());
 		}
-		Log.d("Pic2NLG input", dbg);
+		if (MainActivity.DEBUG)
+			Log.d("Pic2NLG input:", dbg);
 
 		/* for simplicity now, this will store anything before the last dot */
 		String prefixSentance = "";
@@ -536,9 +539,7 @@ public class Pic2NLG {
 			text = text.replace('.', ' ');
 
 		} catch (Exception e) {
-			Log.e("Pic2NLG", "exception while releasing sentence");
-			System.out.println(e);
-			e.printStackTrace();
+			Log.e("Pic2NLG", "exception while releasing sentence", e);
 		}
 		return text.trim();
 	}

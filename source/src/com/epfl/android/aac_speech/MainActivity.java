@@ -185,10 +185,8 @@ public class MainActivity extends TTSButtonActivity implements
 			intent.putExtra(THEME, THEME_DARK);
 			startActivityForResult(intent, MENU_GESTURE_SEARCH_ID);
 		} catch (ActivityNotFoundException e) {
-			Log.e("GestureSearchExample", "Gesture Search is not installed");
-			Log.e("GestureSearchExample", e.toString());
-			e.printStackTrace();
-
+			Log.e("GestureSearchExample", "Gesture Search is not installed", e);
+			//e.printStackTrace();
 			Log.i("ListSearch", "Falling back to homemade listview search...");
 
 			// Falling back to homemade listview search
@@ -1032,7 +1030,6 @@ public class MainActivity extends TTSButtonActivity implements
 		Log.d(TAG, "history serialized:" + serialized);
 
 		dbHelper.updateIconHistory(phrase, serialized, text);
-
 		dbHelper.update_icon_use_count(phrase, getApplicationContext());
 	}
 

@@ -13,6 +13,8 @@ import java.net.URLConnection;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import com.epfl.android.aac_speech.MainActivity;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -101,7 +103,8 @@ public class ZipDownloaderTask extends AsyncTask<String, Integer, String> {
 			// be seen (we've got 6K files!)
 			if (progress > progress_old) {
 				progress_old = progress;
-				Log.i("publishProgress", "pr: " + progress);
+
+				Log.d("publishProgress", " " + progress);
 				publishProgress(progress);
 			}
 		}
