@@ -84,7 +84,7 @@ public class MainActivity extends TTSButtonActivity implements
 
 	public static final boolean DEBUG = false;
 
-	public static final String APP_CONTENT_FILE_DOWN_URL = "http://cloud.github.com/downloads/vidma/aac-speech-android/acc_speech_data.zip";
+	public static final String APP_CONTENT_FILE_DOWN_URL = "http://raw.github.com/vidma/aac-speech-android/master/content/aac_speech_data.zip";
 
 	public static boolean isTablet = false;
 
