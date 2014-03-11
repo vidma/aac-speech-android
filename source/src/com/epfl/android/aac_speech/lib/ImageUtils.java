@@ -21,6 +21,7 @@ import android.util.Log;
 public class ImageUtils {
 
 	public static final boolean DOWNSCALE_MOBILE = false;
+
 	/**
 	 * Google Android's forumns indicate that using
 	 * BitmapFactory.decodeFileDescriptor over BitmapFactory.decodeFile may
@@ -36,11 +37,11 @@ public class ImageUtils {
 		FileDescriptor fd;
 		try {
 			fd = resolver.openFileDescriptor(uri, "r").getFileDescriptor();
-			
+
 			/* scale level to further reduce memory consumption */
 			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inSampleSize = (!MainActivity.isTablet && DOWNSCALE_MOBILE)?2:1;
-			
+			options.inSampleSize = (!MainActivity.isTablet && DOWNSCALE_MOBILE) ? 2 : 1;
+
 			Bitmap bMap = BitmapFactory.decodeFileDescriptor(fd, new Rect(0, 0, 0, 0), options);
 
 			if (false) {
@@ -64,12 +65,11 @@ public class ImageUtils {
 		String imageURI = URI.replace("file://", "");
 		BitmapFactory.Options options = new BitmapFactory.Options();
 
-
 		/* TODO: we may use scale level to further reduce memory consumption */
-		options.inSampleSize = (!MainActivity.isTablet && DOWNSCALE_MOBILE)?2:1;
-				
-		//options.inPurgeable = true;
-		//options.inInputShareable = true;
+		options.inSampleSize = (!MainActivity.isTablet && DOWNSCALE_MOBILE) ? 2 : 1;
+
+		// options.inPurgeable = true;
+		// options.inInputShareable = true;
 
 		Bitmap bMap = BitmapFactory.decodeFile(imageURI, options);
 

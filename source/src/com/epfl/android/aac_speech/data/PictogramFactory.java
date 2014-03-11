@@ -101,8 +101,7 @@ public class PictogramFactory {
 		public int imageResourceId = 0;
 		public ActionType actType;
 
-		public ActionDefinition(ActionType actType, int titleResourceId,
-				int IconResourceId) {
+		public ActionDefinition(ActionType actType, int titleResourceId, int IconResourceId) {
 			this.titleResourceId = titleResourceId;
 			this.imageResourceId = IconResourceId;
 			this.actType = actType;
@@ -152,104 +151,80 @@ public class PictogramFactory {
 		System.out.println("DOT IS:" + ActionType.DOT.toString());
 
 		special_actions.put(ACT_DOT, ActionType.DOT);
-		action_defs.put(ACT_DOT, new ActionDefinition(ActionType.DOT,
-				R.string.btn_dot, R.drawable.point));
+		action_defs.put(ACT_DOT, new ActionDefinition(ActionType.DOT, R.string.btn_dot, R.drawable.point));
 
 		special_actions.put(ACT_QUESTION, ActionType.QUESTION);
-		action_defs.put(ACT_QUESTION, new ActionDefinition(ActionType.QUESTION,
-				R.string.btn_quesion, R.drawable.question));
+		action_defs.put(ACT_QUESTION, new ActionDefinition(ActionType.QUESTION, R.string.btn_quesion,
+				R.drawable.question));
 
 		special_actions.put(ACT_NEGATE, ActionType.NEGATED);
-		action_defs.put(ACT_NEGATE, new ActionDefinition(ActionType.NEGATED,
-				R.string.btn_negated, R.drawable.no));
+		action_defs.put(ACT_NEGATE, new ActionDefinition(ActionType.NEGATED, R.string.btn_negated, R.drawable.no));
 
 		/* TENSES */
 
 		special_actions.put(ACT_TENSE_PAST, ActionType.TENSE_PAST);
-		action_defs.put(ACT_TENSE_PAST, new ActionDefinition(
-				ActionType.TENSE_PAST, R.string.btn_past, R.drawable.past));
+		action_defs
+				.put(ACT_TENSE_PAST, new ActionDefinition(ActionType.TENSE_PAST, R.string.btn_past, R.drawable.past));
 
 		special_actions.put(ACT_TENSE_FUTURE, ActionType.TENSE_FUTURE);
-		action_defs.put(ACT_TENSE_FUTURE,
-				new ActionDefinition(ActionType.TENSE_FUTURE,
-						R.string.btn_future, R.drawable.future));
+		action_defs.put(ACT_TENSE_FUTURE, new ActionDefinition(ActionType.TENSE_FUTURE, R.string.btn_future,
+				R.drawable.future));
 
 		special_actions.put(ACT_TENSE_PRESENT, ActionType.TENSE_PRESENT);
-		action_defs
-				.put(ACT_TENSE_PRESENT, new ActionDefinition(
-						ActionType.TENSE_PRESENT, R.string.btn_present,
-						R.drawable.now));
+		action_defs.put(ACT_TENSE_PRESENT, new ActionDefinition(ActionType.TENSE_PRESENT, R.string.btn_present,
+				R.drawable.now));
 
 		/* Pronouns */
-		action_defs.put(ACT_PRONOUN_I, new ActionDefinition(ActionType.NOUN,
-				R.string.btn_I, R.drawable.je));
-		action_defs.put(ACT_PRONOUN_YOU, new ActionDefinition(ActionType.NOUN,
-				R.string.btn_you, R.drawable.tu));
-		action_defs.put(ACT_PRONOUN_HE, new ActionDefinition(ActionType.NOUN,
-				R.string.btn_he, R.drawable.il));
-		action_defs.put(ACT_PRONOUN_SHE, new ActionDefinition(ActionType.NOUN,
-				R.string.btn_she, R.drawable.elle));
+		action_defs.put(ACT_PRONOUN_I, new ActionDefinition(ActionType.NOUN, R.string.btn_I, R.drawable.je));
+		action_defs.put(ACT_PRONOUN_YOU, new ActionDefinition(ActionType.NOUN, R.string.btn_you, R.drawable.tu));
+		action_defs.put(ACT_PRONOUN_HE, new ActionDefinition(ActionType.NOUN, R.string.btn_he, R.drawable.il));
+		action_defs.put(ACT_PRONOUN_SHE, new ActionDefinition(ActionType.NOUN, R.string.btn_she, R.drawable.elle));
 
-		action_defs.put(ACT_PRONOUN_WE, new ActionDefinition(ActionType.NOUN,
-				R.string.btn_we, R.drawable.nous));
-		action_defs.put(ACT_PRONOUN_YOU_PL, new ActionDefinition(
-				ActionType.NOUN, R.string.btn_you_pl, R.drawable.vous));
-		action_defs.put(ACT_PRONOUN_THEY_M, new ActionDefinition(
-				ActionType.NOUN, R.string.btn_they_m, R.drawable.ils));
-		action_defs.put(ACT_PRONOUN_THAT, new ActionDefinition(ActionType.NOUN,
-				R.string.btn_that, R.drawable.that_one));
+		action_defs.put(ACT_PRONOUN_WE, new ActionDefinition(ActionType.NOUN, R.string.btn_we, R.drawable.nous));
+		action_defs
+				.put(ACT_PRONOUN_YOU_PL, new ActionDefinition(ActionType.NOUN, R.string.btn_you_pl, R.drawable.vous));
+		action_defs.put(ACT_PRONOUN_THEY_M, new ActionDefinition(ActionType.NOUN, R.string.btn_they_m, R.drawable.ils));
+		action_defs
+				.put(ACT_PRONOUN_THAT, new ActionDefinition(ActionType.NOUN, R.string.btn_that, R.drawable.that_one));
 
-		action_defs.put(ACT_PRONOUN_THEY_F, new ActionDefinition(
-				ActionType.NOUN, R.string.btn_they_f, R.drawable.elles));
+		action_defs.put(ACT_PRONOUN_THEY_F,
+				new ActionDefinition(ActionType.NOUN, R.string.btn_they_f, R.drawable.elles));
 
 		/* TODO: this is a specific case in French */
-		action_defs.put(ACT_LETS_DO_SMF, new ActionDefinition(ActionType.NOUN,
-				R.string.btn_lets, R.drawable.on));
+		action_defs.put(ACT_LETS_DO_SMF, new ActionDefinition(ActionType.NOUN, R.string.btn_lets, R.drawable.on));
 
 		/* VERBS */
-		action_defs.put(ACT_VERB_CAN, new ActionDefinition(ActionType.VERB,
-				R.string.btn_can, R.drawable.pouvoir));
-		action_defs.put(ACT_VERB_HAVE, new ActionDefinition(ActionType.VERB,
-				R.string.btn_to_have, R.drawable.avoir));
-		action_defs.put(ACT_VERB_TO_BE, new ActionDefinition(ActionType.VERB,
-				R.string.btn_to_be, R.drawable.etre));
-		action_defs.put(ACT_VERB_WANT, new ActionDefinition(ActionType.VERB,
-				R.string.btn_to_want, R.drawable.vouloir));
+		action_defs.put(ACT_VERB_CAN, new ActionDefinition(ActionType.VERB, R.string.btn_can, R.drawable.pouvoir));
+		action_defs.put(ACT_VERB_HAVE, new ActionDefinition(ActionType.VERB, R.string.btn_to_have, R.drawable.avoir));
+		action_defs.put(ACT_VERB_TO_BE, new ActionDefinition(ActionType.VERB, R.string.btn_to_be, R.drawable.etre));
+		action_defs.put(ACT_VERB_WANT, new ActionDefinition(ActionType.VERB, R.string.btn_to_want, R.drawable.vouloir));
 
 		/*
 		 * Clitic pronouns: me, te,
 		 */
 
-		action_defs.put(ACT_PRONOUN_OBJ_MYSELF, new ActionDefinition(
-				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_myself,
-				R.drawable.je));
+		action_defs.put(ACT_PRONOUN_OBJ_MYSELF, new ActionDefinition(ActionType.CLITIC_PRONOUN,
+				R.string.btn_clitic_myself, R.drawable.je));
 
-		action_defs.put(ACT_PRONOUN_OBJ_YOU, new ActionDefinition(
-				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_you,
+		action_defs.put(ACT_PRONOUN_OBJ_YOU, new ActionDefinition(ActionType.CLITIC_PRONOUN, R.string.btn_clitic_you,
 				R.drawable.tu));
 
-		action_defs.put(ACT_PRONOUN_OBJ_HIM, new ActionDefinition(
-				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_him,
+		action_defs.put(ACT_PRONOUN_OBJ_HIM, new ActionDefinition(ActionType.CLITIC_PRONOUN, R.string.btn_clitic_him,
 				R.drawable.il));
 
-		action_defs.put(ACT_PRONOUN_OBJ_HER, new ActionDefinition(
-				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_her,
+		action_defs.put(ACT_PRONOUN_OBJ_HER, new ActionDefinition(ActionType.CLITIC_PRONOUN, R.string.btn_clitic_her,
 				R.drawable.elle));
 
-		action_defs.put(ACT_PRONOUN_OBJ_US, new ActionDefinition(
-				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_us,
+		action_defs.put(ACT_PRONOUN_OBJ_US, new ActionDefinition(ActionType.CLITIC_PRONOUN, R.string.btn_clitic_us,
 				R.drawable.nous));
 
-		action_defs.put(ACT_PRONOUN_OBJ_YOU_PL, new ActionDefinition(
-				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_you_pl,
-				R.drawable.vous));
-		action_defs.put(ACT_PRONOUN_OBJ_THEM, new ActionDefinition(
-				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_them_m,
-				R.drawable.ils));
+		action_defs.put(ACT_PRONOUN_OBJ_YOU_PL, new ActionDefinition(ActionType.CLITIC_PRONOUN,
+				R.string.btn_clitic_you_pl, R.drawable.vous));
+		action_defs.put(ACT_PRONOUN_OBJ_THEM, new ActionDefinition(ActionType.CLITIC_PRONOUN,
+				R.string.btn_clitic_them_m, R.drawable.ils));
 
-		action_defs.put(ACT_PRONOUN_OBJ_THEM_F, new ActionDefinition(
-				ActionType.CLITIC_PRONOUN, R.string.btn_clitic_them_f,
-				R.drawable.elles));
+		action_defs.put(ACT_PRONOUN_OBJ_THEM_F, new ActionDefinition(ActionType.CLITIC_PRONOUN,
+				R.string.btn_clitic_them_f, R.drawable.elles));
 
 		// TODO: NUMBER_AGREEMENT doesn't seem to be important nor useful
 	}
@@ -277,11 +252,9 @@ public class PictogramFactory {
 		} else {
 			// we just map homescreen icons by their resourceID, what's the
 			// simplest solution now
-			if (icon.imageResourceId != 0 && icon.type == ActionType.NOUN
-					|| icon.type == ActionType.VERB
+			if (icon.imageResourceId != 0 && icon.type == ActionType.NOUN || icon.type == ActionType.VERB
 					|| icon.type == ActionType.CLITIC_PRONOUN) {
-				for (Entry<String, ActionDefinition> entry : action_defs
-						.entrySet()) {
+				for (Entry<String, ActionDefinition> entry : action_defs.entrySet()) {
 					if (entry.getValue().imageResourceId == icon.imageResourceId
 							&& entry.getValue().actType == icon.type) {
 						return entry.getKey();
@@ -366,8 +339,7 @@ public class PictogramFactory {
 
 		if (action_defs.containsKey(serialized)) {
 			ActionDefinition act = action_defs.get(serialized);
-			return new Pictogram(res.getString(act.titleResourceId),
-					act.actType, act.imageResourceId);
+			return new Pictogram(res.getString(act.titleResourceId), act.actType, act.imageResourceId);
 		}
 
 		return null;

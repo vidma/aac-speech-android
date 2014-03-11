@@ -40,8 +40,7 @@ public class UIFactory {
 	private int MAINPAGE_ITEMS_PER_ROW = 5, MAINPAGE_ITEMS_PER_COL = 5;
 	private OnClickListener table_item_icon_onclick_listener;
 
-	public UIFactory(LayoutInflater inflater, Context appContext,
-			PictogramFactory iconsFactory,
+	public UIFactory(LayoutInflater inflater, Context appContext, PictogramFactory iconsFactory,
 			OnClickListener table_item_icon_onclick_listener, DBHelper dbHelper) {
 		this.inflater = inflater;
 		this.appContext = appContext;
@@ -50,8 +49,7 @@ public class UIFactory {
 		this.dbHelper = dbHelper;
 	}
 
-	public View createImageButton(ViewGroup parentElm,
-			final Pictogram currentButton, int inflaterTemplate) {
+	public View createImageButton(ViewGroup parentElm, final Pictogram currentButton, int inflaterTemplate) {
 		View view = inflater.inflate(inflaterTemplate, parentElm, false);
 
 		ImageButton img = (ImageButton) view.findViewById(R.id.icons_imgButton);
@@ -63,14 +61,12 @@ public class UIFactory {
 			// TODO: this is very resource consuming now
 			img.setImageResource(currentButton.imageResourceId);
 		} else if (currentButton.imageFileURI != "") {
-			Bitmap bMap = ImageUtils.getBitmapFromURI(
-					currentButton.imageFileURI, appContext);
+			Bitmap bMap = ImageUtils.getBitmapFromURI(currentButton.imageFileURI, appContext);
 			img.setImageBitmap(bMap);
 		}
 
 		/* only if SPC colors are not disabled */
-		if (currentButton.type != ActionType.CATEGORY
-				&& !MainActivity.getPrefHideSPCColor())
+		if (currentButton.type != ActionType.CATEGORY && !MainActivity.getPrefHideSPCColor())
 			img.setBackgroundColor(currentButton.getBgColor());
 
 		img.setTag(currentButton);
@@ -90,9 +86,8 @@ public class UIFactory {
 		// TODO: refactor the nasty old constructor: e.g. SPC color code is not
 		// and also the drawableId is not really needed anymore as we have
 		// iconPath in database
-		return new Pictogram(Integer.toString(categoryId),
-				dbHelper.getCategoryTitleShort(categoryId), SPC_ColorCode.MISC,
-				Pic2NLG.ActionType.CATEGORY, drawbableId);
+		return new Pictogram(Integer.toString(categoryId), dbHelper.getCategoryTitleShort(categoryId),
+				SPC_ColorCode.MISC, Pic2NLG.ActionType.CATEGORY, drawbableId);
 	}
 
 	public void createHomePictogramTable(TableLayout tl) {
@@ -102,31 +97,25 @@ public class UIFactory {
 		 * http://french.about.com/od/grammar/a/pronouns_3.htm
 		 */
 		/* pronouns column 1 - singular */
-		Pictogram[] clitic_pronouns_1 = {
-				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_MYSELF),
+		Pictogram[] clitic_pronouns_1 = { iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_MYSELF),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_YOU),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_HIM),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_HER),
 
 				iconsFactory.get(PictogramFactory.ACT_LETS_DO_SMF), };
 
-		Pictogram[] simple_pronouns_1 = {
-				iconsFactory.get(PictogramFactory.ACT_PRONOUN_I),
-				iconsFactory.get(PictogramFactory.ACT_PRONOUN_YOU),
-				iconsFactory.get(PictogramFactory.ACT_PRONOUN_HE),
-				iconsFactory.get(PictogramFactory.ACT_PRONOUN_SHE),
-				iconsFactory.get(PictogramFactory.ACT_LETS_DO_SMF), };
+		Pictogram[] simple_pronouns_1 = { iconsFactory.get(PictogramFactory.ACT_PRONOUN_I),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_YOU), iconsFactory.get(PictogramFactory.ACT_PRONOUN_HE),
+				iconsFactory.get(PictogramFactory.ACT_PRONOUN_SHE), iconsFactory.get(PictogramFactory.ACT_LETS_DO_SMF), };
 
 		/* pronouns column 2 - plural */
-		Pictogram[] clitic_pronouns_2 = {
-				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_US),
+		Pictogram[] clitic_pronouns_2 = { iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_US),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_YOU_PL),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_THEM),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_OBJ_THEM_F),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_THAT), };
 
-		Pictogram[] simple_pronouns_2 = {
-				iconsFactory.get(PictogramFactory.ACT_PRONOUN_WE),
+		Pictogram[] simple_pronouns_2 = { iconsFactory.get(PictogramFactory.ACT_PRONOUN_WE),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_YOU_PL),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_THEY_M),
 				iconsFactory.get(PictogramFactory.ACT_PRONOUN_THEY_F),
@@ -134,31 +123,25 @@ public class UIFactory {
 
 		Pictogram[][] buttons = {
 				/* col 1 */
-				nlg_state_subject_selected ? clitic_pronouns_1
-						: simple_pronouns_1,
+				nlg_state_subject_selected ? clitic_pronouns_1 : simple_pronouns_1,
 				/* col2 */
-				nlg_state_subject_selected ? clitic_pronouns_2
-						: simple_pronouns_2,
+				nlg_state_subject_selected ? clitic_pronouns_2 : simple_pronouns_2,
 
 				/* col 3 */
-				{ iconsFactory.get(PictogramFactory.ACT_TENSE_PAST),
-						iconsFactory.get(PictogramFactory.ACT_NEGATE),
+				{ iconsFactory.get(PictogramFactory.ACT_TENSE_PAST), iconsFactory.get(PictogramFactory.ACT_NEGATE),
 						iconsFactory.get(PictogramFactory.ACT_VERB_HAVE),
 
 						createCategoryButton(14, R.drawable.qualities),
 						createCategoryButton(1, R.drawable.adv_of_place), },
 				/* col 4 */
-				{ createCategoryButton(19, R.drawable.verbes),
-						iconsFactory.get(PictogramFactory.ACT_VERB_TO_BE),
-						iconsFactory.get(PictogramFactory.ACT_VERB_CAN),
-						createCategoryButton(10, R.drawable.food),
+				{ createCategoryButton(19, R.drawable.verbes), iconsFactory.get(PictogramFactory.ACT_VERB_TO_BE),
+						iconsFactory.get(PictogramFactory.ACT_VERB_CAN), createCategoryButton(10, R.drawable.food),
 						createCategoryButton(6, R.drawable.common_expressions), },
 
 				/* col 5 */
 				{ iconsFactory.get(PictogramFactory.ACT_TENSE_FUTURE),
 						iconsFactory.get(PictogramFactory.ACT_VERB_WANT),
-						iconsFactory.get(PictogramFactory.ACT_QUESTION),
-						createCategoryButton(8, R.drawable.objets),
+						iconsFactory.get(PictogramFactory.ACT_QUESTION), createCategoryButton(8, R.drawable.objets),
 						iconsFactory.get(PictogramFactory.ACT_DOT),
 
 				}, };
@@ -166,17 +149,14 @@ public class UIFactory {
 		for (int row = 0; row < MAINPAGE_ITEMS_PER_ROW; row++) {
 			// create Icons
 
-			TableRow img_row = (TableRow) inflater.inflate(
-					R.layout.icontable_tablerow, tl, false);
+			TableRow img_row = (TableRow) inflater.inflate(R.layout.icontable_tablerow, tl, false);
 
 			for (int col = 0; col < MAINPAGE_ITEMS_PER_COL; col++) {
 				final Pictogram currentButton = buttons[col][row];
 
-				View view = createImageButton(img_row, currentButton,
-						getButtonInflatingTemplate(currentButton.type));
+				View view = createImageButton(img_row, currentButton, getButtonInflatingTemplate(currentButton.type));
 
-				ImageButton img = (ImageButton) view
-						.findViewById(R.id.icons_imgButton);
+				ImageButton img = (ImageButton) view.findViewById(R.id.icons_imgButton);
 
 				// TODO: instead of final use, tag!
 				img.setOnClickListener(this.table_item_icon_onclick_listener);
@@ -194,13 +174,11 @@ public class UIFactory {
 
 			// Add the display_text below each icon
 
-			TableRow text_row = (TableRow) inflater.inflate(
-					R.layout.icontable_tablerow, tl, false);
+			TableRow text_row = (TableRow) inflater.inflate(R.layout.icontable_tablerow, tl, false);
 			for (int col = 0; col < MAINPAGE_ITEMS_PER_COL; col++) {
 				Pictogram currentButton = buttons[col][row];
 
-				TextView text = (TextView) inflater.inflate(
-						R.layout.icontable_imagetext, text_row, false);
+				TextView text = (TextView) inflater.inflate(R.layout.icontable_imagetext, text_row, false);
 
 				text.setText(getText(currentButton.toString()));
 
@@ -234,28 +212,23 @@ public class UIFactory {
 				createCategoryButton(7, R.drawable.holiday),
 				createCategoryButton(15, R.drawable.empty),
 
-				new Pictogram("0", "non-classif.", SPC_ColorCode.MISC,
-						Pic2NLG.ActionType.CATEGORY, R.drawable.not_classified),
-				null, null
+				new Pictogram("0", "non-classif.", SPC_ColorCode.MISC, Pic2NLG.ActionType.CATEGORY,
+						R.drawable.not_classified), null, null
 
 		};
-		ArrayList<Pictogram> buttons = new ArrayList<Pictogram>(
-				Arrays.asList(but));
+		ArrayList<Pictogram> buttons = new ArrayList<Pictogram>(Arrays.asList(but));
 
-		TableLayout tl1 = (TableLayout) inflater.inflate(R.layout.tablelayout,
-				parent, false);
+		TableLayout tl1 = (TableLayout) inflater.inflate(R.layout.tablelayout, parent, false);
 		createIconsTable(buttons.iterator(), 4, MAINPAGE_ITEMS_PER_COL, tl1);
 		return tl1;
 
 	}
 
 	private static int getButtonInflatingTemplate(ActionType type) {
-		return (type == ActionType.CATEGORY) ? R.layout.icontable_category_imagebutton
-				: R.layout.icontable_imagebutton;
+		return (type == ActionType.CATEGORY) ? R.layout.icontable_category_imagebutton : R.layout.icontable_imagebutton;
 	}
 
-	private void createIconsTable(Iterator<Pictogram> buttons_it, int cols,
-			int rows, TableLayout tl) {
+	private void createIconsTable(Iterator<Pictogram> buttons_it, int cols, int rows, TableLayout tl) {
 
 		tl.removeAllViews();
 		while (buttons_it.hasNext()) {
@@ -263,10 +236,8 @@ public class UIFactory {
 			if (!buttons_it.hasNext())
 				break;
 
-			TableRow img_row = (TableRow) inflater.inflate(
-					R.layout.icontable_tablerow, tl, false);
-			TableRow text_row = (TableRow) inflater.inflate(
-					R.layout.icontable_tablerow, tl, false);
+			TableRow img_row = (TableRow) inflater.inflate(R.layout.icontable_tablerow, tl, false);
+			TableRow text_row = (TableRow) inflater.inflate(R.layout.icontable_tablerow, tl, false);
 
 			for (int col = 0; col < cols; col++) {
 				if (!buttons_it.hasNext())
@@ -277,36 +248,29 @@ public class UIFactory {
 				if (currentButton == null) {
 					/* empty slots */
 
-					View v = inflater.inflate(
-							getButtonInflatingTemplate(ActionType.TENSE_PAST),
-							img_row, false);
+					View v = inflater.inflate(getButtonInflatingTemplate(ActionType.TENSE_PAST), img_row, false);
 					// img button maybe be contained in some container (e.g.
 					// linear layout) depending on template
-					ImageButton img_button_view = (ImageButton) v
-							.findViewById(R.id.icons_imgButton);
+					ImageButton img_button_view = (ImageButton) v.findViewById(R.id.icons_imgButton);
 					img_button_view.setBackgroundColor(Color.TRANSPARENT);
 					img_row.addView(v);
 
 					// Add the display_text below each icon
-					TextView text = (TextView) inflater.inflate(
-							R.layout.icontable_imagetext, text_row, false);
+					TextView text = (TextView) inflater.inflate(R.layout.icontable_imagetext, text_row, false);
 					text.setText("  ");
 					text_row.addView(text);
 				} else {
 
-					View v = createImageButton(img_row, currentButton,
-							getButtonInflatingTemplate(currentButton.type));
+					View v = createImageButton(img_row, currentButton, getButtonInflatingTemplate(currentButton.type));
 
-					ImageButton img = (ImageButton) v
-							.findViewById(R.id.icons_imgButton);
+					ImageButton img = (ImageButton) v.findViewById(R.id.icons_imgButton);
 
 					// TODO: img.setTag("aaa"+i);
 					img.setOnClickListener(table_item_icon_onclick_listener);
 					img_row.addView(v);
 
 					// Add the display_text below each icon
-					TextView text = (TextView) inflater.inflate(
-							R.layout.icontable_imagetext, text_row, false);
+					TextView text = (TextView) inflater.inflate(R.layout.icontable_imagetext, text_row, false);
 					text.setText(getText(currentButton.toString()));
 
 					text_row.addView(text);

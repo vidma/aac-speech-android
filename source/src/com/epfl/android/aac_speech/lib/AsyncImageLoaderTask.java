@@ -21,8 +21,7 @@ public class AsyncImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 
 		public AyncLoadedDrawable(AsyncImageLoaderTask bitmapDownloaderTask) {
 			super(Color.TRANSPARENT);
-			bitmapDownloaderTaskReference = new WeakReference<AsyncImageLoaderTask>(
-					bitmapDownloaderTask);
+			bitmapDownloaderTaskReference = new WeakReference<AsyncImageLoaderTask>(bitmapDownloaderTask);
 		}
 
 		public AsyncImageLoaderTask getBitmapDownloaderTask() {
@@ -87,8 +86,7 @@ public class AsyncImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 		return null;
 	}
 
-	private static boolean cancelPotentialDownload(String url,
-			ImageView imageView) {
+	private static boolean cancelPotentialDownload(String url, ImageView imageView) {
 		AsyncImageLoaderTask bitmapDownloaderTask = getAsycLoaderTask(imageView);
 
 		if (bitmapDownloaderTask != null) {
@@ -103,9 +101,9 @@ public class AsyncImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 		return true;
 	}
 
-	public static void AsycLoadImage(String imagePath, ImageView v) {		
+	public static void AsycLoadImage(String imagePath, ImageView v) {
 		if (cancelPotentialDownload(imagePath, v)) {
-			
+
 			/* clean up the old drawable if any to be GC gathered */
 			Drawable dr = v.getDrawable();
 
@@ -115,7 +113,8 @@ public class AsyncImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 				if (bm != null) {
 					// Log.d(TAG, "bm.recycle()");
 					bm.recycle();
-					// otherwise, with asynchronous loading, UI would try to draw
+					// otherwise, with asynchronous loading, UI would try to
+					// draw
 					// this recycled bitmap, and we'd get an Exception
 					v.setImageBitmap(null);
 				}

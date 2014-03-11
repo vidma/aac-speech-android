@@ -84,8 +84,7 @@ public class Pic2NLG {
 	}
 
 	public static NumberAgreement getNumberAgreement(String data) {
-		return (data.equals("plural")) ? NumberAgreement.PLURAL
-				: NumberAgreement.SINGULAR;
+		return (data.equals("plural")) ? NumberAgreement.PLURAL : NumberAgreement.SINGULAR;
 	}
 
 	/**
@@ -101,8 +100,7 @@ public class Pic2NLG {
 		String verb = "";
 		if ((verb_elm instanceof VPPhraseSpec)) {
 			verb = verb_elm.getFeatureAsString(InternalFeature.HEAD);
-			NLGElement verb_elm2 = verb_elm
-					.getFeatureAsElement(InternalFeature.HEAD);
+			NLGElement verb_elm2 = verb_elm.getFeatureAsElement(InternalFeature.HEAD);
 			if (verb_elm2 instanceof WordElement) {
 				verb_elm = verb_elm2;
 			}
@@ -174,8 +172,7 @@ public class Pic2NLG {
 		 * These POS will pop out from stack immediately as they require
 		 * additional processing, like matching dependent NounPhrase
 		 */
-		ActionType pop_immediately_POS[] = { ActionType.PREPOSITION,
-				ActionType.ADVERB };
+		ActionType pop_immediately_POS[] = { ActionType.PREPOSITION, ActionType.ADVERB };
 
 		/*
 		 * We use a simple simple greedy algorithm: for now we assume to have
@@ -249,8 +246,7 @@ public class Pic2NLG {
 				 */
 
 				if (action.element.hasFeature(LexicalFeature.REFLEXIVE)) {
-					if (action.element
-							.getFeatureAsBoolean(LexicalFeature.REFLEXIVE)) {
+					if (action.element.getFeatureAsBoolean(LexicalFeature.REFLEXIVE)) {
 						clause.setIndirectObject("se");
 					}
 
@@ -284,8 +280,7 @@ public class Pic2NLG {
 					 * the second is verb
 					 */
 
-					modalClauseEN = engModal_Guess_infinitive_or_gerund(clause,
-							action);
+					modalClauseEN = engModal_Guess_infinitive_or_gerund(clause, action);
 
 					if (modalClauseEN == null) {
 						clause.setFeature(Feature.MODAL, clause.getVerb());
@@ -356,8 +351,7 @@ public class Pic2NLG {
 				ActionType actType = action.type;
 
 				Tense tense = (actType == ActionType.TENSE_PAST) ? Tense.PAST
-						: (actType == ActionType.TENSE_FUTURE) ? Tense.FUTURE
-								: Tense.PRESENT;
+						: (actType == ActionType.TENSE_FUTURE) ? Tense.FUTURE : Tense.PRESENT;
 
 				// For "futur proche" we assign just allez a modal
 				if (actType == ActionType.TENSE_FUTUR_PROCHE) {
@@ -369,8 +363,7 @@ public class Pic2NLG {
 					// word
 
 					clause.setVerb(getVerbMainFormAsString(clause.getVerb()));
-					clause.setFeature(Feature.MODAL,
-							LangFeature_FutureProche_MODAL);
+					clause.setFeature(Feature.MODAL, LangFeature_FutureProche_MODAL);
 
 					log("tense: futur proche");
 
@@ -393,8 +386,7 @@ public class Pic2NLG {
 				 * 
 				 * TODO: check if this may lead to an issue anywhere
 				 */
-				NLGElement adverb = lexicon.getWord(action.data,
-						LexicalCategory.ADVERB);
+				NLGElement adverb = lexicon.getWord(action.data, LexicalCategory.ADVERB);
 				stack.pop();
 
 				/*
@@ -434,8 +426,7 @@ public class Pic2NLG {
 				stack.pop();
 		}
 
-		String result = (prefixSentance + releaseSentence(clause, modalClauseEN))
-				.trim();
+		String result = (prefixSentance + releaseSentence(clause, modalClauseEN)).trim();
 		Log.d("Pic2LNG", result);
 
 		return result;
@@ -448,8 +439,7 @@ public class Pic2NLG {
 	 * @param modal
 	 * @return
 	 */
-	private SPhraseSpec engModal_Guess_infinitive_or_gerund(SPhraseSpec clause,
-			Pictogram action) {
+	private SPhraseSpec engModal_Guess_infinitive_or_gerund(SPhraseSpec clause, Pictogram action) {
 		if (lexicon.getLanguage() == Language.ENGLISH) {
 
 			NLGElement modal = clause.getVerb();
@@ -470,8 +460,7 @@ public class Pic2NLG {
 
 			// I want to eat; I have to eat TODO: add more words
 			if ("want".equals(modal_base) || "have".equals(modal_base)) {
-				clause.setFeature(Feature.FORM,
-						simplenlg.features.Form.INFINITIVE);
+				clause.setFeature(Feature.FORM, simplenlg.features.Form.INFINITIVE);
 				changed = true;
 			}
 
@@ -490,8 +479,7 @@ public class Pic2NLG {
 				modalClause.setSubject(clause.getSubject());
 
 				// TODO: move all Modifiers and Complements to modalClause
-				modalClause.setFeature(Feature.NEGATED,
-						clause.getFeature(Feature.NEGATED));
+				modalClause.setFeature(Feature.NEGATED, clause.getFeature(Feature.NEGATED));
 				clause.setFeature(Feature.NEGATED, false);
 
 				// TODO: HOw to remove clause subject? do I need this?
@@ -521,8 +509,7 @@ public class Pic2NLG {
 	 * @param clause
 	 * @return
 	 */
-	private String releaseSentence(SPhraseSpec clause,
-			SPhraseSpec opt_modal_clause) {
+	private String releaseSentence(SPhraseSpec clause, SPhraseSpec opt_modal_clause) {
 
 		/* Sometimes */
 		String text = "";
@@ -610,8 +597,7 @@ public class Pic2NLG {
 	 * @param clause
 	 * @param object
 	 */
-	private void setIndirectObjectSpecifier(SPhraseSpec clause,
-			NLGElement object) {
+	private void setIndirectObjectSpecifier(SPhraseSpec clause, NLGElement object) {
 		/* === Try to guess indirect object specifier (de, a, nothing) == */
 		String intelligent_guess = intelligentGuessSpecifier(clause);
 
@@ -625,9 +611,7 @@ public class Pic2NLG {
 				}
 			}
 		}
-		if (object instanceof NPPhraseSpec
-				&& ((NPPhraseSpec) object)
-						.getFeature(InternalFeature.SPECIFIER) == null) {
+		if (object instanceof NPPhraseSpec && ((NPPhraseSpec) object).getFeature(InternalFeature.SPECIFIER) == null) {
 			((NPPhraseSpec) object).setDeterminer(intelligent_guess);
 
 		}
@@ -647,10 +631,12 @@ public class Pic2NLG {
 		 * Some come from here, TODO: finish http://french.about.
 		 * com/library/prepositions/bl_prep_a_verb.htm
 		 */
-		String[] verb_a_IndObj = { "habiter", "aider", "apprendre", "arriver",
-				"commencer", "aller" /*
-									 * TODO: add more
-									 */};
+		String[] verb_a_IndObj = { "habiter", "aider", "apprendre", "arriver", "commencer", "aller" /*
+																									 * TODO
+																									 * :
+																									 * add
+																									 * more
+																									 */};
 
 		/**
 		 * de + noun Indirect Object http://french.about.com/library
@@ -662,10 +648,9 @@ public class Pic2NLG {
 		 * TODO: handle modals/double words: avoir besoin
 		 */
 
-		String[] de_verb_IndObj = { "acheter", "avoir besoin", "avoir envie",
-				"dépendre", "douter", "féliciter", "jouer", "jouir", "manquer",
-				"partir", "penser", "profiter", "punir", "recompenser",
-				"remercier", "rire", "vivre",
+		String[] de_verb_IndObj = { "acheter", "avoir besoin", "avoir envie", "dépendre", "douter", "féliciter",
+				"jouer", "jouir", "manquer", "partir", "penser", "profiter", "punir", "recompenser", "remercier",
+				"rire", "vivre",
 
 				/*
 				 * these there not specified in grammar rules, but seem to be
@@ -712,10 +697,10 @@ public class Pic2NLG {
 		 * 
 		 * TODO: fix Je!
 		 */
-		List<NLGElement>children = NP_list.getChildren();
+		List<NLGElement> children = NP_list.getChildren();
 		if (children.size() == 1) {
 			return children.get(0);
-		}			
+		}
 
 		return NP_list;
 	}
@@ -734,8 +719,8 @@ public class Pic2NLG {
 
 		/* What part of speech are not allowed inside NounPhrase */
 
-		ActionType allowed_POS[] = { ActionType.NOUN, ActionType.ADJECTIVE,
-				ActionType.NUMBER_AGREEMENT, ActionType.CLITIC_PRONOUN };
+		ActionType allowed_POS[] = { ActionType.NOUN, ActionType.ADJECTIVE, ActionType.NUMBER_AGREEMENT,
+				ActionType.CLITIC_PRONOUN };
 
 		/**
 		 * Assertion 1: Noun phrase must have a Noun, otherwise the current list
@@ -782,8 +767,7 @@ public class Pic2NLG {
 				break;
 
 			case NUMBER_AGREEMENT:
-				currentNounPrase.setFeature(Feature.NUMBER,
-						getNumberAgreement(action.data));
+				currentNounPrase.setFeature(Feature.NUMBER, getNumberAgreement(action.data));
 				break;
 
 			case ADJECTIVE:
@@ -821,8 +805,7 @@ public class Pic2NLG {
 			if (phrase.type == ActionType.NOUN)
 				have_subject = true;
 
-			if (phrase.type == ActionType.DOT
-					|| phrase.type == ActionType.QUESTION)
+			if (phrase.type == ActionType.DOT || phrase.type == ActionType.QUESTION)
 				have_subject = false;
 		}
 		return have_subject;

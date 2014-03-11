@@ -8,8 +8,7 @@ import com.epfl.android.aac_speech.data.PhraseProviderDB;
 public class PhraseHistory {
 	public static final String HISTORY_PATH_STR = "phrase_history";
 
-	public static final Uri CONTENT_URI = Uri
-			.parse(PhraseProviderDB.URI_AUTHORITY + HISTORY_PATH_STR);
+	public static final Uri CONTENT_URI = Uri.parse(PhraseProviderDB.URI_AUTHORITY + HISTORY_PATH_STR);
 
 	public static final String TABLE_NAME = "phrase_history";
 

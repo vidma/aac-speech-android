@@ -23,8 +23,7 @@ import android.widget.TextView;
  * @author vidma
  * 
  */
-public abstract class TTSButtonActivity extends Activity implements
-		OnInitListener {
+public abstract class TTSButtonActivity extends Activity implements OnInitListener {
 
 	// protected static String pref_lang = "FR";
 
@@ -87,8 +86,7 @@ public abstract class TTSButtonActivity extends Activity implements
 			Locale lang = getCurrentLocale();
 			int result = mTts.setLanguage(lang);
 
-			if (result == TextToSpeech.LANG_MISSING_DATA
-					|| result == TextToSpeech.LANG_NOT_SUPPORTED) {
+			if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
 				// Lanuage data is missing or the language is not supported.
 				Log.e(TAG, "Language is not available.");
 			} else {
@@ -157,8 +155,7 @@ public abstract class TTSButtonActivity extends Activity implements
 				// TODO: handle multilanguage
 				Log.v(TAG, "Need language stuff: " + resultCode);
 				Intent installIntent = new Intent();
-				installIntent
-						.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
 				startActivity(installIntent);
 				break;
 			case TextToSpeech.Engine.CHECK_VOICE_DATA_FAIL:

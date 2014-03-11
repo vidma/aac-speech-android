@@ -75,16 +75,14 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 			try {
 				// reader = new InputStreamReader(, "UTF-8");
 
-				storage_dir = LowLevelDatabaseHelper
-						.getDatafilesStorageDirectory(context);
+				storage_dir = LowLevelDatabaseHelper.getDatafilesStorageDirectory(context);
 				Log.d("Phrase provider", "dir: " + storage_dir);
 
 				/*
 				 * reader = new InputStreamReader(new FileInputStream(
 				 * "/sdcard/icon_meanings.data"), "UTF-8");
 				 */
-				reader = new InputStreamReader(new FileInputStream(new File(
-						storage_dir, fileName)), "UTF-8");
+				reader = new InputStreamReader(new FileInputStream(new File(storage_dir, fileName)), "UTF-8");
 
 				int BUFFER_SIZE = 8192;
 				br = new BufferedReader(reader, BUFFER_SIZE);
@@ -172,41 +170,32 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 		db.execSQL("CREATE TABLE icon_meanings"
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT, word_ascii_only TEXT, part_of_speech TEXT, spc_color INT,"
-				+ " icon_path TEXT, lang TEXT,  main_category_id INT, "
-				+ Icon.COL_USE_COUNT + " INT,"
+				+ " icon_path TEXT, lang TEXT,  main_category_id INT, " + Icon.COL_USE_COUNT + " INT,"
 				+ Icon.COL_OFFENSIVE + " INT);");
 
-		db.execSQL("CREATE INDEX icon_meanings_main_category_idx ON "
-				+ Icon.TABLE_NAME + "(main_category_id);");
-		db.execSQL("CREATE INDEX icon_meanings_lang_idx ON "
-				+ Icon.TABLE_NAME + "(lang);");
-		db.execSQL("CREATE INDEX icon_meanings_count_idx ON "
-				+ Icon.TABLE_NAME + "("
-				+ Icon.COL_USE_COUNT + ");");
+		db.execSQL("CREATE INDEX icon_meanings_main_category_idx ON " + Icon.TABLE_NAME + "(main_category_id);");
+		db.execSQL("CREATE INDEX icon_meanings_lang_idx ON " + Icon.TABLE_NAME + "(lang);");
+		db.execSQL("CREATE INDEX icon_meanings_count_idx ON " + Icon.TABLE_NAME + "(" + Icon.COL_USE_COUNT + ");");
 		Log.d(TAG, Icon.TABLE_NAME + " OK");
 
 		db.execSQL("CREATE TABLE "
 				+ PhraseHistory.TABLE_NAME
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, phrase TEXT, phrase_items TEXT, phrase_items_serialized TEXT, "
-				+ PhraseHistory.COL_DATETIME + " DATETIME, "
-				+ PhraseHistory.COL_LANGUAGE + " TEXT);");
-		db.execSQL("CREATE INDEX phrasehistory_lang_idx ON "
-				+ PhraseHistory.TABLE_NAME + " (" + PhraseHistory.COL_LANGUAGE
-				+ ");");
+				+ PhraseHistory.COL_DATETIME + " DATETIME, " + PhraseHistory.COL_LANGUAGE + " TEXT);");
+		db.execSQL("CREATE INDEX phrasehistory_lang_idx ON " + PhraseHistory.TABLE_NAME + " ("
+				+ PhraseHistory.COL_LANGUAGE + ");");
 		Log.d(TAG, PhraseHistory.TABLE_NAME + " OK");
 
 		db.execSQL("CREATE TABLE phrase_lists"
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, phrase TEXT, phrase_items TEXT);");
 
-		db.execSQL("CREATE TABLE " + Category.TABLE_NAME
-				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-				+ Category.COL_CATEGORY_ID + " INT, " + Category.COL_TITLE
-				+ " TEXT, " + Category.COL_TITLE_SHORT + " TEXT, "
-				+ Category.COL_ICON_PATH + " TEXT, " + Category.COL_LANGUAGE
-				+ " TEXT, " + Category.COL_ORDER + " INT );");
+		db.execSQL("CREATE TABLE " + Category.TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ Category.COL_CATEGORY_ID + " INT, " + Category.COL_TITLE + " TEXT, " + Category.COL_TITLE_SHORT
+				+ " TEXT, " + Category.COL_ICON_PATH + " TEXT, " + Category.COL_LANGUAGE + " TEXT, "
+				+ Category.COL_ORDER + " INT );");
 
-		db.execSQL("CREATE INDEX categories_catid_idx ON "
-				+ Category.TABLE_NAME + " (" + Category.COL_CATEGORY_ID + ");");
+		db.execSQL("CREATE INDEX categories_catid_idx ON " + Category.TABLE_NAME + " (" + Category.COL_CATEGORY_ID
+				+ ");");
 		Log.d(TAG, Category.TABLE_NAME + " created OK");
 
 		// we've put the SQL file to preferred storage place (sdcard,
@@ -214,8 +203,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		// 1MB)
 
 		/* import icons */
-		CsvDatafileReader csvReader = new CsvDatafileReader(context,
-				ICON_MEANINGS_DATAFILE);
+		CsvDatafileReader csvReader = new CsvDatafileReader(context, ICON_MEANINGS_DATAFILE);
 		Iterator<String> it;
 
 		/*
@@ -249,8 +237,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 				// TODO: gesture search seems to require absolute
 				// paths... just a hack to fix it for now
-				icon_path = icon_path.replace("/sdcard",
-						(CharSequence) csvReader.storage_dir.toString());
+				icon_path = icon_path.replace("/sdcard", (CharSequence) csvReader.storage_dir.toString());
 				// "file:///");
 				values.put(Icon.COL_ICON_PATH, icon_path);
 
@@ -259,7 +246,6 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				// TODO: update the icons listing to contain offensive
 				values.put(Icon.COL_OFFENSIVE, 0);
 				values.put(Icon.COL_USE_COUNT, 0);
-				
 
 				long id = db.insert(Icon.TABLE_NAME, null, values);
 
@@ -321,8 +307,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-				+ newVersion);
+		Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
 
 		dropTables(db);
 		onCreate(db);

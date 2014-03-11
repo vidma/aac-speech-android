@@ -29,9 +29,9 @@ public class StacktraceSubmitExceptionHandler implements UncaughtExceptionHandle
 
 	private UncaughtExceptionHandler defaultUEH;
 
-	private String localPath ="";
+	private String localPath = "";
 
-	private String url ="";
+	private String url = "";
 
 	/*
 	 * if any of the parameters is null, the respective functionality will not
@@ -42,13 +42,14 @@ public class StacktraceSubmitExceptionHandler implements UncaughtExceptionHandle
 		this.url = url;
 		this.defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
 	}
+
 	public StacktraceSubmitExceptionHandler() {
 		this.defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
 	}
 
 	public void uncaughtException(Thread t, Throwable e) {
-		String timestamp =  "";//TimestampFormatter.getInstance().getTimestamp();
-		
+		String timestamp = "";// TimestampFormatter.getInstance().getTimestamp();
+
 		final Writer result = new StringWriter();
 		final PrintWriter printWriter = new PrintWriter(result);
 		e.printStackTrace(printWriter);
@@ -68,8 +69,7 @@ public class StacktraceSubmitExceptionHandler implements UncaughtExceptionHandle
 
 	private void writeToFile(String stacktrace, String filename) {
 		try {
-			BufferedWriter bos = new BufferedWriter(new FileWriter(localPath
-					+ "/" + filename));
+			BufferedWriter bos = new BufferedWriter(new FileWriter(localPath + "/" + filename));
 			bos.write(stacktrace);
 			bos.flush();
 			bos.close();

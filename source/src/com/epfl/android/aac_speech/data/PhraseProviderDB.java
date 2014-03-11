@@ -60,20 +60,17 @@ public class PhraseProviderDB extends ContentProvider {
 	public static final String URI_AUTHORITY = "content://" + AUTHORITY + "/";
 
 	/* CONSTANTS DEFINING PATHS AND URIS */
-	public static final String ICON_LISTING_BY_CATEGORY_PATH_STR = Icon.TABLE_NAME
-			+ "_by_category";
+	public static final String ICON_LISTING_BY_CATEGORY_PATH_STR = Icon.TABLE_NAME + "_by_category";
 
-	public static final String GESTURE_ICON_LISTING_BY_CATEGORY_PATH_STR = Icon.TABLE_NAME
-			+ "_by_category" + "_gesture";
+	public static final String GESTURE_ICON_LISTING_BY_CATEGORY_PATH_STR = Icon.TABLE_NAME + "_by_category"
+			+ "_gesture";
 
-	public static final String GESTURE_SEARCH_PATH_STR = Icon.TABLE_NAME
-			+ "_gesture_search";
+	public static final String GESTURE_SEARCH_PATH_STR = Icon.TABLE_NAME + "_gesture_search";
 
-	public static final Uri GESTURE_SEARCH_CONTENT_URI = Uri
-			.parse(URI_AUTHORITY + GESTURE_SEARCH_PATH_STR);
+	public static final Uri GESTURE_SEARCH_CONTENT_URI = Uri.parse(URI_AUTHORITY + GESTURE_SEARCH_PATH_STR);
 
-	public static final Uri GESTURE_SEARCH_BY_CATEGORY_CONTENT_URI = Uri
-			.parse(URI_AUTHORITY + GESTURE_ICON_LISTING_BY_CATEGORY_PATH_STR);
+	public static final Uri GESTURE_SEARCH_BY_CATEGORY_CONTENT_URI = Uri.parse(URI_AUTHORITY
+			+ GESTURE_ICON_LISTING_BY_CATEGORY_PATH_STR);
 
 	public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.epfl.android.acc_speech.icons";
 	public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.epfl.android.acc_speech.icons";
@@ -83,15 +80,12 @@ public class PhraseProviderDB extends ContentProvider {
 	static {
 		gestureSearchSuggestionProjectionMap = new HashMap<String, String>();
 		gestureSearchSuggestionProjectionMap.put(BaseColumns._ID, "_id");
-		gestureSearchSuggestionProjectionMap.put(
-				SearchManager.SUGGEST_COLUMN_TEXT_1, "word_ascii_only AS "
-						+ SearchManager.SUGGEST_COLUMN_TEXT_1);
-		gestureSearchSuggestionProjectionMap.put(
-				SearchManager.SUGGEST_COLUMN_TEXT_2, "word AS "
-						+ SearchManager.SUGGEST_COLUMN_TEXT_2);
-		gestureSearchSuggestionProjectionMap.put(
-				SearchManager.SUGGEST_COLUMN_ICON_1, "icon_path AS "
-						+ SearchManager.SUGGEST_COLUMN_ICON_1);
+		gestureSearchSuggestionProjectionMap.put(SearchManager.SUGGEST_COLUMN_TEXT_1, "word_ascii_only AS "
+				+ SearchManager.SUGGEST_COLUMN_TEXT_1);
+		gestureSearchSuggestionProjectionMap.put(SearchManager.SUGGEST_COLUMN_TEXT_2, "word AS "
+				+ SearchManager.SUGGEST_COLUMN_TEXT_2);
+		gestureSearchSuggestionProjectionMap.put(SearchManager.SUGGEST_COLUMN_ICON_1, "icon_path AS "
+				+ SearchManager.SUGGEST_COLUMN_ICON_1);
 	}
 
 	/* URI MATCHER */
@@ -108,24 +102,18 @@ public class PhraseProviderDB extends ContentProvider {
 	static {
 		sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-		sUriMatcher.addURI(AUTHORITY, GESTURE_SEARCH_PATH_STR,
-				URI_MATCH_GESTURE_SUGGESTION);
+		sUriMatcher.addURI(AUTHORITY, GESTURE_SEARCH_PATH_STR, URI_MATCH_GESTURE_SUGGESTION);
 
-		sUriMatcher.addURI(AUTHORITY, GESTURE_SEARCH_PATH_STR + "/#",
-				URI_MATCH_SUGGESTION_ID);
+		sUriMatcher.addURI(AUTHORITY, GESTURE_SEARCH_PATH_STR + "/#", URI_MATCH_SUGGESTION_ID);
 
-		sUriMatcher.addURI(AUTHORITY, Icon.PATH_STR + "/#",
-				URI_MATCH_ICON_LISTING_BY_CATID_FULL);
+		sUriMatcher.addURI(AUTHORITY, Icon.PATH_STR + "/#", URI_MATCH_ICON_LISTING_BY_CATID_FULL);
 
 		/* param: category_id */
-		sUriMatcher.addURI(AUTHORITY, GESTURE_ICON_LISTING_BY_CATEGORY_PATH_STR
-				+ "/#", URI_MATCH_GESTURE_BYCATEGORY);
+		sUriMatcher.addURI(AUTHORITY, GESTURE_ICON_LISTING_BY_CATEGORY_PATH_STR + "/#", URI_MATCH_GESTURE_BYCATEGORY);
 
-		sUriMatcher.addURI(AUTHORITY, PhraseHistory.HISTORY_PATH_STR,
-				URI_MATCH_ICON_HISTORY);
+		sUriMatcher.addURI(AUTHORITY, PhraseHistory.HISTORY_PATH_STR, URI_MATCH_ICON_HISTORY);
 
-		sUriMatcher.addURI(AUTHORITY, Category.PATH_STR,
-				URI_MATCH_CATEGORY_INFO);
+		sUriMatcher.addURI(AUTHORITY, Category.PATH_STR, URI_MATCH_CATEGORY_INFO);
 
 	}
 
@@ -137,8 +125,7 @@ public class PhraseProviderDB extends ContentProvider {
 	}
 
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection,
-			String[] selectionArgs, String sortOrder) {
+	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
 		/*
@@ -151,8 +138,7 @@ public class PhraseProviderDB extends ContentProvider {
 
 		/* Set Projection for Gesture search */
 		String orderBy = sortOrder;
-		if (match == URI_MATCH_GESTURE_SUGGESTION
-				|| match == URI_MATCH_SUGGESTION_ID
+		if (match == URI_MATCH_GESTURE_SUGGESTION || match == URI_MATCH_SUGGESTION_ID
 				|| match == URI_MATCH_GESTURE_BYCATEGORY) {
 			qb.setProjectionMap(gestureSearchSuggestionProjectionMap);
 
@@ -183,26 +169,17 @@ public class PhraseProviderDB extends ContentProvider {
 		if (match == URI_MATCH_ICON_HISTORY) {
 			/* TODO: language filtering for History !!! */
 			qb.setTables(PhraseHistory.TABLE_NAME);
-			appendWhereChunkSmart(
-					qb,
-					whereChunkCount++,
-					PhraseHistory.COL_LANGUAGE + " = '"
-							+ MainActivity.getPreferedLanguage() + "'");
+			appendWhereChunkSmart(qb, whereChunkCount++,
+					PhraseHistory.COL_LANGUAGE + " = '" + MainActivity.getPreferedLanguage() + "'");
 		} else if (match == URI_MATCH_CATEGORY_INFO) {
 			qb.setTables(Category.TABLE_NAME);
-			appendWhereChunkSmart(
-					qb,
-					whereChunkCount++,
-					Category.COL_LANGUAGE + " = '"
-							+ MainActivity.getPreferedLanguage() + "'");
+			appendWhereChunkSmart(qb, whereChunkCount++,
+					Category.COL_LANGUAGE + " = '" + MainActivity.getPreferedLanguage() + "'");
 
 		} else {
 			qb.setTables(Icon.TABLE_NAME);
-			appendWhereChunkSmart(
-					qb,
-					whereChunkCount++,
-					Icon.COL_LANG + " = '"
-							+ MainActivity.getPreferedLanguage() + "'");
+			appendWhereChunkSmart(qb, whereChunkCount++, Icon.COL_LANG + " = '" + MainActivity.getPreferedLanguage()
+					+ "'");
 
 		}
 
@@ -211,8 +188,7 @@ public class PhraseProviderDB extends ContentProvider {
 		// + ((selectionArgs != null) ? selectionArgs.toString() : ""));
 		// }
 
-		Cursor c = qb.query(db, projection, selection, selectionArgs, null,
-				null, orderBy);
+		Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
 
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 		return c;
@@ -223,10 +199,8 @@ public class PhraseProviderDB extends ContentProvider {
 	 * @param whereChunkCount
 	 * @param whereChunk
 	 */
-	private static void appendWhereChunkSmart(SQLiteQueryBuilder qb,
-			int whereChunkCount, CharSequence whereChunk) {
-		whereChunk = ((whereChunkCount > 0) ? "AND" : "") + " (" + whereChunk
-				+ ") ";
+	private static void appendWhereChunkSmart(SQLiteQueryBuilder qb, int whereChunkCount, CharSequence whereChunk) {
+		whereChunk = ((whereChunkCount > 0) ? "AND" : "") + " (" + whereChunk + ") ";
 		qb.appendWhere(whereChunk);
 	}
 
@@ -260,8 +234,7 @@ public class PhraseProviderDB extends ContentProvider {
 		/** Append LANGUAGE to PhraseHistory */
 		if (tableName == PhraseHistory.TABLE_NAME) {
 			if (!values.containsKey(PhraseHistory.COL_LANGUAGE)) {
-				values.put(PhraseHistory.COL_LANGUAGE,
-						MainActivity.getPreferedLanguage());
+				values.put(PhraseHistory.COL_LANGUAGE, MainActivity.getPreferedLanguage());
 
 			}
 		}
@@ -291,8 +264,7 @@ public class PhraseProviderDB extends ContentProvider {
 	}
 
 	@Override
-	public int update(Uri uri, ContentValues values, String whereClause,
-			String[] whereArgs) {
+	public int update(Uri uri, ContentValues values, String whereClause, String[] whereArgs) {
 		String tableName = get_matched_tablename(uri);
 
 		if (tableName != null) {

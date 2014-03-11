@@ -80,8 +80,7 @@ public class ZipDownloaderTask extends AsyncTask<String, Integer, String> {
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	private void extractDownload(long lenghtOfFile, InputStream input)
-			throws IOException, FileNotFoundException {
+	private void extractDownload(long lenghtOfFile, InputStream input) throws IOException, FileNotFoundException {
 		long total = 0;
 		// try to uncompress at the same time
 
@@ -95,8 +94,8 @@ public class ZipDownloaderTask extends AsyncTask<String, Integer, String> {
 			processZipEntry(zipInputStream, zipEntry);
 
 			// Update the progress
-			long compresed_size = (zipEntry.getCompressedSize() != -1) ? zipEntry
-					.getCompressedSize() : zipEntry.getSize();
+			long compresed_size = (zipEntry.getCompressedSize() != -1) ? zipEntry.getCompressedSize() : zipEntry
+					.getSize();
 			total += (compresed_size > 0) ? compresed_size : 0;
 			progress = (int) ((float) total * PROGRESS_RANGE / lenghtOfFile);
 			// Do not instantiate UI updates if the progress change may not
@@ -119,13 +118,11 @@ public class ZipDownloaderTask extends AsyncTask<String, Integer, String> {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private long saveDownloadedFile(long lenghtOfFile, InputStream input)
-			throws FileNotFoundException, IOException {
+	private long saveDownloadedFile(long lenghtOfFile, InputStream input) throws FileNotFoundException, IOException {
 		// make sure the directory exists
 		OUTPUT_DIR.mkdirs();
 
-		OutputStream output = new FileOutputStream(new File(OUTPUT_DIR,
-				"aac.zip"));
+		OutputStream output = new FileOutputStream(new File(OUTPUT_DIR, "aac.zip"));
 
 		long total = 0;
 
@@ -146,8 +143,8 @@ public class ZipDownloaderTask extends AsyncTask<String, Integer, String> {
 
 	}
 
-	private void processZipEntry(ZipInputStream zipInputStream,
-			ZipEntry zipEntry) throws FileNotFoundException, IOException {
+	private void processZipEntry(ZipInputStream zipInputStream, ZipEntry zipEntry) throws FileNotFoundException,
+			IOException {
 		String zipEntryName = zipEntry.getName();
 		// Log.i("ZipDownloaderTask", "entry: " + zipEntryName);
 
@@ -161,8 +158,7 @@ public class ZipDownloaderTask extends AsyncTask<String, Integer, String> {
 			} else {
 				byte buffer[] = new byte[BUFFER_SIZE];
 				FileOutputStream fileOutputStream = new FileOutputStream(file);
-				BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
-						fileOutputStream, BUFFER_SIZE);
+				BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream, BUFFER_SIZE);
 				int count1;
 
 				while ((count1 = zipInputStream.read(buffer, 0, BUFFER_SIZE)) != -1) {
