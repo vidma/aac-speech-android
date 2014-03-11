@@ -17,7 +17,7 @@ import android.util.Log;
 
 import com.epfl.android.aac_speech.data.Pictogram;
 import com.epfl.android.aac_speech.data.models.Category;
-import com.epfl.android.aac_speech.data.models.IndividualIcons;
+import com.epfl.android.aac_speech.data.models.Icon;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
 
 /**
@@ -96,10 +96,10 @@ public class DBHelper {
 		}
 
 		String id_list = sb.toString();
-		String sql = "UPDATE " + IndividualIcons.TABLE_NAME + " SET "
-				+ IndividualIcons.COL_USE_COUNT + "=  "
-				+ IndividualIcons.COL_USE_COUNT + " + 1 WHERE "
-				+ IndividualIcons.COL_ID + " IN (" + id_list + ") ";
+		String sql = "UPDATE " + Icon.TABLE_NAME + " SET "
+				+ Icon.COL_USE_COUNT + "=  "
+				+ Icon.COL_USE_COUNT + " + 1 WHERE "
+				+ Icon.COL_ID + " IN (" + id_list + ") ";
 		Log.d(TAG, "upd sql:" + sql);
 		try {
 			db.execSQL(sql);
@@ -161,7 +161,7 @@ public class DBHelper {
 
 	public Pictogram getIconById(long itemId) {
 		Pictogram newWord = null;
-		Uri uri = Uri.parse(IndividualIcons.URI_STR + "/" + itemId);
+		Uri uri = Uri.parse(Icon.URI_STR + "/" + itemId);
 
 		Cursor cur = cr.query(uri, null, BaseColumns._ID + " = " + itemId,
 				null, null);
@@ -184,7 +184,7 @@ public class DBHelper {
 		String icon_path = cur
 				.getString(cur.getColumnIndexOrThrow("icon_path"));
 		int use_count = cur.getInt(cur
-				.getColumnIndexOrThrow(IndividualIcons.COL_USE_COUNT));
+				.getColumnIndexOrThrow(Icon.COL_USE_COUNT));
 
 		newWord = new Pictogram(word, part_of_speech, icon_path, spc_color);
 		newWord.wordID = cur.getInt(cur.getColumnIndexOrThrow("_id"));
@@ -205,7 +205,7 @@ public class DBHelper {
 	 * @return
 	 */
 	public Cursor getIconsCursorByCategory(long categoryId, String search_text) {
-		Uri uri = Uri.parse(IndividualIcons.URI_STR + "/" + categoryId);
+		Uri uri = Uri.parse(Icon.URI_STR + "/" + categoryId);
 		
 		String[] projection = new String[] { "*", "0 AS is_recent" };
 		List<String> selections = new ArrayList<String>();
@@ -214,7 +214,7 @@ public class DBHelper {
 		
 		// filter bad words out?
 		if (pref_hide_offensive){
-			selections.add("(" + IndividualIcons.COL_OFFENSIVE + " = 0)");
+			selections.add("(" + Icon.COL_OFFENSIVE + " = 0)");
 		}
 		
 		if (categoryId != 0) {
@@ -236,19 +236,19 @@ public class DBHelper {
 
 	public Cursor getRecentIconsCursorByCategory(long categoryId) {
 		// TODO: shall this be joined into getIconsCursorByCategory with option recent_only?
-		Uri uri = Uri.parse(IndividualIcons.URI_STR + "/" + categoryId);
+		Uri uri = Uri.parse(Icon.URI_STR + "/" + categoryId);
 
 		String selection = null;
 		String[] selectionArgs = null;
 
 		// TODO: pref_hide_offensive!!!
 		selection = "(main_category_id = " + categoryId + ") AND ("
-				+ IndividualIcons.COL_USE_COUNT + " > 0 )";
+				+ Icon.COL_USE_COUNT + " > 0 )";
 
 		// TODO: here it may return most used on top. and then maybe order by
 		// alphabet or just by use count
 		Cursor cur = cr.query(uri, new String[] { "*", "1 AS is_recent" },
-				selection, selectionArgs, IndividualIcons.COL_USE_COUNT
+				selection, selectionArgs, Icon.COL_USE_COUNT
 						+ " DESC LIMIT " + CATEGORY_RECENT_ITEMS_LIMIT);
 
 		// Log.d("a", cur.toString());

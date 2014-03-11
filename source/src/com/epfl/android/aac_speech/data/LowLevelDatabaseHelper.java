@@ -23,7 +23,7 @@ import android.util.Log;
 
 import com.epfl.android.aac_speech.data.PhraseProviderDB;
 import com.epfl.android.aac_speech.data.models.Category;
-import com.epfl.android.aac_speech.data.models.IndividualIcons;
+import com.epfl.android.aac_speech.data.models.Icon;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
 
 /**
@@ -173,17 +173,17 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE icon_meanings"
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT, word_ascii_only TEXT, part_of_speech TEXT, spc_color INT,"
 				+ " icon_path TEXT, lang TEXT,  main_category_id INT, "
-				+ IndividualIcons.COL_USE_COUNT + " INT,"
-				+ IndividualIcons.COL_OFFENSIVE + " INT);");
+				+ Icon.COL_USE_COUNT + " INT,"
+				+ Icon.COL_OFFENSIVE + " INT);");
 
 		db.execSQL("CREATE INDEX icon_meanings_main_category_idx ON "
-				+ IndividualIcons.TABLE_NAME + "(main_category_id);");
+				+ Icon.TABLE_NAME + "(main_category_id);");
 		db.execSQL("CREATE INDEX icon_meanings_lang_idx ON "
-				+ IndividualIcons.TABLE_NAME + "(lang);");
+				+ Icon.TABLE_NAME + "(lang);");
 		db.execSQL("CREATE INDEX icon_meanings_count_idx ON "
-				+ IndividualIcons.TABLE_NAME + "("
-				+ IndividualIcons.COL_USE_COUNT + ");");
-		Log.d(TAG, IndividualIcons.TABLE_NAME + " OK");
+				+ Icon.TABLE_NAME + "("
+				+ Icon.COL_USE_COUNT + ");");
+		Log.d(TAG, Icon.TABLE_NAME + " OK");
 
 		db.execSQL("CREATE TABLE "
 				+ PhraseHistory.TABLE_NAME
@@ -236,14 +236,14 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				 * 
 				 */
 				String word = it.next();
-				values.put(IndividualIcons.COL_WORD, word);
+				values.put(Icon.COL_WORD, word);
 				/*
 				 * ascii representation to work-around google gesture search bug
 				 * for now
 				 */
-				values.put(IndividualIcons.COL_WORD_ASCII, it.next());
-				values.put(IndividualIcons.COL_PART_OF_SPEECH, it.next());
-				values.put(IndividualIcons.COL_SPC_COLOR, it.next());
+				values.put(Icon.COL_WORD_ASCII, it.next());
+				values.put(Icon.COL_PART_OF_SPEECH, it.next());
+				values.put(Icon.COL_SPC_COLOR, it.next());
 
 				String icon_path = it.next();
 
@@ -252,16 +252,16 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				icon_path = icon_path.replace("/sdcard",
 						(CharSequence) csvReader.storage_dir.toString());
 				// "file:///");
-				values.put(IndividualIcons.COL_ICON_PATH, icon_path);
+				values.put(Icon.COL_ICON_PATH, icon_path);
 
-				values.put(IndividualIcons.COL_LANG, it.next());
-				values.put(IndividualIcons.COL_MAIN_CATEGORY, it.next());
+				values.put(Icon.COL_LANG, it.next());
+				values.put(Icon.COL_MAIN_CATEGORY, it.next());
 				// TODO: update the icons listing to contain offensive
-				values.put(IndividualIcons.COL_OFFENSIVE, 0);
-				values.put(IndividualIcons.COL_USE_COUNT, 0);
+				values.put(Icon.COL_OFFENSIVE, 0);
+				values.put(Icon.COL_USE_COUNT, 0);
 				
 
-				long id = db.insert(IndividualIcons.TABLE_NAME, null, values);
+				long id = db.insert(Icon.TABLE_NAME, null, values);
 
 				if (id % 1000 == 0)
 					Log.d(TAG, "inserted icon with local id:" + id);
@@ -280,7 +280,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		}
 		csvReader.close();
 
-		Log.d(TAG, IndividualIcons.TABLE_NAME + "loaded OK");
+		Log.d(TAG, Icon.TABLE_NAME + "loaded OK");
 
 		/* import categories */
 		csvReader = new CsvDatafileReader(context, CATEGORIES_DATAFILE);
@@ -333,7 +333,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 	 * @param db
 	 */
 	public void dropTables(SQLiteDatabase db) {
-		db.execSQL("DROP TABLE IF EXISTS " + IndividualIcons.TABLE_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + Icon.TABLE_NAME);
 		db.execSQL("DROP TABLE IF EXISTS " + Category.TABLE_NAME);
 		db.execSQL("DROP TABLE IF EXISTS " + PhraseHistory.TABLE_NAME);
 		db.execSQL("DROP TABLE IF EXISTS phrase_lists");

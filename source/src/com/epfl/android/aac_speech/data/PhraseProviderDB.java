@@ -35,7 +35,7 @@ import android.util.Log;
 
 import com.epfl.android.aac_speech.data.LowLevelDatabaseHelper;
 import com.epfl.android.aac_speech.data.models.Category;
-import com.epfl.android.aac_speech.data.models.IndividualIcons;
+import com.epfl.android.aac_speech.data.models.Icon;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
 
 /**
@@ -60,13 +60,13 @@ public class PhraseProviderDB extends ContentProvider {
 	public static final String URI_AUTHORITY = "content://" + AUTHORITY + "/";
 
 	/* CONSTANTS DEFINING PATHS AND URIS */
-	public static final String ICON_LISTING_BY_CATEGORY_PATH_STR = IndividualIcons.TABLE_NAME
+	public static final String ICON_LISTING_BY_CATEGORY_PATH_STR = Icon.TABLE_NAME
 			+ "_by_category";
 
-	public static final String GESTURE_ICON_LISTING_BY_CATEGORY_PATH_STR = IndividualIcons.TABLE_NAME
+	public static final String GESTURE_ICON_LISTING_BY_CATEGORY_PATH_STR = Icon.TABLE_NAME
 			+ "_by_category" + "_gesture";
 
-	public static final String GESTURE_SEARCH_PATH_STR = IndividualIcons.TABLE_NAME
+	public static final String GESTURE_SEARCH_PATH_STR = Icon.TABLE_NAME
 			+ "_gesture_search";
 
 	public static final Uri GESTURE_SEARCH_CONTENT_URI = Uri
@@ -114,7 +114,7 @@ public class PhraseProviderDB extends ContentProvider {
 		sUriMatcher.addURI(AUTHORITY, GESTURE_SEARCH_PATH_STR + "/#",
 				URI_MATCH_SUGGESTION_ID);
 
-		sUriMatcher.addURI(AUTHORITY, IndividualIcons.PATH_STR + "/#",
+		sUriMatcher.addURI(AUTHORITY, Icon.PATH_STR + "/#",
 				URI_MATCH_ICON_LISTING_BY_CATID_FULL);
 
 		/* param: category_id */
@@ -197,11 +197,11 @@ public class PhraseProviderDB extends ContentProvider {
 							+ MainActivity.getPreferedLanguage() + "'");
 
 		} else {
-			qb.setTables(IndividualIcons.TABLE_NAME);
+			qb.setTables(Icon.TABLE_NAME);
 			appendWhereChunkSmart(
 					qb,
 					whereChunkCount++,
-					IndividualIcons.COL_LANG + " = '"
+					Icon.COL_LANG + " = '"
 							+ MainActivity.getPreferedLanguage() + "'");
 
 		}
@@ -319,7 +319,7 @@ public class PhraseProviderDB extends ContentProvider {
 		}
 
 		if (match == URI_MATCH_CATEGORY_ICON_HISTORY) {
-			tableName = IndividualIcons.TABLE_NAME;
+			tableName = Icon.TABLE_NAME;
 		}
 		return tableName;
 	}
