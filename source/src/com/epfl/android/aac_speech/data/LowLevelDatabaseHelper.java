@@ -7,23 +7,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.security.PublicKey;
 import java.util.Iterator;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.text.TextUtils.SimpleStringSplitter;
 import android.util.Log;
 
-import com.epfl.android.aac_speech.data.PhraseProviderDB;
 import com.epfl.android.aac_speech.data.models.Category;
-import com.epfl.android.aac_speech.data.models.IndividualIcons;
+import com.epfl.android.aac_speech.data.models.Icon;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
 
 /**
@@ -34,11 +32,11 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "icons.db";
 	private static final int DATABASE_VERSION = 2;
-
 	private static final String TAG = "PhraseProviderDB: LowLevelDatabaseHelper";
-	public static final String ICON_MEANINGS_DATAFILE = "icon_meanings.data";
+	public static final String ICONS_DATAFILE = "icon_meanings.data";
 	private static final String CATEGORIES_DATAFILE = "categories.data";
 
+	// TODO: is it OK storing a ref to context?
 	Context context;
 
 	public LowLevelDatabaseHelper(Context context) {
@@ -59,8 +57,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public static boolean checkDataFileExistance(Context context) {
-		return getDataFile(context, ICON_MEANINGS_DATAFILE).exists()
-				&& getDataFile(context, CATEGORIES_DATAFILE).exists();
+		return getDataFile(context, ICONS_DATAFILE).exists() && getDataFile(context, CATEGORIES_DATAFILE).exists();
 	}
 
 	class CsvDatafileReader {
@@ -73,24 +70,12 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 		public CsvDatafileReader(Context context, String fileName) {
 			try {
-				// reader = new InputStreamReader(, "UTF-8");
-
-				storage_dir = LowLevelDatabaseHelper
-						.getDatafilesStorageDirectory(context);
+				storage_dir = LowLevelDatabaseHelper.getDatafilesStorageDirectory(context);
 				Log.d("Phrase provider", "dir: " + storage_dir);
 
-				/*
-				 * reader = new InputStreamReader(new FileInputStream(
-				 * "/sdcard/icon_meanings.data"), "UTF-8");
-				 */
-				reader = new InputStreamReader(new FileInputStream(new File(
-						storage_dir, fileName)), "UTF-8");
+				reader = new InputStreamReader(new FileInputStream(new File(storage_dir, fileName)), "UTF-8");
+				br = new BufferedReader(reader, 8192);
 
-				int BUFFER_SIZE = 8192;
-				br = new BufferedReader(reader, BUFFER_SIZE);
-
-				// TODO: do I get not complete lines?
-				String line;
 				splitter = new TextUtils.SimpleStringSplitter('|');
 				isValid = true;
 
@@ -98,13 +83,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				e.printStackTrace();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
-
-			// TODO: shall copy over the sqlite DB file instead?SQL seem to
-			// be
-			// more flexible in case of migration
 		}
 
 		Iterator<String> getNextLineItemsIterator() {
@@ -117,7 +96,6 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 						splitter.setString(line);
 						Iterator<String> it = splitter.iterator();
 						return it;
-						// TODO: call the appropriate callback
 					}
 
 				}
@@ -146,25 +124,22 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onOpen(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
 		super.onOpen(db);
 		if (!db.isReadOnly()) {
 			db.setLocale(new Locale("fr", "FR"));
 		}
 	}
 
-	/**
-	 * TODO: just copy the database for now?
-	 */
+
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		createDatabase(db);
-
 	}
 
 	/**
 	 * @param db
 	 */
+	@SuppressLint("SdCardPath")
 	protected void createDatabase(SQLiteDatabase db) {
 		/* TODO: create table categories */
 
@@ -172,50 +147,36 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 		db.execSQL("CREATE TABLE icon_meanings"
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT, word_ascii_only TEXT, part_of_speech TEXT, spc_color INT,"
-				+ " icon_path TEXT, lang TEXT,  main_category_id INT, "
-				+ IndividualIcons.COL_USE_COUNT + " INT,"
-				+ IndividualIcons.COL_OFFENSIVE + " INT);");
+				+ " icon_path TEXT, lang TEXT,  main_category_id INT, " + Icon.COL_USE_COUNT + " INT,"
+				+ Icon.COL_OFFENSIVE + " INT);");
 
-		db.execSQL("CREATE INDEX icon_meanings_main_category_idx ON "
-				+ IndividualIcons.TABLE_NAME + "(main_category_id);");
-		db.execSQL("CREATE INDEX icon_meanings_lang_idx ON "
-				+ IndividualIcons.TABLE_NAME + "(lang);");
-		db.execSQL("CREATE INDEX icon_meanings_count_idx ON "
-				+ IndividualIcons.TABLE_NAME + "("
-				+ IndividualIcons.COL_USE_COUNT + ");");
-		Log.d(TAG, IndividualIcons.TABLE_NAME + " OK");
+		db.execSQL("CREATE INDEX icon_meanings_main_category_idx ON " + Icon.TABLE + "(main_category_id);");
+		db.execSQL("CREATE INDEX icon_meanings_lang_idx ON " + Icon.TABLE + "(lang);");
+		db.execSQL("CREATE INDEX icon_meanings_count_idx ON " + Icon.TABLE + "(" + Icon.COL_USE_COUNT + ");");
+		Log.d(TAG, Icon.TABLE + " OK");
 
-		db.execSQL("CREATE TABLE "
-				+ PhraseHistory.TABLE_NAME
+		db.execSQL("CREATE TABLE " + PhraseHistory.TABLE
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, phrase TEXT, phrase_items TEXT, phrase_items_serialized TEXT, "
-				+ PhraseHistory.COL_DATETIME + " DATETIME, "
-				+ PhraseHistory.COL_LANGUAGE + " TEXT);");
-		db.execSQL("CREATE INDEX phrasehistory_lang_idx ON "
-				+ PhraseHistory.TABLE_NAME + " (" + PhraseHistory.COL_LANGUAGE
-				+ ");");
-		Log.d(TAG, PhraseHistory.TABLE_NAME + " OK");
+				+ PhraseHistory.COL_DATETIME + " DATETIME, " + PhraseHistory.COL_LANGUAGE + " TEXT);");
+		db.execSQL("CREATE INDEX phrasehistory_lang_idx ON " + PhraseHistory.TABLE + " ("
+				+ PhraseHistory.COL_LANGUAGE + ");");
+		Log.d(TAG, PhraseHistory.TABLE + " OK");
 
 		db.execSQL("CREATE TABLE phrase_lists"
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, phrase TEXT, phrase_items TEXT);");
 
-		db.execSQL("CREATE TABLE " + Category.TABLE_NAME
-				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-				+ Category.COL_CATEGORY_ID + " INT, " + Category.COL_TITLE
-				+ " TEXT, " + Category.COL_TITLE_SHORT + " TEXT, "
-				+ Category.COL_ICON_PATH + " TEXT, " + Category.COL_LANGUAGE
-				+ " TEXT, " + Category.COL_ORDER + " INT );");
+		db.execSQL("CREATE TABLE " + Category.TABLE + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+				+ Category.COL_CATEGORY_ID + " INT, " + Category.COL_TITLE + " TEXT, " + Category.COL_TITLE_SHORT
+				+ " TEXT, " + Category.COL_ICON_PATH + " TEXT, " + Category.COL_LANGUAGE + " TEXT, "
+				+ Category.COL_ORDER + " INT );");
 
-		db.execSQL("CREATE INDEX categories_catid_idx ON "
-				+ Category.TABLE_NAME + " (" + Category.COL_CATEGORY_ID + ");");
-		Log.d(TAG, Category.TABLE_NAME + " created OK");
+		db.execSQL("CREATE INDEX categories_catid_idx ON " + Category.TABLE + " (" + Category.COL_CATEGORY_ID 	+ ");");
+		Log.d(TAG, Category.TABLE + " created OK");
 
-		// we've put the SQL file to preferred storage place (sdcard,
-		// tablets "internal sdcard") as assets are too small (limit of
-		// 1MB)
+		// SQL file is stored in "preferred" storage (sdcard, "internal sdcard") as assets are too small (limit of 1MB)
 
-		/* import icons */
-		CsvDatafileReader csvReader = new CsvDatafileReader(context,
-				ICON_MEANINGS_DATAFILE);
+		// import icons
+		CsvDatafileReader csvReader = new CsvDatafileReader(context, ICONS_DATAFILE);
 		Iterator<String> it;
 
 		/*
@@ -225,8 +186,6 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		 * TODO: use DatabaseUtils.InsertHelper
 		 */
 		db.beginTransaction();
-		int i = 0;
-
 		try {
 			while ((it = csvReader.getNextLineItemsIterator()) != null) {
 				ContentValues values = new ContentValues();
@@ -236,36 +195,28 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				 * 
 				 */
 				String word = it.next();
-				values.put(IndividualIcons.COL_WORD, word);
+				values.put(Icon.COL_WORD, word);
 				/*
 				 * ascii representation to work-around google gesture search bug
 				 * for now
 				 */
-				values.put(IndividualIcons.COL_WORD_ASCII, it.next());
-				values.put(IndividualIcons.COL_PART_OF_SPEECH, it.next());
-				values.put(IndividualIcons.COL_SPC_COLOR, it.next());
+				values.put(Icon.COL_WORD_ASCII, it.next());
+				values.put(Icon.COL_PART_OF_SPEECH, it.next());
+				values.put(Icon.COL_SPC_COLOR, it.next());
 
 				String icon_path = it.next();
-
-				// TODO: gesture search seems to require absolute
-				// paths... just a hack to fix it for now
-				icon_path = icon_path.replace("/sdcard",
-						(CharSequence) csvReader.storage_dir.toString());
-				// "file:///");
-				values.put(IndividualIcons.COL_ICON_PATH, icon_path);
-
-				values.put(IndividualIcons.COL_LANG, it.next());
-				values.put(IndividualIcons.COL_MAIN_CATEGORY, it.next());
-				// TODO: update the icons listing to contain offensive
-				values.put(IndividualIcons.COL_OFFENSIVE, 0);
-				values.put(IndividualIcons.COL_USE_COUNT, 0);
+				// TODO: gesture search seems to require absolute paths... just a hack to fix it for now
+				icon_path = icon_path.replace("/sdcard", (CharSequence) csvReader.storage_dir.toString());
+				values.put(Icon.COL_ICON_PATH, icon_path);
 				
+				values.put(Icon.COL_LANG, it.next());
+				values.put(Icon.COL_MAIN_CATEGORY, it.next());
+				values.put(Icon.COL_OFFENSIVE, 0);
+				values.put(Icon.COL_USE_COUNT, 0);
 
-				long id = db.insert(IndividualIcons.TABLE_NAME, null, values);
-
+				long id = db.insert(Icon.TABLE, null, values);
 				if (id % 1000 == 0)
 					Log.d(TAG, "inserted icon with local id:" + id);
-
 			}
 
 			db.setTransactionSuccessful();
@@ -279,8 +230,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 			db.endTransaction();
 		}
 		csvReader.close();
-
-		Log.d(TAG, IndividualIcons.TABLE_NAME + "loaded OK");
+		Log.d(TAG, Icon.TABLE + "loaded OK");
 
 		/* import categories */
 		csvReader = new CsvDatafileReader(context, CATEGORIES_DATAFILE);
@@ -290,13 +240,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 			String category_id = it.next();
 			// TODO: add order
 			String order = "0";
-			/*
-			 * currently long title messes up the home screen
-			 * 
-			 * the TableLayout is real crap!
-			 */
-			String title_short = it.next();
-
+			String title_short = it.next(); // currently long title messes up the home screen
 			String title_long = it.next();
 			String icon_path = it.next();
 			String lang = it.next();
@@ -305,25 +249,21 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 			values.put(Category.COL_ORDER, order);
 			values.put(Category.COL_TITLE, title_long);
 			values.put(Category.COL_TITLE_SHORT, title_short);
-
 			values.put(Category.COL_ICON_PATH, icon_path);
 			values.put(Category.COL_LANGUAGE, lang);
 
-			long id = db.insert(Category.TABLE_NAME, null, values);
+			db.insert(Category.TABLE, null, values);
 		}
-		Log.d(TAG, Category.TABLE_NAME + "loaded OK");
+		Log.d(TAG, Category.TABLE + "loaded OK");
 
 	}
 
 	public static void itemCallback() {
-
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-				+ newVersion);
-
+		Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
 		dropTables(db);
 		onCreate(db);
 		// TODO: keep track of migration SQL between versions!!!
@@ -333,9 +273,9 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 	 * @param db
 	 */
 	public void dropTables(SQLiteDatabase db) {
-		db.execSQL("DROP TABLE IF EXISTS " + IndividualIcons.TABLE_NAME);
-		db.execSQL("DROP TABLE IF EXISTS " + Category.TABLE_NAME);
-		db.execSQL("DROP TABLE IF EXISTS " + PhraseHistory.TABLE_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + Icon.TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + Category.TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + PhraseHistory.TABLE);
 		db.execSQL("DROP TABLE IF EXISTS phrase_lists");
 	}
 }

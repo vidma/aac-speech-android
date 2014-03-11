@@ -1,24 +1,16 @@
 package com.epfl.android.aac_speech.data;
 
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import simplenlg.features.Feature;
-import simplenlg.features.Gender;
 import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
-import simplenlg.lexicon.Lexicon;
-import simplenlg.phrasespec.NPPhraseSpec;
-//import android.R;
 import android.graphics.Color;
 
 import com.epfl.android.aac_speech.MainActivity;
 import com.epfl.android.aac_speech.nlg.Pic2NLG;
 import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
+//import android.R;
 
 public class Pictogram {
 	public String data; /* This is word or category_ID */
@@ -45,15 +37,17 @@ public class Pictogram {
 	}
 
 	private void init(String word, Pic2NLG.ActionType type) {
+		/**
+		 * TODO: creation of this.element is one of items preventing separation from NLG lib.
+		 * TODO: when parsing the icons, it could be created on the fly, right?
+		 */
 		this.data = this.display_text = word;
 		this.type = type;
-		if (type != Pic2NLG.ActionType.NUMBER_AGREEMENT
-				&& type != Pic2NLG.ActionType.NEGATED) {
+		if (type != Pic2NLG.ActionType.NUMBER_AGREEMENT && type != Pic2NLG.ActionType.NEGATED) {
 
 			switch (type) {
 			case ADJECTIVE:
-				this.element = Pic2NLG.factory.createNLGElement(word,
-						LexicalCategory.ADJECTIVE);
+				this.element = Pic2NLG.factory.createNLGElement(word, LexicalCategory.ADJECTIVE);
 				break;
 
 			case NOUN:
@@ -65,45 +59,38 @@ public class Pictogram {
 
 				// TODO: Temporal hack to handle plural automatically. work OK
 				if (word.endsWith("s")) {
-					this.element.setFeature(Feature.NUMBER,
-							NumberAgreement.PLURAL);
+					this.element.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
 				}
 				break;
 
 			case VERB:
-				this.element = Pic2NLG.factory.createNLGElement(word,
-						LexicalCategory.VERB);
+				this.element = Pic2NLG.factory.createNLGElement(word, LexicalCategory.VERB);
 
 				// TODO: a hack to handle reflexivity
 				if (word.startsWith("se ") && isFrench()) {
-					this.element = Pic2NLG.factory.createNLGElement(
-							word.replaceFirst("se ", ""), LexicalCategory.VERB);
+					this.element = Pic2NLG.factory.createNLGElement(word.replaceFirst("se ", ""), LexicalCategory.VERB);
 					this.element.setFeature(LexicalFeature.REFLEXIVE, true);
 				}
 
 				// TODO: temporal hack to fix "to do smf" in English.
 				if (word.startsWith("to ") && isEnglish()) {
-					this.element = Pic2NLG.factory.createNLGElement(
-							word.replaceFirst("to ", ""), LexicalCategory.VERB);
+					this.element = Pic2NLG.factory.createNLGElement(word.replaceFirst("to ", ""), LexicalCategory.VERB);
 				}
 
 				// in English words like can must have POS specified as modal
 				// not verb, otherwise a verb he cans/he canned/ would be used
 				if (word.equals("can") && isEnglish()) {
-					this.element = Pic2NLG.factory.createNLGElement("can",
-							LexicalCategory.MODAL);
+					this.element = Pic2NLG.factory.createNLGElement("can", LexicalCategory.MODAL);
 				}
 
 				break;
 
 			case ADVERB:
-				this.element = Pic2NLG.factory.createNLGElement(word,
-						LexicalCategory.ADVERB);
+				this.element = Pic2NLG.factory.createNLGElement(word, LexicalCategory.ADVERB);
 				break;
 
 			case PREPOSITION:
-				this.element = Pic2NLG.factory.createNLGElement(word,
-						LexicalCategory.PREPOSITION);
+				this.element = Pic2NLG.factory.createNLGElement(word, LexicalCategory.PREPOSITION);
 				break;
 
 			default:
@@ -138,8 +125,7 @@ public class Pictogram {
 		this.imageResourceId = imageResourceId;
 	}
 
-	public Pictogram(String display_text, NLGElement elm,
-			Pic2NLG.ActionType type, int imageResourceId) {
+	public Pictogram(String display_text, NLGElement elm, Pic2NLG.ActionType type, int imageResourceId) {
 		init(display_text, elm, type);
 		this.imageResourceId = imageResourceId;
 	}
@@ -152,8 +138,7 @@ public class Pictogram {
 	 * @param type
 	 * @param imageResourceId
 	 */
-	public Pictogram(String data, String display_text, int colorCode,
-			Pic2NLG.ActionType type, int imageResourceId) {
+	public Pictogram(String data, String display_text, int colorCode, Pic2NLG.ActionType type, int imageResourceId) {
 		init(data, type);
 		this.colorCode = colorCode;
 		this.display_text = display_text;
@@ -168,8 +153,7 @@ public class Pictogram {
 		this.colorCode = spc_color;
 	}
 
-	private void init(String display_text, NLGElement element,
-			Pic2NLG.ActionType type) {
+	private void init(String display_text, NLGElement element, Pic2NLG.ActionType type) {
 		this.type = type;
 		this.element = element;
 		this.display_text = display_text;
@@ -212,17 +196,6 @@ public class Pictogram {
 		};
 
 		/* color definitions */
-		/*
-		 * final static String color_white = "ffffff"; final static String
-		 * color_blue = "aaaaff"; final static String color_green = "aaffaa";
-		 * final static String color_yellow = "FFFF66"; // was 00 final static
-		 * String color_pink = "FF99CC"; // F52887 final static String
-		 * color_orange = "ffcc66"; // ffcc66
-		 * 
-		 * 
-		 * final static String color_black = "000000"; // ffcc66
-		 */
-
 		/*
 		 * It has been adviced by AAC experts to use more pure colors for easier
 		 * identification even if that would look worse
@@ -287,8 +260,7 @@ public class Pictogram {
 	public int getBgColor() {
 
 		/** Category has it's background, so icons shall be transparent */
-		if (this.type == ActionType.CATEGORY || this.type == ActionType.NEGATED
-				|| this.type == ActionType.QUESTION
+		if (this.type == ActionType.CATEGORY || this.type == ActionType.NEGATED || this.type == ActionType.QUESTION
 				|| this.type == ActionType.DOT)
 			return Color.TRANSPARENT;
 

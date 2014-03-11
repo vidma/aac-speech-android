@@ -25,7 +25,6 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.InputFilter.LengthFilter;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -68,8 +67,7 @@ import com.epfl.android.aac_speech.ui.HomeFeatureLayout;
 import com.epfl.android.aac_speech.ui.PictogramCursorAdapter;
 import com.epfl.android.aac_speech.ui.UIFactory;
 
-public class MainActivity extends TTSButtonActivity implements
-		UncaughtExceptionHandler {
+public class MainActivity extends TTSButtonActivity implements UncaughtExceptionHandler {
 
 	DBHelper dbHelper = null;
 	private PictogramFactory pictogramFactory = null;
@@ -113,7 +111,7 @@ public class MainActivity extends TTSButtonActivity implements
 	private boolean pref_switch_back_to_main_screen = true;
 
 	private String nlg_text;
-	private PendingIntent restart_activity_intent;
+	private PendingIntent restart_intent;
 
 	static TextView wordsToSpeak = null;
 
@@ -121,7 +119,6 @@ public class MainActivity extends TTSButtonActivity implements
 
 	/* Menu */
 	private static final int MENU_GESTURE_SEARCH_ID = 1;
-	private static final int MENU_INSTALL_DATA = 2;
 	private static final int MENU_ABOUT = 3;
 	private static final int MENU_PREFS = 4;
 	private static final int MENU_HISTORY = 5;
@@ -156,22 +153,18 @@ public class MainActivity extends TTSButtonActivity implements
 
 	/** Keys for results returned by Gesture Search */
 	private static final String SELECTED_ITEM_ID = "selected_item_id";
-	private static final String SAVED_INSTANCE_PHRASELIST_KEY = "phrase_list";
+	private static final String SAVED_INST_PHRASE_KEY = "phrase_list";
 
 	private void GestureSearch() {
 		try {
 			Intent intent = new Intent();
 			intent.setAction("com.google.android.apps.gesturesearch.SEARCH");
 
-			// TODO: optionally pass part of speech or category parameter (as
-			// URI)
-
+			// TODO: optionally pass part of speech or category parameter (as URI)
 			Uri content_uri = PhraseProviderDB.GESTURE_SEARCH_CONTENT_URI;
 			if (currentCategoryId != 0) {
-				content_uri = ContentUris
-						.withAppendedId(
-								PhraseProviderDB.GESTURE_SEARCH_BY_CATEGORY_CONTENT_URI,
-								currentCategoryId);
+				content_uri = ContentUris.withAppendedId(PhraseProviderDB.GESTURE_SEARCH_BY_CATEGORY_CONTENT_URI,
+						currentCategoryId);
 			}
 			intent.setData(content_uri);
 			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -185,7 +178,7 @@ public class MainActivity extends TTSButtonActivity implements
 			startActivityForResult(intent, MENU_GESTURE_SEARCH_ID);
 		} catch (ActivityNotFoundException e) {
 			Log.e("GestureSearchExample", "Gesture Search is not installed", e);
-			//e.printStackTrace();
+			// e.printStackTrace();
 			Log.i("ListSearch", "Falling back to homemade listview search...");
 
 			// Falling back to homemade listview search
@@ -205,27 +198,10 @@ public class MainActivity extends TTSButtonActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-
-		menu.add(0, MENU_GESTURE_SEARCH_ID, 0, R.string.menu_gesture_search)
-				.setIcon(android.R.drawable.ic_menu_search);
-
-		menu.add(0, MENU_HISTORY, 0, R.string.menu_history).setIcon(
-				android.R.drawable.ic_menu_recent_history);
-
-		/*
-		 * TODO: Delete menu.add(0, MENU_INSTALL_DATA, 0,
-		 * R.string.update_icons).setIcon(
-		 * android.R.drawable.stat_sys_download);
-		 */
-
-		menu.add(0, MENU_ABOUT, 0, R.string.menu_about).setIcon(
-				android.R.drawable.ic_menu_info_details);
-
-		menu.add(0, MENU_PREFS, 0, R.string.menu_preferences).setIcon(
-				android.R.drawable.ic_menu_preferences);
-		;
-
-		// setShortcut('0', 'g') set Shourtcut to search button
+		menu.add(0, MENU_GESTURE_SEARCH_ID, 0, R.string.menu_gesture_search).setIcon(android.R.drawable.ic_menu_search);
+		menu.add(0, MENU_HISTORY, 0, R.string.menu_history).setIcon(android.R.drawable.ic_menu_recent_history);
+		menu.add(0, MENU_ABOUT, 0, R.string.menu_about).setIcon(android.R.drawable.ic_menu_info_details);
+		menu.add(0, MENU_PREFS, 0, R.string.menu_preferences).setIcon(android.R.drawable.ic_menu_preferences);		
 		return true;
 	}
 
@@ -236,24 +212,18 @@ public class MainActivity extends TTSButtonActivity implements
 			GestureSearch();
 			return true;
 
-			/*
-			 * TODO case MENU_INSTALL_DATA: update_pictograms(); return true;
-			 */
-
 		case MENU_ABOUT:
 			Intent intent = new Intent(MainActivity.this, AboutActivity.class);
 			startActivity(intent);
 			return true;
 
 		case MENU_PREFS:
-			Intent intent1 = new Intent(MainActivity.this,
-					PreferencesActivity.class);
+			Intent intent1 = new Intent(MainActivity.this, PreferencesActivity.class);
 			startActivityForResult(intent1, MENU_PREFS);
 			return true;
 
 		case MENU_HISTORY:
 			showHistory();
-
 			return true;
 
 		}
@@ -273,8 +243,8 @@ public class MainActivity extends TTSButtonActivity implements
 		/* R.id.search_list_entry_icon, */
 		int[] to = new int[] { R.id.search_list_entry_icon_text };
 
-		final PictogramCursorAdapter adapter = new PictogramCursorAdapter(this,
-				R.layout.history_list_entry, c, columns, to, pref_uppercase);
+		final PictogramCursorAdapter adapter = new PictogramCursorAdapter(this, R.layout.history_list_entry, c,
+				columns, to, pref_uppercase);
 
 		// TODO: we now hide the search as it doesn't look good on all Mobiles
 		LinearLayout l = (LinearLayout) findViewById(R.id.listview_search_layout_cont);
@@ -287,8 +257,7 @@ public class MainActivity extends TTSButtonActivity implements
 		listview.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View v,
-					int position, long phrase_id) {
+			public void onItemClick(AdapterView<?> parent, View v, int position, long phrase_id) {
 				// Recreate the phrase
 				String serialized = dbHelper.getSerializedPhraseById(phrase_id);
 				phrase_list = pictogramFactory.createFromSerialized(serialized);
@@ -318,7 +287,7 @@ public class MainActivity extends TTSButtonActivity implements
 		super.onStart();
 
 		getPreferences();
-		
+
 		// if preferences changed, update DBHelper with global preferences?
 		this.dbHelper.pref_hide_offensive = this.pref_hide_offensive;
 
@@ -331,11 +300,8 @@ public class MainActivity extends TTSButtonActivity implements
 			onNLGload_initGUI();
 
 			// a special case is that gender may have affected the phrase_list
-			// easiest work-around is to serialise and de-serialise it again
-
-			phrase_list = pictogramFactory
-					.createFromSerialized(pictogramFactory
-							.getSerialized(phrase_list));
+			// easiest work-around is to serialize and de-serialize it again
+			phrase_list = pictogramFactory.createFromSerialized(pictogramFactory.getSerialized(phrase_list));
 
 			// repaint the current phrase as it may have changed
 			updatePhraseDisplay();
@@ -347,17 +313,12 @@ public class MainActivity extends TTSButtonActivity implements
 	 */
 	private void getPreferences() {
 		// Get the xml/preferences.xml preferences
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(getBaseContext());
-
-		pref_uppercase = prefs.getBoolean("pref_uppercase",
-				PREF_UPERCASE_DEFAULT);
-		pref_clear_phrase_after_speak = prefs.getBoolean(
-				"pref_clear_phrase_after_speak",
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		pref_uppercase = prefs.getBoolean("pref_uppercase", PREF_UPERCASE_DEFAULT);
+		pref_clear_phrase_after_speak = prefs.getBoolean("pref_clear_phrase_after_speak",
 				PREF_CLEAR_PHRASE_AFTER_SPEAK_DEFAULT);
 		pref_gender = prefs.getString("pref_gender", PREF_GENDER_DEFAULT);
-		pref_hide_spc_color = prefs.getBoolean("pref_hide_spc_color",
-				PREF_HIDE_SPC_DEFAULT);
+		pref_hide_spc_color = prefs.getBoolean("pref_hide_spc_color", PREF_HIDE_SPC_DEFAULT);
 		pref_hide_offensive = prefs.getBoolean("pref_hide_offensive", true);
 
 	}
@@ -373,20 +334,15 @@ public class MainActivity extends TTSButtonActivity implements
 	 */
 	private final void updatePhraseDisplay() {
 		nlg_text = "";
-
 		if (phrase_list.size() > 0)
 			nlg_text = nlgConverter.convertPhrasesToNLG(phrase_list);
 
-		Boolean is_subject_selected = nlgConverter
-				.hasSubjectBeenSelected(phrase_list);
-
+		Boolean is_subject_selected = nlgConverter.hasSubjectBeenSelected(phrase_list);
 		if (is_subject_selected != nlg_state_subject_selected) {
 			nlg_state_subject_selected = is_subject_selected;
 			createImageButtons();
 		}
-
 		wordsToSpeak.setText(getText(nlg_text));
-
 		drawCurrentIcons();
 	}
 
@@ -394,8 +350,7 @@ public class MainActivity extends TTSButtonActivity implements
 		Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(100);
 		phrase_list.add(currentButton);
-		Log.d("addWord", currentButton.data + " " + currentButton.type + " "
-				+ currentButton.element);
+		Log.d("addWord", currentButton.data + " " + currentButton.type + " " + currentButton.element);
 		updatePhraseDisplay();
 	}
 
@@ -404,16 +359,16 @@ public class MainActivity extends TTSButtonActivity implements
 		if (phrase_list.size() > 0) {
 			nlgConverter.convertPhrasesToNLG(phrase_list);
 		}
-
 		return result;
 	}
 
 	private void loadNLG(Bundle savedInstanceState) {
-		final ProgressDialog nlg_wait = ProgressDialog.show(MainActivity.this,
-				"", res.getString(R.string.loading_nlg), true);
+		final ProgressDialog nlg_wait = ProgressDialog.show(MainActivity.this, "", res.getString(R.string.loading_nlg),
+				true);
 
 		Log.d(TAG, "loadNLG instState=" + savedInstanceState);
 		final Bundle fsavedInstanceState = savedInstanceState;
+		
 		// Define the Handler that receives messages from the thread and update
 		// the GUI then NLG is loaded
 		// GUI has to be manipulated within the same thread
@@ -421,8 +376,7 @@ public class MainActivity extends TTSButtonActivity implements
 			@Override
 			public void handleMessage(Message msg) {
 				onNLGload_initGUI();
-				Log.d(TAG, "loadNLG simpeNLG loading done instState="
-						+ fsavedInstanceState);
+				Log.d(TAG, "loadNLG simpeNLG loading done instState=" + fsavedInstanceState);
 				restoreInstanceState(fsavedInstanceState);
 				nlg_wait.dismiss();
 			}
@@ -445,6 +399,7 @@ public class MainActivity extends TTSButtonActivity implements
 	}
 
 	private void drawCurrentIcons() {
+		// TODO: move out to UI factory?
 		LinearLayout icon_list = (LinearLayout) findViewById(R.id.icon_history_layout);
 		DynamicHorizontalScrollView scroller = (DynamicHorizontalScrollView) findViewById(R.id.icon_history_scrollview);
 		/*
@@ -459,10 +414,7 @@ public class MainActivity extends TTSButtonActivity implements
 		for (Pictogram currentButton : phrase_list) {
 			View view = uiFactory.createImageButton(icon_list, currentButton,
 					R.layout.top_status_current_phrase_imagebutton);
-			ImageButton img = (ImageButton) view
-					.findViewById(R.id.icons_imgButton);
-
-			// TODO: img.setTag("aaa"+i);
+			ImageButton img = (ImageButton) view.findViewById(R.id.icons_imgButton);
 
 			final int currentIndex = index;
 			img.setOnClickListener(new OnClickListener() {
@@ -470,48 +422,40 @@ public class MainActivity extends TTSButtonActivity implements
 				public void onClick(View v) {
 					Log.i("onCLik @history", "onclick");
 
-					View layout = inflater.inflate(
-							R.layout.popup_icon_settings, null, false);
+					View layout = inflater.inflate(R.layout.popup_icon_settings, null, false);
 					// create a 300px width and 470px height PopupWindow
-					final PopupWindow pw = new PopupWindow(layout,
-							LayoutParams.FILL_PARENT,
-							LayoutParams.WRAP_CONTENT, true);
+					final PopupWindow pw = new PopupWindow(layout, LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT,
+							true);
 					pw.setBackgroundDrawable(new BitmapDrawable());
 					pw.setOutsideTouchable(true);
 
 					// TODO: PopupWindow#setOutsideTouchable(true)
 					// display the popup in the center
-
-					Button cancel_btn = (Button) layout
-							.findViewById(R.id.popup_cancel);
+					Button cancel_btn = (Button) layout.findViewById(R.id.popup_cancel);
 					cancel_btn.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub
 							pw.dismiss();
 						}
 					});
 
-					Button remove_btn = (Button) layout
-							.findViewById(R.id.popup_remove_icon);
+					Button remove_btn = (Button) layout.findViewById(R.id.popup_remove_icon);
 					remove_btn.setOnClickListener(new OnClickListener() {
 
 						@Override
 						public void onClick(View v) {
-							/* remove the icon and redraw the current icon list */
+							// remove the icon and redraw the current icon list
 							phrase_list.remove(currentIndex);
 							updatePhraseDisplay();
 							pw.dismiss();
 						}
 					});
-					pw.showAtLocation(findViewById(R.id.main), Gravity.CENTER,
-							0, 0);
+					pw.showAtLocation(findViewById(R.id.main), Gravity.CENTER, 0, 0);
 
 				}
 			});
 
 			icon_list.addView(view);
-
 			index++;
 		}
 
@@ -524,6 +468,8 @@ public class MainActivity extends TTSButtonActivity implements
 	}
 
 	private boolean isTablet() {
+		// TODO: this shall be fixed to better handle large screens
+		// TODO: make sure large mobiles are not too small
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int height = metrics.heightPixels;
@@ -536,13 +482,13 @@ public class MainActivity extends TTSButtonActivity implements
 
 	/**
 	 * Choses between two different layouts, one for tablet other for mobile
+	 * 
+	 * we use the "super horizontal scroller" only for mobiles, not for tablets
 	 */
 	private void createImageButtons() {
-		// TODO: we will use the "super horizontal scroller" only for mobiles,
-		// not for tablets
+		
 
 		boolean is_tablet = isTablet();
-
 		ViewGroup home_screen_layout = (LinearLayout) findViewById(R.id.home_screen);
 		home_screen_layout.removeAllViews();
 
@@ -551,45 +497,33 @@ public class MainActivity extends TTSButtonActivity implements
 
 		/* We shall have tablet, so we could fit everything into one page */
 		if (is_tablet) {
-
-			TableLayout tl = (TableLayout) inflater.inflate(
-					R.layout.tablelayout, home_screen_layout, false);
-
+			TableLayout tl = (TableLayout) inflater.inflate(R.layout.tablelayout, home_screen_layout, false);
 			uiFactory.createHomePictogramTable(tl);
-			TableLayout tl1 = uiFactory
-					.createImageButtonsCategoriesRight(home_screen_layout);
+			TableLayout tl1 = uiFactory.createImageButtonsCategoriesRight(home_screen_layout);
 
 			home_screen_layout.addView(tl);
 			home_screen_layout.addView(tl1);
 
 		} else {
-			HomeFeatureLayout super_scroller = (HomeFeatureLayout) inflater
-					.inflate(R.layout.horizontal_flip_layout,
-							home_screen_layout, false);
+			HomeFeatureLayout super_scroller = 
+					(HomeFeatureLayout) inflater.inflate(R.layout.horizontal_flip_layout, home_screen_layout, false);
 			super_scroller.init();
 
 			ViewGroup parent = super_scroller.internalWrapper;
-
-			TableLayout tl = (TableLayout) inflater.inflate(
-					R.layout.tablelayout, parent, false);
+			TableLayout tl = (TableLayout) inflater.inflate(R.layout.tablelayout, parent, false);
 
 			uiFactory.createHomePictogramTable(tl);
-			TableLayout tl1 = uiFactory
-					.createImageButtonsCategoriesRight(parent);
+			TableLayout tl1 = uiFactory.createImageButtonsCategoriesRight(parent);
 
 			ArrayList<View> items = new ArrayList<View>();
 			items.add(tl);
 			items.add(tl1);
-
-			/*
-			 * Set Layout size to match the screen, it's not automatically
-			 * resized within scrollable thing
-			 */
+			
+			// Set Layout size to match the screen, it's not automatically resized within scrollable thing			
 			DisplayMetrics metrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(metrics);
 			int height = metrics.heightPixels;
 			int width = metrics.widthPixels;
-
 			for (View item : items) {
 				item.setLayoutParams(new LayoutParams(width, height));
 			}
@@ -601,51 +535,35 @@ public class MainActivity extends TTSButtonActivity implements
 	}
 
 	private void showCategory(int category_id) {
-
 		// get icons in category
 		Cursor c = dbHelper.getIconsCursorByCategory(category_id, null);
-
 		Cursor c_recents = dbHelper.getRecentIconsCursorByCategory(category_id);
+		MergeCursor merged_cursor = new MergeCursor(new Cursor[] { c_recents, c });		
 
 		// Draw the grid
 		GridView gv = (GridView) findViewById(R.id.category_gridView);
 
-		String[] columns = new String[] { "icon_path", "word" };
-		int[] to = new int[] { R.id.search_list_entry_icon,
-				R.id.search_list_entry_icon_text };
-
-		MergeCursor merged_cursor = new MergeCursor(
-				new Cursor[] { c_recents, c });
-
-		PictogramCursorAdapter adapter = new PictogramCursorAdapter(this,
-				R.layout.gridview_icon_entry, merged_cursor, columns, to,
-				pref_uppercase);
-
+		String[] map_from = new String[] { "icon_path", "word" };
+		int[] map_to = new int[] { R.id.search_list_entry_icon, R.id.search_list_entry_icon_text };
+		PictogramCursorAdapter adapter = new PictogramCursorAdapter(this, R.layout.gridview_icon_entry, merged_cursor,
+				map_from, map_to, pref_uppercase);
 		gv.setAdapter(adapter);
-
 		gv.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
-			public void onItemClick(AdapterView<?> parent, View v,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				Pictogram selected_icon = dbHelper.getIconById(id);
-
 				addWord(selected_icon);
-
 				ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
 				// select the home screen again
 				switcher.setDisplayedChild(FLIPPER_VIEW_HOME);
-
 			}
-
 		});
 
-		// TODO: we now hide the search in History as it doesn't look good on
-		// all Mobiles
+		// TODO: we now hide the search in History as it doesn't look good on all Mobiles
 		LinearLayout l = (LinearLayout) findViewById(R.id.listview_search_layout_cont);
 		l.setVisibility(View.VISIBLE);
 
-		// TODO: display category title
+		// display category title
 		TextView category_title = (TextView) findViewById(R.id.category_title);
 		category_title.setText(dbHelper.getCategoryTitle(category_id));
 
@@ -661,25 +579,21 @@ public class MainActivity extends TTSButtonActivity implements
 		Cursor c = dbHelper.getIconsCursorByCategory(currentCategoryId, null);
 
 		// feed the cursor into adapter
-		String[] columns = new String[] { "icon_path", "word" };
-		int[] to = new int[] { R.id.search_list_entry_icon,
-				R.id.search_list_entry_icon_text };
+		String[] map_from = new String[] { "icon_path", "word" };
+		int[] map_to = new int[] { R.id.search_list_entry_icon, R.id.search_list_entry_icon_text };
 
-		final PictogramCursorAdapter adapter = new PictogramCursorAdapter(this,
-				R.layout.search_list_entry, c, columns, to, pref_uppercase);
+		final PictogramCursorAdapter adapter = new PictogramCursorAdapter(this, R.layout.search_list_entry, c, map_from,
+				map_to, pref_uppercase);
 
 		adapter.setFilterQueryProvider(new FilterQueryProvider() {
-
 			@Override
 			public Cursor runQuery(CharSequence constraint) {
 				ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
-
-				/* make sure the results are always visible */
+				// make sure the results are visible
 				if (switcher.getDisplayedChild() != FLIPPER_VIEW_LISTVIEW_SEARCH)
 					switcher.setDisplayedChild(FLIPPER_VIEW_LISTVIEW_SEARCH);
-
-				return dbHelper.getIconsCursorByCategory(currentCategoryId,
-						(String) constraint);
+				
+				return dbHelper.getIconsCursorByCategory(currentCategoryId, (String) constraint);
 			}
 		});
 
@@ -689,7 +603,6 @@ public class MainActivity extends TTSButtonActivity implements
 
 		ListView listview = (ListView) findViewById(R.id.search_results_listview);
 		listview.setAdapter(adapter);
-
 		listview.setTextFilterEnabled(true);
 
 		View parent = findViewById(R.id.listview_search_layout);
@@ -697,31 +610,25 @@ public class MainActivity extends TTSButtonActivity implements
 		search_q.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3) {
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 			}
 
 			@Override
 			public void afterTextChanged(Editable search_query) {
-				// TODO Auto-generated method stub
 				adapter.getFilter().filter(search_query);
 			}
 		});
 
 		listview.setOnItemClickListener(new OnItemClickListener() {
-
+			
 			@Override
-			public void onItemClick(AdapterView<?> parent, View v,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				Pictogram selected_icon = dbHelper.getIconById(id);
-
 				addWord(selected_icon);
-
 				ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
 
 				// try to hide the keyboard
@@ -731,7 +638,6 @@ public class MainActivity extends TTSButtonActivity implements
 
 				// select the home screen again
 				switcher.setDisplayedChild(FLIPPER_VIEW_HOME);
-
 			}
 
 		});
@@ -748,8 +654,6 @@ public class MainActivity extends TTSButtonActivity implements
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-
-		// TODO Auto-generated method stub
 		this.dbHelper = null;
 		this.pictogramFactory = null;
 		this.uiFactory = null;
@@ -758,36 +662,24 @@ public class MainActivity extends TTSButtonActivity implements
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
 		super.onSaveInstanceState(outState);
+		
 		// serialize the current phrase
-
 		if (this.pictogramFactory != null && MainActivity.phrase_list != null)
-			outState.putString(SAVED_INSTANCE_PHRASELIST_KEY,
-					this.pictogramFactory.getSerialized(phrase_list));
+			outState.putString(SAVED_INST_PHRASE_KEY, this.pictogramFactory.getSerialized(phrase_list));
 	}
 
 	/**
 	 * restores the current phrase from its serialized form saved in Bundle
 	 * 
-	 * @param savedInstanceState
+	 * @param savedInstState
 	 */
-	protected void restoreInstanceState(Bundle savedInstanceState) {
-		Log.d(TAG, "restoreInstanceState from bundle=" + savedInstanceState
-				+ " picFactory=" + pictogramFactory + " nlgConv="
-				+ nlgConverter);
-		if (savedInstanceState != null
-				&& savedInstanceState
-						.containsKey(SAVED_INSTANCE_PHRASELIST_KEY)
-				&& pictogramFactory != null) {
-			phrase_list = pictogramFactory
-					.createFromSerialized(savedInstanceState
-							.getString(SAVED_INSTANCE_PHRASELIST_KEY));
-			Log.d(TAG,
-					"restoredInstanceState from: "
-							+ savedInstanceState
-									.getString(SAVED_INSTANCE_PHRASELIST_KEY));
-
+	protected void restoreInstanceState(Bundle savedInstState) {
+		Log.d(TAG, "restoreInstanceState from bundle=" + savedInstState + " picFactory=" + pictogramFactory
+				+ " nlgConv=" + nlgConverter);
+		if (savedInstState != null && savedInstState.containsKey(SAVED_INST_PHRASE_KEY) && pictogramFactory != null) {
+			phrase_list = pictogramFactory.createFromSerialized(savedInstState.getString(SAVED_INST_PHRASE_KEY));
+			Log.d(TAG, "restoredInstanceState from: " + savedInstState.getString(SAVED_INST_PHRASE_KEY));
 			updatePhraseDisplay();
 		}
 	}
@@ -810,29 +702,22 @@ public class MainActivity extends TTSButtonActivity implements
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "Starting. onCreate. nlgConverter= " + nlgConverter + " nlgText = " + nlg_text);
 
-		// remove title (label bar) to save window
+		// remove title (label bar) to save space
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// To further save space on MobilePhones: Remove notification bar
 		MainActivity.isTablet = isTablet();
 		if (!isTablet()) {
-			this.getWindow().setFlags(
-					WindowManager.LayoutParams.FLAG_FULLSCREEN,
+			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 
 		setContentView(R.layout.main);
 
-		/*
-		 * Allow restarting the activity
-		 */
-		restart_activity_intent = PendingIntent.getActivity(getBaseContext(),
-				0, new Intent(getIntent()), getIntent().getFlags());
+		// Allow restarting the activity
+		restart_intent = PendingIntent.getActivity(getBaseContext(), 0, new Intent(getIntent()), getIntent().getFlags());
 
-		/*
-		 * In production, override any unexpected (non-handled) exceptions with
-		 * restart of application
-		 */
+		// Disabled: In production, override any unexpected (non-handled) exceptions with restart of application
 		if (!MainActivity.DEBUG) {
 			// TODO: send trace to server; Internet may be not available
 			// TODO: Thread.setDefaultUncaughtExceptionHandler(this);
@@ -864,16 +749,13 @@ public class MainActivity extends TTSButtonActivity implements
 		 * initialise NLG and Application
 		 */
 
-
-		if (checkIfDataInstalledOrQuit()) {
-			// There is no use in loading the slow simpleNLG is now data is
-			// installed
+		if (ensureDataInstalledOrQuit()) {
+			// There is no use in loading the slow simpleNLG is no data is installed
 			loadNLG(savedInstanceState);
 		}
 
 		// after everything is loaded, enable speaking button
 		initTTS_UI();
-
 		Log.d(TAG, "on create end");
 	}
 
@@ -881,60 +763,38 @@ public class MainActivity extends TTSButtonActivity implements
 	 * @return
 	 * 
 	 */
-	private boolean checkIfDataInstalledOrQuit() {
+	private boolean ensureDataInstalledOrQuit() {
 		/*
 		 * even before loading NLG check if categories and icons data have been
-		 * a) downloaded (TODO: what if download have failed earlier!) and b)
-		 * database was successfully created
+		 * a) downloaded (TODO: what if download have failed earlier!)
+		 * b) database was successfully created
 		 * 
 		 * DB would be created only if download finished succesfully
 		 */
 
-		if (!LowLevelDatabaseHelper
-				.checkDataFileExistance(getApplicationContext())) {
-			// surely no data has been downloaded -- new installation
+		if (!LowLevelDatabaseHelper.checkDataFileExistance(getApplicationContext())) {
+			String msg = getResources().getString(R.string.no_datafiles_found_question);
+			String yes = getResources().getString(R.string.no_datafiles_found_question_yes);
+			String no = getResources().getString(R.string.no_datafiles_found_question_no);
 
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-			String msg = getResources().getString(
-					R.string.no_datafiles_found_question);
-			String yes = getResources().getString(
-					R.string.no_datafiles_found_question_yes);
-			String no = getResources().getString(
-					R.string.no_datafiles_found_question_no);
-
-			builder.setMessage(msg)
-					.setCancelable(false)
-					.setPositiveButton(yes,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-									// download icons
-									dialog.cancel();
-									PreferencesActivity
-											.update_pictograms(MainActivity.this);
-								}
-							})
-					.setNegativeButton(no,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dialog.cancel();
-									// show the message
-									String cancel_msg = getResources()
-											.getString(
-													R.string.no_datafiles_found_msg_quit);
-									Toast.makeText(MainActivity.this,
-											cancel_msg, Toast.LENGTH_SHORT)
-											.show();
-
-									// close the application
-									MainActivity.this.finish();
-
-								}
-							});
-			AlertDialog alert = builder.create();
-			alert.show();
+			AlertDialog.Builder alert_dlg = new AlertDialog.Builder(this);			
+			alert_dlg.setMessage(msg).setCancelable(false).setPositiveButton(yes, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					// download icons
+					dialog.cancel();
+					PreferencesActivity.update_pictograms(MainActivity.this);
+				}
+			}).setNegativeButton(no, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+					// show the message
+					String cancel_msg = getResources().getString(R.string.no_datafiles_found_msg_quit);
+					Toast.makeText(MainActivity.this, cancel_msg, Toast.LENGTH_SHORT).show();
+					// close the application
+					MainActivity.this.finish();
+				}
+			});
+			alert_dlg.create().show();
 			return false;
 		}
 		// TODO: check database
@@ -945,7 +805,6 @@ public class MainActivity extends TTSButtonActivity implements
 	 * Switch back to the main View from from the flipper
 	 */
 	public boolean returnToMainScreen() {
-
 		if (currentCategoryId != 0) {
 			currentCategoryId = 0;
 		}
@@ -954,9 +813,8 @@ public class MainActivity extends TTSButtonActivity implements
 		ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
 		if (switcher.getDisplayedChild() == MainActivity.FLIPPER_VIEW_HOME)
 			return false;
-
+		
 		switchFlipperScreenTo(MainActivity.FLIPPER_VIEW_HOME);
-
 		return true;
 	}
 
@@ -979,25 +837,11 @@ public class MainActivity extends TTSButtonActivity implements
 		}
 	}
 
-	public static String arrayToString(String[] arr) {
-		if (arr == null)
-			return "<Null>";
-
-		StringBuilder b = new StringBuilder();
-		for (String str : arr) {
-			b.append(str);
-			b.append(" ");
-		}
-
-		return b.toString();
-	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		// TODO: these two thing shall be better separated
-
 		switch (requestCode) {
 		case MENU_GESTURE_SEARCH_ID:
 			if (resultCode == Activity.RESULT_OK) {
@@ -1008,7 +852,6 @@ public class MainActivity extends TTSButtonActivity implements
 				newWord = dbHelper.getIconById(selectedItemId);
 				if (newWord != null) {
 					addWord(newWord);
-
 					// switch back to the main screen
 					switchFlipperScreenTo(MainActivity.FLIPPER_VIEW_HOME);
 				}
@@ -1027,11 +870,9 @@ public class MainActivity extends TTSButtonActivity implements
 	}
 
 	private void historyAdd(String text, ArrayList<Pictogram> phrase) {
-		// TODO: store main icons on DB too
-
+		// TODO: store main icons on DB too?
 		String serialized = pictogramFactory.getSerialized(phrase);
 		Log.d(TAG, "history serialized:" + serialized);
-
 		dbHelper.updateIconHistory(phrase, serialized, text);
 		dbHelper.update_icon_use_count(phrase, getApplicationContext());
 	}
@@ -1042,14 +883,11 @@ public class MainActivity extends TTSButtonActivity implements
 	@Override
 	protected void onSpeakButtonClicked() {
 		historyAdd(nlg_text, phrase_list);
-
 		this.speak(nlg_text);
-
 		if (pref_clear_phrase_after_speak) {
 			wordsToSpeak.setText("");
 			phrase_list.clear();
 		}
-
 		updatePhraseDisplay();
 	}
 
@@ -1061,14 +899,11 @@ public class MainActivity extends TTSButtonActivity implements
 		 * create the image buttons: with current implementation UI buttons can
 		 * not be created before NLG is loaded
 		 */
-
 		pictogramFactory = new PictogramFactory(dbHelper, pref_gender, res);
-
 		OnClickListener items_onclick_listener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Pictogram currentButton = (Pictogram) v.getTag();
-
 				if (currentButton != null) {
 					if (currentButton.type == ActionType.CATEGORY) {
 						try {
@@ -1079,7 +914,6 @@ public class MainActivity extends TTSButtonActivity implements
 
 					} else {
 						addWord(currentButton);
-
 						/* immediately return to main window */
 						if (currentCategoryId != 0) {
 							returnToMainScreen();
@@ -1090,17 +924,13 @@ public class MainActivity extends TTSButtonActivity implements
 			}
 		};
 
-		uiFactory = new UIFactory(inflater, getApplicationContext(),
-				pictogramFactory, items_onclick_listener, dbHelper);
-
+		uiFactory = new UIFactory(inflater, getApplicationContext(), pictogramFactory, items_onclick_listener, dbHelper);
 		createImageButtons();
-		// drawCurrentIcons();
 		updatePhraseDisplay();
 
 		/* activate long-click of backspace as delete all phrase */
 		ImageButton btn_backspace = (ImageButton) findViewById(R.id.delete);
 		btn_backspace.setOnLongClickListener(new OnLongClickListener() {
-
 			@Override
 			public boolean onLongClick(View v) {
 				phrase_list.clear();
@@ -1108,16 +938,12 @@ public class MainActivity extends TTSButtonActivity implements
 				return true;
 			}
 		});
+		
 		/* regular-click of backspace to delete the last icon */
-
 		btn_backspace.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				/**
-				 * TODO: shall I add confirmation here as it's close to the
-				 * speak button ?
-				 */
+				// TODO: shall I add confirmation here as it's close to the speak button ?
 				if (phrase_list.size() > 0)
 					phrase_list.remove(phrase_list.size() - 1);
 				updatePhraseDisplay();
@@ -1127,9 +953,8 @@ public class MainActivity extends TTSButtonActivity implements
 
 	@Override
 	public void uncaughtException(Thread thread, Throwable ex) {
-		Log.e(TAG, "uncaughtException" + ex.toString());
+		Log.e(TAG, "uncaughtException" + ex.toString(), ex);
 		ex.printStackTrace();
-
 		restartActivity(2);
 	}
 
@@ -1139,10 +964,9 @@ public class MainActivity extends TTSButtonActivity implements
 	 * uses restart_activity_intent initialized in onCreate
 	 */
 	protected void restartActivity(int code) {
-		if (restart_activity_intent != null) {
+		if (restart_intent != null) {
 			AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-			mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 2000,
-					restart_activity_intent);
+			mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 2000, restart_intent);
 			System.exit(code);
 		}
 	}

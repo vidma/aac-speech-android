@@ -6,10 +6,9 @@ import com.epfl.android.aac_speech.data.PhraseProviderDB;
 
 public class Category {
 	public static final String PATH_STR = "categories";
-	public static final Uri CONTENT_URI = Uri
-			.parse(PhraseProviderDB.URI_AUTHORITY + PATH_STR);
+	public static final Uri CONTENT_URI = Uri.parse(PhraseProviderDB.URI_AUTHORITY + PATH_STR);
 
-	public static final String TABLE_NAME = "categories";
+	public static final String TABLE = "categories";
 
 	/*
 	 * TODO: (_id INTEGER PRIMARY KEY AUTOINCREMENT, phrase TEXT,
@@ -22,7 +21,7 @@ public class Category {
 	public static final String COL_CATEGORY_ID = "category_id";
 
 	public static final String COL_TITLE = "title";
-	
+
 	/* short title for home screen */
 	public static final String COL_TITLE_SHORT = "title_short";
 

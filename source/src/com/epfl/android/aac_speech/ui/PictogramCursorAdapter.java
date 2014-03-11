@@ -18,8 +18,7 @@ import android.content.Context;
 /*
  * Adapter to fill ListView or GridView with items containing icon + text
  */
-public class PictogramCursorAdapter extends SimpleCursorAdapter implements
-		Filterable {
+public class PictogramCursorAdapter extends SimpleCursorAdapter implements Filterable {
 
 	private static final String TAG = "PictogramCursorAdapter";
 
@@ -36,8 +35,7 @@ public class PictogramCursorAdapter extends SimpleCursorAdapter implements
 	 * -on-android.html
 	 */
 
-	public PictogramCursorAdapter(Context context, int layout, Cursor c,
-			String[] from, int[] to, boolean pref_uppercase) {
+	public PictogramCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, boolean pref_uppercase) {
 		super(context, layout, c, from, to);
 		this.context = context;
 		this.pref_uppercase = pref_uppercase;
@@ -54,8 +52,7 @@ public class PictogramCursorAdapter extends SimpleCursorAdapter implements
 		int is_recent_index;
 		if ((is_recent_index = c.getColumnIndex("is_recent")) != -1) {
 			int is_recent = c.getInt(is_recent_index);
-			v.setTypeface(null, (is_recent == 1) ? Typeface.BOLD
-					: Typeface.NORMAL);
+			v.setTypeface(null, (is_recent == 1) ? Typeface.BOLD : Typeface.NORMAL);
 		}
 		// TODO Auto-generated method stub
 		super.setViewText(v, text);
@@ -81,7 +78,7 @@ public class PictogramCursorAdapter extends SimpleCursorAdapter implements
 			int spc_color = c.getInt(COLUMN_INDEX_SPC_COLOR);
 			v.setBackgroundColor(SpcColor.getColor(spc_color, false));
 		}
-		
+
 		AsyncImageLoaderTask.AsycLoadImage(imagePath, v);
 	}
 

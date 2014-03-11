@@ -41,16 +41,15 @@ public class HomeFeatureLayout extends HorizontalScrollView {
 		super(context);
 	}
 
-	public void init(){
+	public void init() {
 		// Just in case, clean up
 		removeAllViews();
 		internalWrapper = new LinearLayout(getContext());
-		internalWrapper.setLayoutParams(new LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		internalWrapper.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		internalWrapper.setOrientation(LinearLayout.HORIZONTAL);
 		addView(internalWrapper);
 	}
-	
+
 	public void setFeatureItems(ArrayList items) {
 		this.mItems = items;
 
@@ -64,8 +63,7 @@ public class HomeFeatureLayout extends HorizontalScrollView {
 
 				if (mGestureDetector.onTouchEvent(event)) {
 					return true;
-				} else if (event.getAction() == MotionEvent.ACTION_UP
-						|| event.getAction() == MotionEvent.ACTION_CANCEL) {
+				} else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
 					int scrollX = getScrollX();
 					int featureWidth = v.getMeasuredWidth();
 					mActiveFeature = ((scrollX + (featureWidth / 2)) / featureWidth);
@@ -82,30 +80,24 @@ public class HomeFeatureLayout extends HorizontalScrollView {
 
 	class MyGestureDetector extends SimpleOnGestureListener {
 		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-				float velocityY) {
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 			try {
 
-				if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
-						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+				if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 					int featureWidth = getMeasuredWidth();
-					mActiveFeature = (mActiveFeature < (mItems.size() - 1)) ? mActiveFeature + 1
-							: mItems.size() - 1;
+					mActiveFeature = (mActiveFeature < (mItems.size() - 1)) ? mActiveFeature + 1 : mItems.size() - 1;
 					smoothScrollTo(mActiveFeature * featureWidth, 0);
 					return true;
 				}
 
-				else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+				else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 					int featureWidth = getMeasuredWidth();
-					mActiveFeature = (mActiveFeature > 0) ? mActiveFeature - 1
-							: 0;
+					mActiveFeature = (mActiveFeature > 0) ? mActiveFeature - 1 : 0;
 					smoothScrollTo(mActiveFeature * featureWidth, 0);
 					return true;
 				}
 			} catch (Exception e) {
-				Log.e("Fling", "There was an error processing the Fling event:"
-						+ e.getMessage());
+				Log.e("Fling", "There was an error processing the Fling event:" + e.getMessage());
 			}
 			return false;
 		}

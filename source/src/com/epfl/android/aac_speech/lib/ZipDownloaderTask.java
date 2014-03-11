@@ -7,13 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import com.epfl.android.aac_speech.MainActivity;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -47,28 +44,22 @@ public class ZipDownloaderTask extends AsyncTask<String, Integer, String> {
 		Log.i("ZipDownloaderTask", "starting");
 		try {
 			URL url = new URL(params[0]);
-			URLConnection conexion = url.openConnection();
-			conexion.connect();
+			URLConnection con = url.openConnection();
+			con.connect();
 			// this will be useful so that you can show a tipical 0-100%
 			// progress bar
-			long lenghtOfFile = conexion.getContentLength();
+			long lenghtOfFile = con.getContentLength();
 			Log.i("ZipDownloaderTask", "file size: " + lenghtOfFile);
 
 			// download the file
 			InputStream input = new BufferedInputStream(url.openStream());
-
-			// long total = saveDownloadedFile(lenghtOfFile, input);
-
 			extractDownload(lenghtOfFile, input);
-
 			input.close();
 		} catch (Exception e) {
 			Log.e("ZipDownloaderTask: ERR", e.toString());
 			return FAIL;
-
 		}
 		Log.i("ZipDownloaderTask", "done");
-
 		publishProgress(PROGRESS_DONE);
 		return DONE;
 	}
@@ -80,74 +71,34 @@ public class ZipDownloaderTask extends AsyncTask<String, Integer, String> {
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	private void extractDownload(long lenghtOfFile, InputStream input)
-			throws IOException, FileNotFoundException {
+	private void extractDownload(long lenghtOfFile, InputStream input) throws IOException, FileNotFoundException {
 		long total = 0;
 		// try to uncompress at the same time
 
-		ZipInputStream zipInputStream = new ZipInputStream(input);
+		ZipInputStream zip_stream = new ZipInputStream(input);
 		ZipEntry zipEntry;
 
 		int progress = 0, progress_old = 0;
 
-		while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-
-			processZipEntry(zipInputStream, zipEntry);
+		while ((zipEntry = zip_stream.getNextEntry()) != null) {
+			processZipEntry(zip_stream, zipEntry);
 
 			// Update the progress
-			long compresed_size = (zipEntry.getCompressedSize() != -1) ? zipEntry
-					.getCompressedSize() : zipEntry.getSize();
+			long compresed_size = (zipEntry.getCompressedSize() != -1) ? zipEntry.getCompressedSize() : zipEntry.getSize();
 			total += (compresed_size > 0) ? compresed_size : 0;
 			progress = (int) ((float) total * PROGRESS_RANGE / lenghtOfFile);
-			// Do not instantiate UI updates if the progress change may not
-			// be seen (we've got 6K files!)
+			// Do not instantiate UI updates if the progress change may not be seen (we've got 6K files!)
 			if (progress > progress_old) {
 				progress_old = progress;
-
 				Log.d("publishProgress", " " + progress);
 				publishProgress(progress);
 			}
 		}
-
-		zipInputStream.close();
+		zip_stream.close();
 	}
 
-	/**
-	 * @param lenghtOfFile
-	 * @param input
-	 * @return
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 */
-	private long saveDownloadedFile(long lenghtOfFile, InputStream input)
-			throws FileNotFoundException, IOException {
-		// make sure the directory exists
-		OUTPUT_DIR.mkdirs();
-
-		OutputStream output = new FileOutputStream(new File(OUTPUT_DIR,
-				"aac.zip"));
-
-		long total = 0;
-
-		byte data[] = new byte[BUFFER_SIZE];
-
-		int count;
-		while ((count = input.read(data)) != -1) {
-			total += count;
-			// publishing the progress....
-			publishProgress((int) (total * PROGRESS_RANGE / lenghtOfFile));
-			output.write(data, 0, count);
-		}
-
-		output.flush();
-		output.close();
-
-		return total;
-
-	}
-
-	private void processZipEntry(ZipInputStream zipInputStream,
-			ZipEntry zipEntry) throws FileNotFoundException, IOException {
+	private void processZipEntry(ZipInputStream zipInputStream, ZipEntry zipEntry) throws FileNotFoundException,
+			IOException {
 		String zipEntryName = zipEntry.getName();
 		// Log.i("ZipDownloaderTask", "entry: " + zipEntryName);
 
@@ -161,8 +112,7 @@ public class ZipDownloaderTask extends AsyncTask<String, Integer, String> {
 			} else {
 				byte buffer[] = new byte[BUFFER_SIZE];
 				FileOutputStream fileOutputStream = new FileOutputStream(file);
-				BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
-						fileOutputStream, BUFFER_SIZE);
+				BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream, BUFFER_SIZE);
 				int count1;
 
 				while ((count1 = zipInputStream.read(buffer, 0, BUFFER_SIZE)) != -1) {

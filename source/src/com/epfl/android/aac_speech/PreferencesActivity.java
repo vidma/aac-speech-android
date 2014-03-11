@@ -4,17 +4,10 @@ import com.epfl.android.aac_speech.data.DBHelper;
 import com.epfl.android.aac_speech.lib.ZipDownloaderTask;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.res.Resources;
-import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -31,16 +24,15 @@ public class PreferencesActivity extends PreferenceActivity {
 		addPreferencesFromResource(R.xml.preferences);
 		Preference installIconsPref = (Preference) findPreference("installIcons");
 
-		installIconsPref
-				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+		installIconsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
-					@Override
-					public boolean onPreferenceClick(Preference preference) {
-						// PreferencesActivity.this
-						update_pictograms(PreferencesActivity.this);
-						return true;
-					}
-				});
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				// PreferencesActivity.this
+				update_pictograms(PreferencesActivity.this);
+				return true;
+			}
+		});
 	}
 
 	/**
@@ -54,8 +46,7 @@ public class PreferencesActivity extends PreferenceActivity {
 		Log.i("update_pictograms", "starting...");
 
 		final ProgressDialog progr_dlg = new ProgressDialog(context);
-		progr_dlg.setMessage(context.getResources().getString(
-				R.string.update_icons_wait_msg));
+		progr_dlg.setMessage(context.getResources().getString(R.string.update_icons_wait_msg));
 		progr_dlg.setCancelable(true);
 		progr_dlg.setMax(ZipDownloaderTask.PROGRESS_RANGE);
 		progr_dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -73,8 +64,7 @@ public class PreferencesActivity extends PreferenceActivity {
 
 					/* if downloading is done, we're updating DB */
 					if (current_progress == ZipDownloaderTask.PROGRESS_DONE) {
-						progr_dlg.setMessage(context.getResources().getString(
-								R.string.files_downloaded_updating_db));
+						progr_dlg.setMessage(context.getResources().getString(R.string.files_downloaded_updating_db));
 						progr_dlg.setProgress(100);
 						progr_dlg.setIndeterminate(true);
 
@@ -90,8 +80,7 @@ public class PreferencesActivity extends PreferenceActivity {
 				Log.d("aac update_pictograms", "Downloading finished");
 
 				if (result != null && result.equals(DONE)) {
-					DBHelper dbHelper = new DBHelper(
-							context.getContentResolver());
+					DBHelper dbHelper = new DBHelper(context.getContentResolver());
 					// Log.i("aac update_pictograms", "get CR");
 
 					dbHelper.forceUpdateDatabase(context);
