@@ -92,8 +92,6 @@ public class MainActivity extends TTSButtonActivity implements
 
 	// our GUI
 	private int currentCategoryId = 0;
-	private int lastCategoryId = 0;
-
 	static final int PROGRESS_DIALOG = 0;
 	ProgressDialog progressDialog;
 
@@ -109,6 +107,7 @@ public class MainActivity extends TTSButtonActivity implements
 	private static boolean pref_hide_spc_color = PREF_HIDE_SPC_DEFAULT;
 
 	private String pref_gender = PREF_GENDER_DEFAULT;
+	private boolean pref_hide_offensive = true;
 	private boolean pref_clear_phrase_after_speak = PREF_CLEAR_PHRASE_AFTER_SPEAK_DEFAULT;
 
 	private boolean pref_switch_back_to_main_screen = true;
@@ -319,6 +318,9 @@ public class MainActivity extends TTSButtonActivity implements
 		super.onStart();
 
 		getPreferences();
+		
+		// if preferences changed, update DBHelper with global preferences?
+		this.dbHelper.pref_hide_offensive = this.pref_hide_offensive;
 
 		// if preferences changed, we need to re-render the text. no need to
 		// do so if nlg not loaded yet, as everything is initialized
@@ -356,6 +358,7 @@ public class MainActivity extends TTSButtonActivity implements
 		pref_gender = prefs.getString("pref_gender", PREF_GENDER_DEFAULT);
 		pref_hide_spc_color = prefs.getBoolean("pref_hide_spc_color",
 				PREF_HIDE_SPC_DEFAULT);
+		pref_hide_offensive = prefs.getBoolean("pref_hide_offensive", true);
 
 	}
 
@@ -805,8 +808,7 @@ public class MainActivity extends TTSButtonActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.v(TAG, "Starting. onCreate. nlgConverter= " + nlgConverter
-				+ " nlgText = " + nlg_text);
+		Log.d(TAG, "Starting. onCreate. nlgConverter= " + nlgConverter + " nlgText = " + nlg_text);
 
 		// remove title (label bar) to save window
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -832,13 +834,13 @@ public class MainActivity extends TTSButtonActivity implements
 		 * restart of application
 		 */
 		if (!MainActivity.DEBUG) {
-			// TODO: send stack trace to server. Have in mind internet may be
-			// not available
-			Thread.setDefaultUncaughtExceptionHandler(this);
+			// TODO: send trace to server; Internet may be not available
+			// TODO: Thread.setDefaultUncaughtExceptionHandler(this);
 		}
 
 		/* initialize activity level variables */
-		dbHelper = new DBHelper(getContentResolver());
+		getPreferences();
+		dbHelper = new DBHelper(getContentResolver(), this.pref_hide_offensive);
 		inflater = getLayoutInflater();
 		res = getResources();
 
@@ -861,7 +863,7 @@ public class MainActivity extends TTSButtonActivity implements
 		/*
 		 * initialise NLG and Application
 		 */
-		getPreferences();
+
 
 		if (checkIfDataInstalledOrQuit()) {
 			// There is no use in loading the slow simpleNLG is now data is
@@ -871,7 +873,8 @@ public class MainActivity extends TTSButtonActivity implements
 
 		// after everything is loaded, enable speaking button
 		initTTS_UI();
-		Log.v(TAG, "on create end");
+
+		Log.d(TAG, "on create end");
 	}
 
 	/**

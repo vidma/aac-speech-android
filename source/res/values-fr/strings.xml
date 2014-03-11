@@ -34,6 +34,8 @@
     <string name="pref_about_user">Utilisateur (moi)</string>
     <string name="pref_hide_spc_colors">Ne pas afficher les couleurs SPC.</string>
     <string name="pref_hide_spc_colors_descr">Ceux-ci permettent d\'identifier rapidement la fonction d\'un mot (action, objet, descriptif…)</string>
+    <string name="pref_hide_offensive_words_descr">Masquer les mots qui peuvent être choquantes ou inappropriées pour les petits enfants</string>
+    <string name="pref_hide_offensive_words">Masquer les mots pas appropriés pour les enfants</string>
 
     <!-- home screen buttons -->
     <string name="btn_negated">ne..(pas)</string>

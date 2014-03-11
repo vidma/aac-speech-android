@@ -173,7 +173,8 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE icon_meanings"
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT, word_ascii_only TEXT, part_of_speech TEXT, spc_color INT,"
 				+ " icon_path TEXT, lang TEXT,  main_category_id INT, "
-				+ IndividualIcons.COL_USE_COUNT + " INT);");
+				+ IndividualIcons.COL_USE_COUNT + " INT,"
+				+ IndividualIcons.COL_OFFENSIVE + " INT);");
 
 		db.execSQL("CREATE INDEX icon_meanings_main_category_idx ON "
 				+ IndividualIcons.TABLE_NAME + "(main_category_id);");
@@ -224,6 +225,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		 * TODO: use DatabaseUtils.InsertHelper
 		 */
 		db.beginTransaction();
+		int i = 0;
 
 		try {
 			while ((it = csvReader.getNextLineItemsIterator()) != null) {
@@ -239,22 +241,25 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				 * ascii representation to work-around google gesture search bug
 				 * for now
 				 */
-				values.put(IndividualIcons.COL_WORD_ASCI, it.next());
+				values.put(IndividualIcons.COL_WORD_ASCII, it.next());
 				values.put(IndividualIcons.COL_PART_OF_SPEECH, it.next());
 				values.put(IndividualIcons.COL_SPC_COLOR, it.next());
 
 				String icon_path = it.next();
 
 				// TODO: gesture search seems to require absolute
-				// paths... just a hack fix it for now
+				// paths... just a hack to fix it for now
 				icon_path = icon_path.replace("/sdcard",
-						(CharSequence) csvReader.storage_dir.toString()); // .replace("file:///mnt/",
+						(CharSequence) csvReader.storage_dir.toString());
 				// "file:///");
 				values.put(IndividualIcons.COL_ICON_PATH, icon_path);
 
 				values.put(IndividualIcons.COL_LANG, it.next());
 				values.put(IndividualIcons.COL_MAIN_CATEGORY, it.next());
+				// TODO: update the icons listing to contain offensive
+				values.put(IndividualIcons.COL_OFFENSIVE, 0);
 				values.put(IndividualIcons.COL_USE_COUNT, 0);
+				
 
 				long id = db.insert(IndividualIcons.TABLE_NAME, null, values);
 

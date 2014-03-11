@@ -1,14 +1,18 @@
 package com.epfl.android.aac_speech.data;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.epfl.android.aac_speech.data.Pictogram;
@@ -27,11 +31,16 @@ public class DBHelper {
 	private static final String TAG = "DBHelper";
 
 	private static final int CATEGORY_RECENT_ITEMS_LIMIT = 9;
+	public boolean pref_hide_offensive = true;
 
 	private static ContentResolver cr = null;
 
 	public DBHelper(ContentResolver contentResolver) {
 		cr = contentResolver;
+	}
+	public DBHelper(ContentResolver contentResolver, boolean pref_hide_offensive) {
+		cr = contentResolver;
+		this.pref_hide_offensive = pref_hide_offensive;
 	}
 
 	/**
@@ -139,7 +148,7 @@ public class DBHelper {
 			selectionArgs = new String[] { "%" + search_text + "%", };
 		}
 
-		// TODO: here it may return most used on top
+		// TODO: filter bad words out?
 		Cursor cur = cr.query(uri, null, selection, selectionArgs,
 				PhraseHistory.COL_ID + " DESC");
 		// Log.d("a", cur.toString());
@@ -190,20 +199,6 @@ public class DBHelper {
 		return newWord;
 	}
 
-	/*
-	 * not used anymore: public ArrayList<Pictogram> getIconsByCategory(long
-	 * categoryId) { Pictogram newWord = null;
-	 * 
-	 * ArrayList<Pictogram> icon_list = new ArrayList<Pictogram>();
-	 * 
-	 * Cursor cur = getIconsCursorByCategory(categoryId, null);
-	 * 
-	 * if (cur.moveToFirst()) do { newWord = this.DB_Cursor_to_WordIcon(cur);
-	 * 
-	 * icon_list.add(newWord); } while (cur.moveToNext()); cur.close();
-	 * 
-	 * return icon_list; }
-	 */
 
 	/**
 	 * @param categoryId
@@ -211,32 +206,42 @@ public class DBHelper {
 	 */
 	public Cursor getIconsCursorByCategory(long categoryId, String search_text) {
 		Uri uri = Uri.parse(IndividualIcons.URI_STR + "/" + categoryId);
-
-		String selection = null;
+		
+		String[] projection = new String[] { "*", "0 AS is_recent" };
+		List<String> selections = new ArrayList<String>();
 		String[] selectionArgs = null;
-
+		String sortOrder = "word ASC";
+		
+		// filter bad words out?
+		if (pref_hide_offensive){
+			selections.add("(" + IndividualIcons.COL_OFFENSIVE + " = 0)");
+		}
+		
 		if (categoryId != 0) {
-			selection = "(main_category_id = " + categoryId + ")";
+			selections.add("(main_category_id = " + categoryId + ")");
 		}
 
 		if (search_text != null && !search_text.equals("")) {
-			selection = ((selection != null) ? selection + " AND " : "")
-					+ "( word LIKE ? OR word_ascii_only LIKE ?)";
+			//selection = ((selection != null) ? selection + " AND " : "")
+			selections.add("( word LIKE ? OR word_ascii_only LIKE ?)");
 			selectionArgs = new String[] { search_text + "%", search_text + "%" };
 		}
+		
 		// TODO: here it may return most used on top. and then by alphabet?
-		Cursor cur = cr.query(uri, new String[] { "*", "0 AS is_recent" },
-				selection, selectionArgs, "word ASC");
-		// Log.d("a", cur.toString());
+		
+		Cursor cur = cr.query(uri, projection, TextUtils.join(" AND ", selections), selectionArgs, sortOrder);
+		//Log.d("a", cur.toString());
 		return cur;
 	}
 
 	public Cursor getRecentIconsCursorByCategory(long categoryId) {
+		// TODO: shall this be joined into getIconsCursorByCategory with option recent_only?
 		Uri uri = Uri.parse(IndividualIcons.URI_STR + "/" + categoryId);
 
 		String selection = null;
 		String[] selectionArgs = null;
 
+		// TODO: pref_hide_offensive!!!
 		selection = "(main_category_id = " + categoryId + ") AND ("
 				+ IndividualIcons.COL_USE_COUNT + " > 0 )";
 
