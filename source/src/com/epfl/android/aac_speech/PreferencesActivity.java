@@ -4,17 +4,10 @@ import com.epfl.android.aac_speech.data.DBHelper;
 import com.epfl.android.aac_speech.lib.ZipDownloaderTask;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.res.Resources;
-import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;

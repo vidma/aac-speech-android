@@ -10,7 +10,7 @@ public class PhraseHistory {
 
 	public static final Uri CONTENT_URI = Uri.parse(PhraseProviderDB.URI_AUTHORITY + HISTORY_PATH_STR);
 
-	public static final String TABLE_NAME = "phrase_history";
+	public static final String TABLE = "phrase_history";
 
 	/*
 	 * TODO: (_id INTEGER PRIMARY KEY AUTOINCREMENT, phrase TEXT,

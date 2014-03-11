@@ -85,6 +85,7 @@ public class ArrayUtils {
 	 * return the same empty array every time to avoid reallocation, although
 	 * this is not guaranteed.
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T[] emptyArray(Class<T> kind) {
 		if (kind == Object.class) {
 			return (T[]) EMPTY;
@@ -125,4 +126,16 @@ public class ArrayUtils {
 		}
 		return false;
 	}
+	
+	
+	public static String arrayToString(String[] arr) {
+		if (arr == null)
+			return "<Null>";
+		StringBuilder b = new StringBuilder();
+		for (String str : arr) {
+			b.append(str);
+			b.append(" ");
+		}
+		return b.toString();
+	}	
 }

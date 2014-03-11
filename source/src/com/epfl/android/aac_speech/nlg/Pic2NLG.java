@@ -1,14 +1,9 @@
 package com.epfl.android.aac_speech.nlg;
 
-import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
-
-import com.epfl.android.aac_speech.MainActivity;
-import com.epfl.android.aac_speech.lib.ArrayUtils;
-import android.util.Log;
 
 import simplenlg.features.Feature;
 import simplenlg.features.InternalFeature;
@@ -22,14 +17,17 @@ import simplenlg.framework.NLGElement;
 import simplenlg.framework.NLGFactory;
 import simplenlg.framework.WordElement;
 import simplenlg.lexicon.Lexicon;
-
 import simplenlg.phrasespec.AdvPhraseSpec;
 import simplenlg.phrasespec.NPPhraseSpec;
 import simplenlg.phrasespec.PPPhraseSpec;
 import simplenlg.phrasespec.SPhraseSpec;
 import simplenlg.phrasespec.VPPhraseSpec;
 import simplenlg.realiser.Realiser;
+import android.util.Log;
+
+import com.epfl.android.aac_speech.MainActivity;
 import com.epfl.android.aac_speech.data.Pictogram;
+import com.epfl.android.aac_speech.lib.ArrayUtils;
 
 public class Pic2NLG {
 
@@ -606,7 +604,6 @@ public class Pic2NLG {
 			for (NLGElement NP : object.getChildren()) {
 
 				if (((NPPhraseSpec) NP).getFeature(InternalFeature.SPECIFIER) == null) {
-
 					((NPPhraseSpec) NP).setDeterminer(intelligent_guess);
 				}
 			}
@@ -622,21 +619,14 @@ public class Pic2NLG {
 
 		String verb = getVerbMainFormAsString(clause.getVerb());
 
-		// TODO: refator this thng as getVerbAsString
-		// .getFeatureAsString(InternalFeature.HEAD);
+		// TODO: refcator this thing as getVerbAsString.getFeatureAsString(InternalFeature.HEAD);
 
 		String intelligent_guess = "";
 
 		/*
-		 * Some come from here, TODO: finish http://french.about.
-		 * com/library/prepositions/bl_prep_a_verb.htm
+		 * Some come from here, TODO: finish http://french.about.com/library/prepositions/bl_prep_a_verb.htm
 		 */
-		String[] verb_a_IndObj = { "habiter", "aider", "apprendre", "arriver", "commencer", "aller" /*
-																									 * TODO
-																									 * :
-																									 * add
-																									 * more
-																									 */};
+		String[] verb_a_IndObj = { "habiter", "aider", "apprendre", "arriver", "commencer", "aller" };
 
 		/**
 		 * de + noun Indirect Object http://french.about.com/library
@@ -653,7 +643,7 @@ public class Pic2NLG {
 				"rire", "vivre",
 
 				/*
-				 * these there not specified in grammar rules, but seem to be
+				 * these were not specified in grammar rules, but seem to be
 				 * good guesses
 				 */
 				"boire", "vouloir", "manger" };
@@ -753,17 +743,11 @@ public class Pic2NLG {
 			switch (action.type) {
 			case CLITIC_PRONOUN:
 			case NOUN:
-				/*
-				 * we match only the first noun, the subsequent noun will be
-				 * part of second coordinated NP
-				 */
+				 // we match only the first noun, the subsequent noun will be part of second coordinated NP
 				nNounsFound++;
-
 				if (nNounsFound == 1) {
 					currentNounPrase.setNoun(action.element);
-
 				}
-
 				break;
 
 			case NUMBER_AGREEMENT:
@@ -781,18 +765,16 @@ public class Pic2NLG {
 				break;
 
 			default:
-
-				/* not allowed action, the NP is over. */
+				// not allowed action, the NP is over
 				return currentNounPrase;
 			}
-
-			/**
-			 * If we found a second noun, break the processing
-			 */
+			
+			// If we found a second noun, break the processing
 			if (nNounsFound > 1) {
 				break;
 			}
-			/* the current POS was accepted/matched, so Pop if from stack */
+			
+			// the current POS was accepted/matched, so Pop if from stack
 			stack.pop();
 		}
 

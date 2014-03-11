@@ -1,6 +1,5 @@
 package com.epfl.android.aac_speech.data;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +8,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.epfl.android.aac_speech.data.Pictogram;
 import com.epfl.android.aac_speech.data.models.Category;
 import com.epfl.android.aac_speech.data.models.Icon;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
@@ -95,7 +92,7 @@ public class DBHelper {
 		}
 
 		String id_list = sb.toString();
-		String sql = "UPDATE " + Icon.TABLE_NAME + " SET " + Icon.COL_USE_COUNT + "=  " + Icon.COL_USE_COUNT
+		String sql = "UPDATE " + Icon.TABLE + " SET " + Icon.COL_USE_COUNT + "=  " + Icon.COL_USE_COUNT
 				+ " + 1 WHERE " + Icon.COL_ID + " IN (" + id_list + ") ";
 		Log.d(TAG, "upd sql:" + sql);
 		try {
@@ -155,29 +152,27 @@ public class DBHelper {
 	public Pictogram getIconById(long itemId) {
 		Pictogram newWord = null;
 		Uri uri = Uri.parse(Icon.URI_STR + "/" + itemId);
-
 		Cursor cur = cr.query(uri, null, BaseColumns._ID + " = " + itemId, null, null);
-
 		if (cur.moveToFirst()) {
 			// Log.d("columns", arrayToString(cur.getColumnNames()));
-			newWord = DB_Cursor_to_WordIcon(cur);
+			newWord = cursorToIcon(cur);
 		}
 		cur.close();
 
 		return newWord;
 	}
 
-	public Pictogram DB_Cursor_to_WordIcon(Cursor cur) {
+	public Pictogram cursorToIcon(Cursor cur) {
 		Pictogram newWord;
 		String word = cur.getString(cur.getColumnIndexOrThrow("word"));
 		String part_of_speech = cur.getString(cur.getColumnIndexOrThrow("part_of_speech"));
 		int spc_color = cur.getInt(cur.getColumnIndexOrThrow("spc_color"));
 		String icon_path = cur.getString(cur.getColumnIndexOrThrow("icon_path"));
+		@SuppressWarnings("unused")
 		int use_count = cur.getInt(cur.getColumnIndexOrThrow(Icon.COL_USE_COUNT));
 
 		newWord = new Pictogram(word, part_of_speech, icon_path, spc_color);
 		newWord.wordID = cur.getInt(cur.getColumnIndexOrThrow("_id"));
-		// newWord.use_count = use_count;
 
 		if (DEBUG) {
 			Log.d("got an item from db", "icon:" + word + "part of:" + part_of_speech + "path:  " + icon_path);
@@ -209,40 +204,31 @@ public class DBHelper {
 		}
 
 		if (search_text != null && !search_text.equals("")) {
-			// selection = ((selection != null) ? selection + " AND " : "")
 			selections.add("( word LIKE ? OR word_ascii_only LIKE ?)");
 			selectionArgs = new String[] { search_text + "%", search_text + "%" };
 		}
 
 		// TODO: here it may return most used on top. and then by alphabet?
-
 		Cursor cur = cr.query(uri, projection, TextUtils.join(" AND ", selections), selectionArgs, sortOrder);
 		// Log.d("a", cur.toString());
 		return cur;
 	}
 
 	public Cursor getRecentIconsCursorByCategory(long categoryId) {
-		// TODO: shall this be joined into getIconsCursorByCategory with option
-		// recent_only?
+		// TODO: shall this be joined into getIconsCursorByCategory with option recent_only?
 		Uri uri = Uri.parse(Icon.URI_STR + "/" + categoryId);
 
 		String selection = null;
 		String[] selectionArgs = null;
 
-		// TODO: pref_hide_offensive!!!
 		selection = "(main_category_id = " + categoryId + ") AND (" + Icon.COL_USE_COUNT + " > 0 )";
-
-		// TODO: here it may return most used on top. and then maybe order by
-		// alphabet or just by use count
 		Cursor cur = cr.query(uri, new String[] { "*", "1 AS is_recent" }, selection, selectionArgs, Icon.COL_USE_COUNT
 				+ " DESC LIMIT " + CATEGORY_RECENT_ITEMS_LIMIT);
-
-		// Log.d("a", cur.toString());
 		return cur;
 	}
 
 	/* Category info */
-
+	
 	public String getCategoryTitle(long categoryId, boolean shorten) {
 		Cursor cur = null;
 		String result = "";
@@ -273,13 +259,7 @@ public class DBHelper {
 	}
 
 	public String getCategoryTitleShort(long categoryId) {
-		// TODO short
 		return getCategoryTitle(categoryId, true);
-		/*
-		 * int maxLen = 10; String s = getCategoryTitle(categoryId, false);
-		 * return s.substring(0, Math.min(maxLen, s.length()));
-		 */
-
 	}
 
 }

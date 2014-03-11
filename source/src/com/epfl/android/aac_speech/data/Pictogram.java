@@ -1,24 +1,16 @@
 package com.epfl.android.aac_speech.data;
 
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import simplenlg.features.Feature;
-import simplenlg.features.Gender;
 import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
-import simplenlg.lexicon.Lexicon;
-import simplenlg.phrasespec.NPPhraseSpec;
-//import android.R;
 import android.graphics.Color;
 
 import com.epfl.android.aac_speech.MainActivity;
 import com.epfl.android.aac_speech.nlg.Pic2NLG;
 import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
+//import android.R;
 
 public class Pictogram {
 	public String data; /* This is word or category_ID */
@@ -45,6 +37,10 @@ public class Pictogram {
 	}
 
 	private void init(String word, Pic2NLG.ActionType type) {
+		/**
+		 * TODO: creation of this.element is one of items preventing separation from NLG lib.
+		 * TODO: when parsing the icons, it could be created on the fly, right?
+		 */
 		this.data = this.display_text = word;
 		this.type = type;
 		if (type != Pic2NLG.ActionType.NUMBER_AGREEMENT && type != Pic2NLG.ActionType.NEGATED) {
@@ -200,17 +196,6 @@ public class Pictogram {
 		};
 
 		/* color definitions */
-		/*
-		 * final static String color_white = "ffffff"; final static String
-		 * color_blue = "aaaaff"; final static String color_green = "aaffaa";
-		 * final static String color_yellow = "FFFF66"; // was 00 final static
-		 * String color_pink = "FF99CC"; // F52887 final static String
-		 * color_orange = "ffcc66"; // ffcc66
-		 * 
-		 * 
-		 * final static String color_black = "000000"; // ffcc66
-		 */
-
 		/*
 		 * It has been adviced by AAC experts to use more pure colors for easier
 		 * identification even if that would look worse

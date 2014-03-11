@@ -9,14 +9,12 @@ import java.util.Map.Entry;
 
 import simplenlg.features.Gender;
 import simplenlg.features.LexicalFeature;
-import simplenlg.features.french.PronounType;
 import simplenlg.phrasespec.NPPhraseSpec;
 
 import android.content.res.Resources;
 import android.util.Log;
 
 import com.epfl.android.aac_speech.R;
-import com.epfl.android.aac_speech.data.PictogramFactory.ActionDefinition;
 import com.epfl.android.aac_speech.nlg.Pic2NLG;
 import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
 
@@ -32,6 +30,7 @@ public class PictogramFactory {
 			backward.put(value, key);
 		}
 
+		@SuppressWarnings("unused")
 		public synchronized V getForward(K key) {
 			return forward.get(key);
 		}
@@ -43,12 +42,10 @@ public class PictogramFactory {
 
 	private static final String REGEXP_NUMBER = "[0-9]+";
 
-	// Serialized constants; these may be used to create the buttons for the
-	// homescreen
+	// Serialized constants; these may be used to create the buttons for the homescreen
 	public static final String ACT_NEGATE = "NEGATE";
 
 	public static final String ACT_DOT = ".";
-
 	public static final String ACT_QUESTION = "?";
 
 	public static final String ACT_TENSE_PAST = "PAST";
@@ -116,11 +113,6 @@ public class PictogramFactory {
 	protected static HashMap<String, ActionDefinition> action_defs = null;
 
 	protected static PictogramFactory INSTANCE = null;
-
-	/*
-	 * public static PictogramFactory getInstance() { if (INSTANCE == null)
-	 * INSTANCE = new PictogramFactory(); return INSTANCE; }
-	 */
 
 	/* Context dependent variables */
 	protected DBHelper db;
@@ -243,8 +235,6 @@ public class PictogramFactory {
 	 * about je and it's gender? will be used for history
 	 */
 	public String getSerializableString(Pictogram icon) {
-		/* Special actions are: question, dot, negated */
-		String result = "";
 		String key;
 		// if that's a special action
 		if ((key = special_actions.getBackward(icon.type)) != null) {
@@ -325,7 +315,6 @@ public class PictogramFactory {
 			try {
 				long itemId = Integer.parseInt(serialized);
 				return db.getIconById(itemId);
-
 			} catch (NumberFormatException e) {
 				return null;
 			}
