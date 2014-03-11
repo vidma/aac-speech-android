@@ -16,11 +16,11 @@ public class IndividualIcons {
 	public static final String COL_USE_COUNT = "use_count";
 
 	public static final String COL_WORD = "word";
-	public static final String COL_WORD_ASCI = "word_ascii_only";
+	public static final String COL_WORD_ASCII = "word_ascii_only";
 	public static final String COL_PART_OF_SPEECH = "part_of_speech";
 	public static final String COL_SPC_COLOR = "spc_color";
 	public static final String COL_ICON_PATH = "icon_path";
 	public static final String COL_LANG = "lang";
 	public static final String COL_MAIN_CATEGORY = "main_category_id";
-
+	public static final String COL_OFFENSIVE = "is_offensive";
 }

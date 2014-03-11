@@ -25,6 +25,10 @@
     <string name="menu_preferences">Preferences</string>
     <string name="pref_lang">Language</string>
     <string name="pref_gender">My gender</string>
+    <string name="pref_hide_offensive_words_descr">Hide words that may be sexual or otherwise inappropriate for children</string>
+    <string name="pref_hide_offensive_words">Hide possibly inappropriate words</string>
+    
+    
     <string name="pref_uppercase">Display UPPERCASE letters</string>
     <string name="pref_clear_phrase_after_speak">Clear the spoken phrase</string>
     <string name="pref_about_user">About the user (me)</string>
