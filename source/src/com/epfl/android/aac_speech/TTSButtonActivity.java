@@ -119,10 +119,8 @@ public abstract class TTSButtonActivity extends Activity implements
 		if (!ArrayUtils.contains(SUPPORTED_LANGUAGES, lang))
 			lang = DEFAULT_LANGUAGE;
 
-		Log.i(TAG, "Language=" + lang);
+		Log.d(TAG, "Language=" + lang);
 		return lang;
-
-		// return pref_lang.toLowerCase();
 	}
 
 	@Override
