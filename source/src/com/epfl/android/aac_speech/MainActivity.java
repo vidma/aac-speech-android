@@ -2,6 +2,7 @@ package com.epfl.android.aac_speech;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
+import java.lang.Math;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -13,6 +14,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.MergeCursor;
@@ -65,6 +68,7 @@ import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
 import com.epfl.android.aac_speech.ui.DynamicHorizontalScrollView;
 import com.epfl.android.aac_speech.ui.HomeFeatureLayout;
 import com.epfl.android.aac_speech.ui.PictogramCursorAdapter;
+import com.epfl.android.aac_speech.ui.ScalingLinearLayout;
 import com.epfl.android.aac_speech.ui.UIFactory;
 
 public class MainActivity extends TTSButtonActivity implements UncaughtExceptionHandler {
@@ -468,15 +472,31 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	}
 
 	private boolean isTablet() {
-		// TODO: this shall be fixed to better handle large screens
-		// TODO: make sure large mobiles are not too small
+		// TODO: make sure large mobiles are not too small !!!
+		boolean is_tablet = false;
+		
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int height = metrics.heightPixels;
 		int width = metrics.widthPixels;
-
-		/* TODO: I shall use width instead */
-		boolean is_tablet = (height > 1000);
+		
+		int layout = getResources().getConfiguration().screenLayout;
+		if ((layout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+		    // on a large screen device ...
+			Log.d(TAG, "large");
+			is_tablet = true; //TODO: shall this allow landscape or not!?
+		}
+		if ((layout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+		    // on an xlarge screen - certainly tablet...
+			Log.d(TAG, "is tablet; xlarge");
+			is_tablet = true;
+		}
+		if ((layout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+		    // on an xlarge screen - certainly tablet...
+			Log.d(TAG, "is tablet; normal");
+			//is_tablet = true;
+		}		
+		Log.d(TAG, "is tablet=" + is_tablet);
 		return is_tablet;
 	}
 
@@ -486,8 +506,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	 * we use the "super horizontal scroller" only for mobiles, not for tablets
 	 */
 	private void createImageButtons() {
-		
-
+		Log.d(TAG, "createImageButtons:start");
 		boolean is_tablet = isTablet();
 		ViewGroup home_screen_layout = (LinearLayout) findViewById(R.id.home_screen);
 		home_screen_layout.removeAllViews();
@@ -504,7 +523,19 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 			home_screen_layout.addView(tl);
 			home_screen_layout.addView(tl1);
 
+			// in landscape mode we show both screens side-by-side
+			if (home_screen_layout instanceof ScalingLinearLayout){
+				tl1.setPadding(20, 0, 0, 0); // add spacing between main and secondary column
+				ScalingLinearLayout l = (ScalingLinearLayout)home_screen_layout;
+				l.onFinishInflate(); // TODO: some of the later steps might be optional
+				l.invalidate();
+				l.requestLayout();
+				l.refreshDrawableState();
+			}
+
 		} else {
+			// on a smaller device, we use a scroller to switch between the two views
+			// TODO: Android standard tools might be also good or even better
 			HomeFeatureLayout super_scroller = 
 					(HomeFeatureLayout) inflater.inflate(R.layout.horizontal_flip_layout, home_screen_layout, false);
 			super_scroller.init();
@@ -532,6 +563,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 			home_screen_layout.addView(super_scroller);
 		}
 
+		Log.d(TAG, "createImageButtons:end");
 	}
 
 	private void showCategory(int category_id) {
@@ -683,6 +715,19 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 			updatePhraseDisplay();
 		}
 	}
+	
+	/*
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// TODO Auto-generated method stub
+		super.onConfigurationChanged(newConfig);
+		Log.d(TAG, "onConfigurationChanged");
+		res = getResources();
+		inflater = getLayoutInflater();
+		setContentView(R.layout.main);
+		updatePhraseDisplay();
+		this.onResume();
+	}*/
 
 	/**
 	 * Returns the text either in uppercase or normal, according to prefs
@@ -710,6 +755,8 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		if (!isTablet()) {
 			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			// force portrait orientation for non-tablets
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
 
 		setContentView(R.layout.main);
@@ -755,7 +802,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		}
 
 		// after everything is loaded, enable speaking button
-		initTTS_UI();
+		ui_enable_tts();
 		Log.d(TAG, "on create end");
 	}
 

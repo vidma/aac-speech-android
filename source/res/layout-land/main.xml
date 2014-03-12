@@ -20,16 +20,30 @@
 
         <!-- home screen -->
 
+        <com.epfl.android.aac_speech.ui.ScalingLinearLayout
+            android:id="@+id/home_screen"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@android:color/black"
+            android:gravity="left|top"
+            android:paddingTop="3dp" >
+        </com.epfl.android.aac_speech.ui.ScalingLinearLayout>
+
+        <!--
+     			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			
         <LinearLayout
             android:id="@+id/home_screen"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="@android:color/black"
-            android:orientation="vertical"
-            android:paddingTop="3dp" >
+            android:orientation="horizontal"
+            android:paddingTop="3dp" 
+            >
         </LinearLayout>
-        
-        
+        -->
+
 
         <!-- categories view -->
 
@@ -55,7 +69,7 @@
                     android:background="#000000"
                     android:drawableLeft="@drawable/go_back"
                     android:gravity="left"
-                     />
+                    /> <!-- android:text="@string/go_back"  --> 
 
                 <!-- TODO: why this is not visible -->
 

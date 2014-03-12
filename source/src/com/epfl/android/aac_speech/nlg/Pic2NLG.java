@@ -508,7 +508,6 @@ public class Pic2NLG {
 	 * @return
 	 */
 	private String releaseSentence(SPhraseSpec clause, SPhraseSpec opt_modal_clause) {
-
 		/* Sometimes */
 		String text = "";
 		try {
@@ -519,13 +518,13 @@ public class Pic2NLG {
 				text = realiser.realiseSentence(clause);
 			}
 
-			// dot at the end of sentence looks misleading as we have a
-			// button for, so remove it
-			text = text.replace('.', ' ');
-
 		} catch (Exception e) {
 			Log.e("Pic2NLG", "exception while releasing sentence", e);
 		}
+		
+		// dot at the end of sentence looks misleading as we have a
+		// button for, so remove it
+		text = text.replace('.', ' ');		
 		return text.trim();
 	}
 

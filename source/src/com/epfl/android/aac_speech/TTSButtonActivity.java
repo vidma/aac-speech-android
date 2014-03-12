@@ -65,7 +65,7 @@ public abstract class TTSButtonActivity extends Activity implements OnInitListen
 		mTts.speak(text, TextToSpeech.QUEUE_ADD, null);
 	}
 
-	protected void initTTS_UI() {
+	protected void ui_enable_tts() {
 		speakBtn = (ImageButton) findViewById(R.id.speak);
 		speakBtn.setOnClickListener(new OnClickListener() {
 			@Override

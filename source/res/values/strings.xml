@@ -36,7 +36,7 @@
     <string name="pref_hide_spc_colors_descr">these  allow to quickly identify function of a word (action, object, descriptive…)</string>
 
     <!-- home screen buttons -->
-    <string name="btn_negated">negation</string>
+    <string name="btn_negated">negate</string>
     <string name="btn_quesion">question</string>
     <string name="btn_I">I</string>
     <string name="btn_you">you</string>
