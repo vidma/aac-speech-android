@@ -135,6 +135,9 @@ public class OrthographyHelper implements OrthographyHelperInterface {
 	 */
 	protected void terminateSentence(StringBuffer realisation,
 			boolean interrogative) {
+		if (realisation.length() <= 1) {
+			return;
+		}
 		char character = realisation.charAt(realisation.length() - 2);
 		if (character != '.' && character != '?') {
 			if (interrogative) {
