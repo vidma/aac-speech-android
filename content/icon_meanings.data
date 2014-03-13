@@ -2504,7 +2504,7 @@ J|J|noun|6|file:///sdcard/acc_icons/3119_1.png.64x64_q85.png|fr|0||0
 moufles|moufles|noun|2|file:///sdcard/acc_icons/2927_1.png.64x64_q85.png|fr|0||0
 siège|siege|noun|2|file:///sdcard/acc_icons/6213_1.png.64x64_q85.png|fr|0||0
 guitare électrique|guitare electrique|noun|2|file:///sdcard/acc_icons/8599_1.png.64x64_q85.png|fr|8|8|0
-mal aux fesses|mal aux fesses|noun|2|file:///sdcard/acc_icons/11242_1.png.64x64_q85.png|fr|0||0
+mal aux fesses|mal aux fesses|noun|2|file:///sdcard/acc_icons/11242_1.png.64x64_q85.png|fr|0||1
 vestes|vestes|noun|2|file:///sdcard/acc_icons/11432_1.png.64x64_q85.png|fr|0||0
 jus|jus|noun|2|file:///sdcard/acc_icons/11461_1.png.64x64_q85.png|fr|10|10|0
 N:|N:|noun|6|file:///sdcard/acc_icons/3133_1.png.64x64_q85.png|fr|0||0
@@ -4753,7 +4753,7 @@ ouvrier|ouvrier|noun|2|file:///sdcard/acc_icons/20113_1.png.64x64_q85.png|fr|0||
 Ciudad Real|Ciudad Real|noun|1|file:///sdcard/acc_icons/14763_1.png.64x64_q85.png|fr|0||0
 autoroutes|autoroutes|noun|2|file:///sdcard/acc_icons/12051_1.png.64x64_q85.png|fr|0||0
 potières|potieres|noun|2|file:///sdcard/acc_icons/11407_1.png.64x64_q85.png|fr|0||0
-mal au cul|mal au cul|noun|2|file:///sdcard/acc_icons/11242_1.png.64x64_q85.png|fr|0||0
+mal au cul|mal au cul|noun|2|file:///sdcard/acc_icons/11242_1.png.64x64_q85.png|fr|0||1
 fête des mères|fete des meres|noun|6|file:///sdcard/acc_icons/3091_1.png.64x64_q85.png|fr|0||0
 travaux manuels |travaux manuels |noun|2|file:///sdcard/acc_icons/7794_1.png.64x64_q85.png|fr|0||0
 fourgonnette|fourgonnette|noun|2|file:///sdcard/acc_icons/3275_1.png.64x64_q85.png|fr|18|18|0
@@ -5254,7 +5254,8 @@ Décembre|Decembre|noun|1|file:///sdcard/acc_icons/6476_1.png.64x64_q85.png|fr|1
 molaire|molaire|noun|2|file:///sdcard/acc_icons/2905_1.png.64x64_q85.png|fr|0||0
 accidents|accidents|noun|2|file:///sdcard/acc_icons/11116_1.png.64x64_q85.png|fr|0||0
 nettoyer les chaussures |nettoyer les chaussures |verb|3|file:///sdcard/acc_icons/8727_1.png.64x64_q85.png|fr|0||0
-étiquette|etiquette|noun|2|file:///sdcard/acc_icons/9874_1.png.64x64_q85.png|fr|0|go around|go around|adjective|4|file:///sdcard/acc_icons/5981_1.png.64x64_q85.png|en|0||0
+étiquette|etiquette|noun|2|file:///sdcard/acc_icons/9874_1.png.64x64_q85.png|fr|0||0
+go around|go around|adjective|4|file:///sdcard/acc_icons/5981_1.png.64x64_q85.png|en|0||0
 to refuse|to refuse|verb|3|file:///sdcard/acc_icons/5525_1.png.64x64_q85.png|en|15|15|0
 yellow|yellow|adjective|4|file:///sdcard/acc_icons/2648_1.png.64x64_q85.png|en|5|5|0
 factory|factory|noun|2|file:///sdcard/acc_icons/8581_1.png.64x64_q85.png|en|0||0
@@ -6364,7 +6365,7 @@ crook|crook|noun|2|file:///sdcard/acc_icons/5922_1.png.64x64_q85.png|en|0||0
 video|video|noun|2|file:///sdcard/acc_icons/11360_1.png.64x64_q85.png|en|9|9|0
 sun-glasses|sun-glasses|noun|2|file:///sdcard/acc_icons/3330_1.png.64x64_q85.png|en|0||0
 odd|odd|adjective|4|file:///sdcard/acc_icons/2627_2.png.64x64_q85.png|en|14|14|0
-pain in the rear|pain in the rear|noun|2|file:///sdcard/acc_icons/11242_1.png.64x64_q85.png|en|0||0
+pain in the rear|pain in the rear|noun|2|file:///sdcard/acc_icons/11242_1.png.64x64_q85.png|en|0||1
 waning|waning|noun|2|file:///sdcard/acc_icons/10291_1.png.64x64_q85.png|en|0||0
 moon eclipse|moon eclipse|noun|2|file:///sdcard/acc_icons/8096_1.png.64x64_q85.png|en|0||0
 sweaty|sweaty|adjective|4|file:///sdcard/acc_icons/8469_1.png.64x64_q85.png|en|0||0
@@ -8809,7 +8810,7 @@ UNESCO|UNESCO|noun|1|file:///sdcard/acc_icons/9082_1.png.64x64_q85.png|en|0||0
 !|!|noun|6|file:///sdcard/acc_icons/3417_1.png.64x64_q85.png|en|0||0
 siren|siren|noun|2|file:///sdcard/acc_icons/6214_1.png.64x64_q85.png|en|0||0
 agenda/plan|agenda/plan|noun|2|file:///sdcard/acc_icons/5898_1.png.64x64_q85.png|en|8|8|0
-pain in the bottom|pain in the bottom|noun|2|file:///sdcard/acc_icons/11242_1.png.64x64_q85.png|en|0||0
+pain in the bottom|pain in the bottom|noun|2|file:///sdcard/acc_icons/11242_1.png.64x64_q85.png|en|0||1
 right clic|right clic|noun|2|file:///sdcard/acc_icons/9872_1.png.64x64_q85.png|en|0||0
 dental apparatus|dental apparatus|noun|2|file:///sdcard/acc_icons/10316_1.png.64x64_q85.png|en|0||0
 stir|stir|verb|3|file:///sdcard/acc_icons/5981_1.png.64x64_q85.png|en|0||0
