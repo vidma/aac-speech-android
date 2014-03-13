@@ -10,8 +10,8 @@
     android:gravity="center"
     android:height="20dp"
     android:maxHeight="64dp"
-    android:text="Text"
-    android:textSize="10dp"
+    android:text=""
+    android:textSize="12sp"
     android:textStyle="bold" />
 <!--      android:height="30dp"
  -->

@@ -7,7 +7,6 @@
     <!-- TODO: bg could be transparent but with curent images don't look good on black @android:color/transparent -->
 
     <ImageButton
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/icons_imgButton"
         android:layout_width="64px"
         android:layout_height="64px"

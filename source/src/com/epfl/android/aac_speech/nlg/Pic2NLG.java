@@ -111,6 +111,7 @@ public class Pic2NLG {
 		return verb;
 
 	}
+	
 
 	/**
 	 * 
@@ -497,6 +498,16 @@ public class Pic2NLG {
 		return null;
 	}
 
+	
+	private boolean isClauseEmpty(SPhraseSpec clause){
+		if (clause.getChildren().size() != 0){
+			if (!(clause.getVerb() == null && clause.getObject() == null && clause.getSubject() == null)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * Relizes a sentence using simpleNLG
 	 * 
@@ -511,11 +522,12 @@ public class Pic2NLG {
 		/* Sometimes */
 		String text = "";
 		try {
-
+			//wtf?
 			if (opt_modal_clause != null) {
 				text = realiser.realiseSentence(opt_modal_clause);
-			} else {
-				text = realiser.realiseSentence(clause);
+			} else if (!isClauseEmpty(clause)) { //simpleNLG can't render empty VP
+					System.out.println(clause.getChildren());
+					text = realiser.realiseSentence(clause);
 			}
 
 		} catch (Exception e) {

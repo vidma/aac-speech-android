@@ -16,6 +16,11 @@ public class ScalingLinearLayout extends LinearLayout {
 	int expectedWidth;
 	int expectedHeight;
 
+	public void cleanup(){
+		this.alreadyScaled = false;
+		//this.scale = 1;
+	}
+	
 	public ScalingLinearLayout(Context context) {
 		super(context);
 
@@ -88,7 +93,9 @@ public class ScalingLinearLayout extends LinearLayout {
 			
 			// do not allow zero scaling as it might mess the things up (e.g. when Layout is empty)
 			if (this.scale < 0.05 || this.baseWidth <= 20) {
-				this.scale = (float) 1.0;
+				//this.scale = (float) 1.0;
+				// the element is probably not yet properly initialized, lets wait...
+				return; //prevent super.draw()
 			}
 			else {
 				Log.d("notcloud.view", "ScalingLinearLayout::onLayout: Scaling! scale=" + this.scale);

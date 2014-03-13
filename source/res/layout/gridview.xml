@@ -34,7 +34,6 @@
     -->
 
     <GridView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/category_gridView"
         style="@style/GridViewStyle"
         android:columnWidth="80dp" >

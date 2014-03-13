@@ -86,7 +86,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 
 	public static final boolean DEBUG = false;
 
-	public static final String APP_CONTENT_FILE_DOWN_URL = "https://github.com/vidma/aac-speech-android/releases/download/v1.1beta/aac_speech_data.zip";
+	public static final String APP_CONTENT_FILE_DOWN_URL = "https://github.com/vidma/aac-speech-android/releases/download/v1.2beta/aac_speech_data.zip";
 
 	public static boolean isTablet = false;
 
@@ -506,6 +506,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	 * we use the "super horizontal scroller" only for mobiles, not for tablets
 	 */
 	private void createImageButtons() {
+		// TODO: image buttons could be reused afterwards, only changing the text/action...
 		Log.d(TAG, "createImageButtons:start");
 		boolean is_tablet = isTablet();
 		ViewGroup home_screen_layout = (LinearLayout) findViewById(R.id.home_screen);
@@ -527,10 +528,11 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 			if (home_screen_layout instanceof ScalingLinearLayout){
 				tl1.setPadding(20, 0, 0, 0); // add spacing between main and secondary column
 				ScalingLinearLayout l = (ScalingLinearLayout)home_screen_layout;
-				l.onFinishInflate(); // TODO: some of the later steps might be optional
+				// TODO: some of the later steps might be optional
+				l.cleanup(); // we're reusing old element right now ...				
 				l.invalidate();
-				l.requestLayout();
-				l.refreshDrawableState();
+				l.requestLayout(); // refresh view and recalculate the size
+				//l.refreshDrawableState();
 			}
 
 		} else {
@@ -745,7 +747,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d(TAG, "Starting. onCreate. nlgConverter= " + nlgConverter + " nlgText = " + nlg_text);
+		Log.d(TAG, "Starting. onCreate. nlgConverter=" + nlgConverter + " nlgText = " + nlg_text);
 
 		// remove title (label bar) to save space
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);

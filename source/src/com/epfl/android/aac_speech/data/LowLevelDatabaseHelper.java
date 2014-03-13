@@ -211,7 +211,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				
 				values.put(Icon.COL_LANG, it.next());
 				values.put(Icon.COL_MAIN_CATEGORY, it.next());
-				values.put(Icon.COL_OFFENSIVE, 0);
+				values.put(Icon.COL_OFFENSIVE, it.next());
 				values.put(Icon.COL_USE_COUNT, 0);
 
 				long id = db.insert(Icon.TABLE, null, values);

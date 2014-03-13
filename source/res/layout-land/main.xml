@@ -13,8 +13,8 @@
     <ViewFlipper
         android:id="@+id/view_switcher"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
+        android:layout_height="0dip"
+        android:layout_gravity="left"
         android:layout_marginBottom="1dp"
         android:layout_weight="1.0" >
 
@@ -48,7 +48,7 @@
         <!-- categories view -->
 
         <LinearLayout
-            android:id="@+id/category_linearLayout1"
+            android:id="@+id/category_linearLayout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
@@ -79,9 +79,9 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="left"
                     android:layout_weight="1.0"
-                    android:text="Category Title"
+                    android:text=""
                     android:textColor="#999"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
