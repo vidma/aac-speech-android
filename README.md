@@ -68,32 +68,14 @@ CURRENT ISSUES
 
 * many of the icons are not correctly part-of-speech tagged (this is hard manual work; we use some simple guesses), so have in mind that the application may not allways give expected results
 
-* Very large phones (smaller than tablet) -- shall still be in phone mode (with flig changing windows) 
+* ~~Very large phones (smaller than tablet) -- shall still be in phone mode (with flig changing windows)~~
+
 
 REPORTING PROBLEMS
 ------------------
 
 To report a bug or other problem, submit a ticket at GitHub: https://github.com/vidma/aac-speech-android/issues/new
 
-LICENSE
--------
-
-This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/ .
-
-CONTENT LICENSE
--------
-
-The application includes 5000+ <a href="http://arasaac.org/condiciones_uso.php">ARASAAC</a> pictograms limited to non-commercial use (Creative Commons) that must be redistributed under the same licence.
-
-* Author of the pictograms: Sergio Palao
-* Origin: ARASAAC
-* License: CC (BY-NC-SA)
-
-
-
-DEVELOPMENT
------------
-just use eclipse and import the the project
 
 
 FUTURE WORK
@@ -107,19 +89,44 @@ FUTURE WORK
     * automatic guessing, compound words: avoir besoin etc, add other question and negation types (ne..que, ne..guerre etc, in addition to ne .. pas)
 * extend user interface
     * more options for word icons (e.g. overriding number/gender for each icon)
-    * better UI for tablets: have filtering options on the side of category view 
+    * ~~better UI for tablets: have filtering options on the side of category view~~
 * extend English functionality
-* misc    
+* misc
     * could we further speed up the loading time?
-    * Gesture search do not handle French accents yet (bug in Google's app)
-currently we use the ascii version of French word for search
+    * Gesture search do not handle French accents yet (bug in Google's app) - currently we use the ascii version of French word for search
 
 
-ISSUES FIXED JUST NOW
+ISSUES RECENTLY FIXED
 ---------------------
+* landscape mode and better tablet support (Mar 2014)
 * improved English support
     * automatic gerund/infinitive for verbs with like/want/to be as a modal
     * now pronouns work as expected
     * icons for English included (selected to match the French ones)
 * installation was very slow
 * adjectives now allways agree gender and number with noun
+
+
+
+DEVELOPMENT
+-----------
+just use eclipse and import the the project
+
+
+
+LICENSE
+-------
+
+This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/ .
+
+
+
+CONTENT LICENSE
+-------
+
+The application includes 5000+ <a href="http://arasaac.org/condiciones_uso.php">ARASAAC</a> pictograms limited to non-commercial use (Creative Commons) that must be redistributed under the same licence.
+
+* Author of the pictograms: Sergio Palao
+* Origin: ARASAAC
+* License: CC (BY-NC-SA)
+
