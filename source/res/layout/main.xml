@@ -13,8 +13,8 @@
     <ViewFlipper
         android:id="@+id/view_switcher"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
+        android:layout_height="0dip"
+        android:layout_gravity="left"
         android:layout_marginBottom="1dp"
         android:layout_weight="1.0" >
 
@@ -28,11 +28,13 @@
             android:orientation="vertical"
             android:paddingTop="3dp" >
         </LinearLayout>
+        
+        
 
         <!-- categories view -->
 
         <LinearLayout
-            android:id="@+id/category_linearLayout1"
+            android:id="@+id/category_linearLayout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
@@ -53,7 +55,7 @@
                     android:background="#000000"
                     android:drawableLeft="@drawable/go_back"
                     android:gravity="left"
-                    android:text="@string/go_back" />
+                     />
 
                 <!-- TODO: why this is not visible -->
 
@@ -63,9 +65,9 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="left"
                     android:layout_weight="1.0"
-                    android:text="Category Title"
+                    android:text=""
                     android:textColor="#999"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
 

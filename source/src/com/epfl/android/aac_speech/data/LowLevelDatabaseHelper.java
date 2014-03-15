@@ -191,7 +191,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				ContentValues values = new ContentValues();
 				/**
 				 * The field order in CSV is: word, part_of_speech, spc_color,
-				 * icon_path, lang, main_category_id
+				 * icon_path, lang, main_category_id, categories, is_offensive
 				 * 
 				 */
 				String word = it.next();
@@ -211,7 +211,9 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				
 				values.put(Icon.COL_LANG, it.next());
 				values.put(Icon.COL_MAIN_CATEGORY, it.next());
-				values.put(Icon.COL_OFFENSIVE, 0);
+				// categories not used
+				String categories = it.next();
+				values.put(Icon.COL_OFFENSIVE, it.next());
 				values.put(Icon.COL_USE_COUNT, 0);
 
 				long id = db.insert(Icon.TABLE, null, values);

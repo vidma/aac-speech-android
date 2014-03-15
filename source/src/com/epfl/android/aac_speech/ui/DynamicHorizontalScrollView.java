@@ -1,5 +1,6 @@
 package com.epfl.android.aac_speech.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.HorizontalScrollView;
@@ -49,6 +50,7 @@ public class DynamicHorizontalScrollView extends HorizontalScrollView {
 		};
 	}
 
+	@SuppressLint("WrongCall")
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);

@@ -10,8 +10,8 @@
 
     <TextView
         android:id="@+id/search_list_entry_icon_text"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="0dip"
+        android:layout_height="0dip"
         android:layout_weight="1.0"
         android:gravity="center_vertical|left"
         android:paddingLeft="5dp"

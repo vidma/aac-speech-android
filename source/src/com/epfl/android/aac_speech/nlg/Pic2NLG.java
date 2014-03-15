@@ -32,7 +32,7 @@ import com.epfl.android.aac_speech.lib.ArrayUtils;
 public class Pic2NLG {
 
 	public enum ActionType {
-		NOUN, CLITIC_PRONOUN, VERB, ADVERB, TENSE_PRESENT, TENSE_PAST, TENSE_FUTURE, TENSE_FUTUR_PROCHE, NUMBER_AGREEMENT, NEGATED, ADJECTIVE, PREPOSITION, QUESTION, DOT, CATEGORY
+		NOUN, CLITIC_PRONOUN, VERB, ADVERB, TENSE_PRESENT, TENSE_PAST, TENSE_FUTURE, TENSE_FUTUR_PROCHE, NUMBER_AGREEMENT, NEGATED, ADJECTIVE, PREPOSITION, QUESTION, DOT, CATEGORY, EMPTY
 	};
 
 	public static Lexicon lexicon;
@@ -111,6 +111,7 @@ public class Pic2NLG {
 		return verb;
 
 	}
+	
 
 	/**
 	 * 
@@ -497,6 +498,16 @@ public class Pic2NLG {
 		return null;
 	}
 
+	
+	private boolean isClauseEmpty(SPhraseSpec clause){
+		if (clause.getChildren().size() != 0){
+			if (!(clause.getVerb() == null && clause.getObject() == null && clause.getSubject() == null)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * Relizes a sentence using simpleNLG
 	 * 
@@ -508,25 +519,21 @@ public class Pic2NLG {
 	 * @return
 	 */
 	private String releaseSentence(SPhraseSpec clause, SPhraseSpec opt_modal_clause) {
-
 		/* Sometimes */
 		String text = "";
 		try {
-
+			//wtf?
 			if (opt_modal_clause != null) {
 				text = realiser.realiseSentence(opt_modal_clause);
-			} else {
-				text = realiser.realiseSentence(clause);
+			} else if (!isClauseEmpty(clause)) { //simpleNLG can't render empty VP
+					text = realiser.realiseSentence(clause);
 			}
-
-			// dot at the end of sentence looks misleading as we have a
-			// button for, so remove it
-			text = text.replace('.', ' ');
 
 		} catch (Exception e) {
 			Log.e("Pic2NLG", "exception while releasing sentence", e);
 		}
-		return text.trim();
+		// dot at the end of sentence looks misleading as we have a button for, so remove it
+		return text.replace('.', ' ').trim();
 	}
 
 	/**

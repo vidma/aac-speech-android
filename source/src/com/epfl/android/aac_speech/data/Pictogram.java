@@ -1,10 +1,15 @@
 package com.epfl.android.aac_speech.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import simplenlg.features.Feature;
+import simplenlg.features.Gender;
 import simplenlg.features.LexicalFeature;
 import simplenlg.features.NumberAgreement;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.NLGElement;
+import simplenlg.phrasespec.NPPhraseSpec;
 import android.graphics.Color;
 
 import com.epfl.android.aac_speech.MainActivity;
@@ -12,9 +17,17 @@ import com.epfl.android.aac_speech.nlg.Pic2NLG;
 import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
 //import android.R;
 
+enum SpecialPicto {
+	I // must have the gender
+}
+
 public class Pictogram {
+	public static String pref_my_gender = "MALE"; // TODO: this might be accessed differently?
+	
 	public String data; /* This is word or category_ID */
 	public String display_text;
+	private String word; // used internally when creating the NLG Element
+	private List<SpecialPicto> features = new ArrayList<SpecialPicto>();
 	public Pic2NLG.ActionType type;
 	public int colorCode = 0;
 	public int wordID = 0;
@@ -35,6 +48,8 @@ public class Pictogram {
 	static boolean isFrench() {
 		return MainActivity.getPreferedLanguage().equals("fr");
 	}
+	
+	
 
 	private void init(String word, Pic2NLG.ActionType type) {
 		/**
@@ -43,8 +58,14 @@ public class Pictogram {
 		 */
 		this.data = this.display_text = word;
 		this.type = type;
-		if (type != Pic2NLG.ActionType.NUMBER_AGREEMENT && type != Pic2NLG.ActionType.NEGATED) {
+		this.word = word;
+		
+		//TODO: this will be called live when interpreting not when creating?
+		this.to_nlg();
+	}
 
+	private void to_nlg() {
+		if (type != Pic2NLG.ActionType.NUMBER_AGREEMENT && type != Pic2NLG.ActionType.NEGATED) {
 			switch (type) {
 			case ADJECTIVE:
 				this.element = Pic2NLG.factory.createNLGElement(word, LexicalCategory.ADJECTIVE);
@@ -61,6 +82,14 @@ public class Pictogram {
 				if (word.endsWith("s")) {
 					this.element.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
 				}
+				for (SpecialPicto feature: features){
+					switch (feature) {
+					case I:
+						if (pref_my_gender.equals("FEMALE"))
+							this.element.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
+					}
+				}
+				
 				break;
 
 			case VERB:
@@ -97,7 +126,6 @@ public class Pictogram {
 				this.element = Pic2NLG.factory.createNLGElement(word);
 				break;
 			}
-
 		}
 	}
 
@@ -127,6 +155,12 @@ public class Pictogram {
 
 	public Pictogram(String display_text, NLGElement elm, Pic2NLG.ActionType type, int imageResourceId) {
 		init(display_text, elm, type);
+		this.imageResourceId = imageResourceId;
+	}
+	
+	public Pictogram(String display_text, Pic2NLG.ActionType type, int imageResourceId, SpecialPicto feature) {
+		this.features.add(feature);
+		init(display_text, type);
 		this.imageResourceId = imageResourceId;
 	}
 
@@ -256,12 +290,12 @@ public class Pictogram {
 	 * 5. Social: pink
 	 * 
 	 * 6. Miscellanea: white
+	 * or transparent..
 	 */
 	public int getBgColor() {
-
-		/** Category has it's background, so icons shall be transparent */
+		// Category has its background, so icons shall be transparent
 		if (this.type == ActionType.CATEGORY || this.type == ActionType.NEGATED || this.type == ActionType.QUESTION
-				|| this.type == ActionType.DOT)
+				|| this.type == ActionType.DOT || this.type == ActionType.EMPTY)
 			return Color.TRANSPARENT;
 
 		int hexColor = SpcColor.getColor(this.colorCode, true);

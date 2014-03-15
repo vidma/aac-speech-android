@@ -4,6 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0beta" >
 
+    <!-- TODO: android:targetSdkVersion="14", menu might no work? -->
     <uses-sdk android:minSdkVersion="9" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -27,11 +28,13 @@
             android:grantUriPermissions="true" >
         </provider>
 
-        <!-- TODO: hardware accelerated from Android 3.0: android:hardwareAccelerated="true" -->
+        <!-- TODO: hardware accelerated from Android 3.0: android:hardwareAccelerated="true"
+        TODO: if targeting API 13+ also add screenSize              android:configChanges="orientation|keyboard|keyboardHidden|uiMode"
+         -->
         <activity
             android:name="com.epfl.android.aac_speech.MainActivity"
             android:alwaysRetainTaskState="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="user" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,11 +43,11 @@
         </activity>
         <activity
             android:name="com.epfl.android.aac_speech.AboutActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="user" >
         </activity>
         <activity
             android:name="com.epfl.android.aac_speech.PreferencesActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="user" >
         </activity>
     </application>
 
