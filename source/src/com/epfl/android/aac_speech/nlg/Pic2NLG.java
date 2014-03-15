@@ -32,7 +32,7 @@ import com.epfl.android.aac_speech.lib.ArrayUtils;
 public class Pic2NLG {
 
 	public enum ActionType {
-		NOUN, CLITIC_PRONOUN, VERB, ADVERB, TENSE_PRESENT, TENSE_PAST, TENSE_FUTURE, TENSE_FUTUR_PROCHE, NUMBER_AGREEMENT, NEGATED, ADJECTIVE, PREPOSITION, QUESTION, DOT, CATEGORY
+		NOUN, CLITIC_PRONOUN, VERB, ADVERB, TENSE_PRESENT, TENSE_PAST, TENSE_FUTURE, TENSE_FUTUR_PROCHE, NUMBER_AGREEMENT, NEGATED, ADJECTIVE, PREPOSITION, QUESTION, DOT, CATEGORY, EMPTY
 	};
 
 	public static Lexicon lexicon;
@@ -526,18 +526,14 @@ public class Pic2NLG {
 			if (opt_modal_clause != null) {
 				text = realiser.realiseSentence(opt_modal_clause);
 			} else if (!isClauseEmpty(clause)) { //simpleNLG can't render empty VP
-					System.out.println(clause.getChildren());
 					text = realiser.realiseSentence(clause);
 			}
 
 		} catch (Exception e) {
 			Log.e("Pic2NLG", "exception while releasing sentence", e);
 		}
-		
-		// dot at the end of sentence looks misleading as we have a
-		// button for, so remove it
-		text = text.replace('.', ' ');		
-		return text.trim();
+		// dot at the end of sentence looks misleading as we have a button for, so remove it
+		return text.replace('.', ' ').trim();
 	}
 
 	/**

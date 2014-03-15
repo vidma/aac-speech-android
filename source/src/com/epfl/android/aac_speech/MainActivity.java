@@ -73,6 +73,8 @@ import com.epfl.android.aac_speech.ui.UIFactory;
 
 public class MainActivity extends TTSButtonActivity implements UncaughtExceptionHandler {
 
+	private static  final boolean RESTART_ON_EXCEPTION = true;  
+	
 	DBHelper dbHelper = null;
 	private PictogramFactory pictogramFactory = null;
 	private UIFactory uiFactory = null;
@@ -341,20 +343,22 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		if (phrase_list.size() > 0)
 			nlg_text = nlgConverter.convertPhrasesToNLG(phrase_list);
 
+		// first perform the faster tasks
+		wordsToSpeak.setText(getText(nlg_text));
+		drawCurrentIcons();
+		
 		Boolean is_subject_selected = nlgConverter.hasSubjectBeenSelected(phrase_list);
 		if (is_subject_selected != nlg_state_subject_selected) {
 			nlg_state_subject_selected = is_subject_selected;
-			createImageButtons();
+			createImageButtons(true);
 		}
-		wordsToSpeak.setText(getText(nlg_text));
-		drawCurrentIcons();
 	}
 
 	private final void addWord(final Pictogram currentButton) {
 		Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(100);
 		phrase_list.add(currentButton);
-		Log.d("addWord", currentButton.data + " " + currentButton.type + " " + currentButton.element);
+		//Log.d("addWord", currentButton.data + " " + currentButton.type + " " + currentButton.element);
 		updatePhraseDisplay();
 	}
 
@@ -505,64 +509,75 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	 * 
 	 * we use the "super horizontal scroller" only for mobiles, not for tablets
 	 */
-	private void createImageButtons() {
+	private void createImageButtons(boolean update) {
 		// TODO: image buttons could be reused afterwards, only changing the text/action...
 		Log.d(TAG, "createImageButtons:start");
 		boolean is_tablet = isTablet();
+		
 		ViewGroup home_screen_layout = (LinearLayout) findViewById(R.id.home_screen);
-		home_screen_layout.removeAllViews();
-
-		/* TODO: persist UIFActory */
 		uiFactory.nlg_state_subject_selected = nlg_state_subject_selected;
+		
+		
+		ViewGroup tl_container = home_screen_layout;
+		HomeFeatureLayout super_scroller = null;		
+		if (!is_tablet){
+			if (!update){
+				super_scroller = 
+						(HomeFeatureLayout) inflater.inflate(R.layout.horizontal_flip_layout, home_screen_layout, false);
+				super_scroller.init();
+			} else {
+				super_scroller = 
+						(HomeFeatureLayout) home_screen_layout.findViewById(R.layout.horizontal_flip_layout);
+			}
+			tl_container = super_scroller.internalWrapper;
+		}
+		
+		TableLayout tl, tl1;
+		
+		if (!update){
+			home_screen_layout.removeAllViews();
+		}
+		tl = uiFactory.createHomePictogramTable(tl_container, update);
+		tl1 = uiFactory.createImageButtonsCategoriesRight(tl_container, update);
+		
+		
 
 		/* We shall have tablet, so we could fit everything into one page */
 		if (is_tablet) {
-			TableLayout tl = (TableLayout) inflater.inflate(R.layout.tablelayout, home_screen_layout, false);
-			uiFactory.createHomePictogramTable(tl);
-			TableLayout tl1 = uiFactory.createImageButtonsCategoriesRight(home_screen_layout);
-
-			home_screen_layout.addView(tl);
-			home_screen_layout.addView(tl1);
-
-			// in landscape mode we show both screens side-by-side
-			if (home_screen_layout instanceof ScalingLinearLayout){
-				tl1.setPadding(20, 0, 0, 0); // add spacing between main and secondary column
-				ScalingLinearLayout l = (ScalingLinearLayout)home_screen_layout;
-				// TODO: some of the later steps might be optional
-				l.cleanup(); // we're reusing old element right now ...				
-				l.invalidate();
-				l.requestLayout(); // refresh view and recalculate the size
-				//l.refreshDrawableState();
+			if (!update){
+				home_screen_layout.addView(tl);				
+				home_screen_layout.addView(tl1);
+				// in landscape mode we show both screens side-by-side
+				if (home_screen_layout instanceof ScalingLinearLayout){
+					tl1.setPadding(20, 0, 0, 0); // add spacing between main and secondary column
+					ScalingLinearLayout l = (ScalingLinearLayout)home_screen_layout;
+					// TODO: some of the later steps might be optional
+					l.cleanup(); // we're reusing old element right now ...				
+					l.invalidate();
+					l.requestLayout(); // refresh view and recalculate the size
+					//l.refreshDrawableState();
+				}
 			}
 
 		} else {
 			// on a smaller device, we use a scroller to switch between the two views
 			// TODO: Android standard tools might be also good or even better
-			HomeFeatureLayout super_scroller = 
-					(HomeFeatureLayout) inflater.inflate(R.layout.horizontal_flip_layout, home_screen_layout, false);
-			super_scroller.init();
-
-			ViewGroup parent = super_scroller.internalWrapper;
-			TableLayout tl = (TableLayout) inflater.inflate(R.layout.tablelayout, parent, false);
-
-			uiFactory.createHomePictogramTable(tl);
-			TableLayout tl1 = uiFactory.createImageButtonsCategoriesRight(parent);
-
-			ArrayList<View> items = new ArrayList<View>();
-			items.add(tl);
-			items.add(tl1);
-			
-			// Set Layout size to match the screen, it's not automatically resized within scrollable thing			
-			DisplayMetrics metrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(metrics);
-			int height = metrics.heightPixels;
-			int width = metrics.widthPixels;
-			for (View item : items) {
-				item.setLayoutParams(new LayoutParams(width, height));
+			if (!update){
+				ArrayList<View> items = new ArrayList<View>();
+				items.add(tl);				
+				items.add(tl1);
+				
+				// Set Layout size to match the screen, it's not automatically resized within scrollable thing			
+				DisplayMetrics metrics = new DisplayMetrics();
+				getWindowManager().getDefaultDisplay().getMetrics(metrics);
+				int height = metrics.heightPixels;
+				int width = metrics.widthPixels;
+				for (View item : items) {
+					item.setLayoutParams(new LayoutParams(width, height));
+				}
+				super_scroller.setFeatureItems(items);
+				home_screen_layout.addView(super_scroller);
 			}
-
-			super_scroller.setFeatureItems(items);
-			home_screen_layout.addView(super_scroller);
 		}
 
 		Log.d(TAG, "createImageButtons:end");
@@ -763,47 +778,38 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 
 		setContentView(R.layout.main);
 
-		// Allow restarting the activity
+		// In production, override any unexpected (non-handled) exceptions with restart of application		
 		restart_intent = PendingIntent.getActivity(getBaseContext(), 0, new Intent(getIntent()), getIntent().getFlags());
-
-		// Disabled: In production, override any unexpected (non-handled) exceptions with restart of application
-		if (!MainActivity.DEBUG) {
-			// TODO: send trace to server; Internet may be not available
-			// TODO: Thread.setDefaultUncaughtExceptionHandler(this);
+		if (MainActivity.RESTART_ON_EXCEPTION) {
+			Thread.setDefaultUncaughtExceptionHandler(this);
 		}
 
-		/* initialize activity level variables */
+		// initialize activity level variables
 		getPreferences();
 		dbHelper = new DBHelper(getContentResolver(), this.pref_hide_offensive);
 		inflater = getLayoutInflater();
 		res = getResources();
-
 		wordsToSpeak = (TextView) findViewById(R.id.wordsToSpeak);
 
-		/* category view - go back button */
+		// category view - go back button
 		Button category_back = (Button) findViewById(R.id.category_go_back);
 		Button search_back = (Button) findViewById(R.id.listview_search_go_back);
-
 		OnClickListener back_to_home_handler = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				returnToMainScreen();
 			}
 		};
-
 		category_back.setOnClickListener(back_to_home_handler);
 		search_back.setOnClickListener(back_to_home_handler);
-
-		/*
-		 * initialise NLG and Application
-		 */
-
+		
+		// initialise NLG and Application
 		if (ensureDataInstalledOrQuit()) {
 			// There is no use in loading the slow simpleNLG is no data is installed
 			loadNLG(savedInstanceState);
 		}
 
-		// after everything is loaded, enable speaking button
+		// once everything is loaded, enable speaking button
 		ui_enable_tts();
 		Log.d(TAG, "on create end");
 	}
@@ -948,11 +954,15 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		 * create the image buttons: with current implementation UI buttons can
 		 * not be created before NLG is loaded
 		 */
-		pictogramFactory = new PictogramFactory(dbHelper, pref_gender, res);
+		pictogramFactory = new PictogramFactory(dbHelper, res);
+		Pictogram.pref_my_gender = pref_gender;
+		
 		OnClickListener items_onclick_listener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Pictogram currentButton = (Pictogram) v.getTag();
+				//ImageButton img = (ImageButton) v.findViewById(R.id.icons_imgButton);
+				System.out.println("TAG:" + v.getTag(R.id.TAG_PICTOGRAM));
+				Pictogram currentButton = (Pictogram) v.getTag(R.id.TAG_PICTOGRAM);
 				if (currentButton != null) {
 					if (currentButton.type == ActionType.CATEGORY) {
 						try {
@@ -974,7 +984,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		};
 
 		uiFactory = new UIFactory(inflater, getApplicationContext(), pictogramFactory, items_onclick_listener, dbHelper);
-		createImageButtons();
+		createImageButtons(false);
 		updatePhraseDisplay();
 
 		/* activate long-click of backspace as delete all phrase */

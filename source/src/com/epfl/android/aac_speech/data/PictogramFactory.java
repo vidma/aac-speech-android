@@ -7,9 +7,10 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import simplenlg.features.Gender;
+/*import simplenlg.features.Gender;
 import simplenlg.features.LexicalFeature;
 import simplenlg.phrasespec.NPPhraseSpec;
+*/
 
 import android.content.res.Resources;
 import android.util.Log;
@@ -116,7 +117,7 @@ public class PictogramFactory {
 
 	/* Context dependent variables */
 	protected DBHelper db;
-	protected String pref_gender;
+	// deprecated: protected String pref_gender;
 	protected Resources res;
 
 	/**
@@ -130,9 +131,8 @@ public class PictogramFactory {
 	 * 
 	 * 1 to N: nouns: je, tu, eux, etc verbs: to have
 	 */
-	public PictogramFactory(DBHelper db, String pref_gender, Resources res) {
+	public PictogramFactory(DBHelper db, Resources res) {
 		this.res = res;
-		this.pref_gender = pref_gender;
 		this.db = db;
 
 		/* Initialize action definitions */
@@ -223,11 +223,7 @@ public class PictogramFactory {
 
 	Pictogram getSpecialActionJe() {
 		String pronoun_I = res.getString(R.string.btn_I);
-		NPPhraseSpec je = Pic2NLG.factory.createNounPhrase(pronoun_I);
-		if (pref_gender.equals("FEMALE"))
-			je.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
-		return new Pictogram(pronoun_I, je, ActionType.NOUN, R.drawable.je);
-
+		return new Pictogram(pronoun_I, ActionType.NOUN, R.drawable.je, SpecialPicto.I);
 	}
 
 	/*
