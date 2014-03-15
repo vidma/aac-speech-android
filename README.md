@@ -78,6 +78,20 @@ To report a bug or other problem, submit a ticket at GitHub: https://github.com/
 
 
 
+
+ISSUES RECENTLY FIXED
+---------------------
+* landscape mode and better tablet support (Mar 2014)
+* improved English support
+    * automatic gerund/infinitive for verbs with like/want/to be as a modal
+    * now pronouns work as expected
+    * icons for English included (selected to match the French ones)
+* installation was very slow
+* adjectives now allways agree gender and number with noun
+
+
+
+
 FUTURE WORK
 -----------
 * possibility to manually add words
@@ -94,18 +108,6 @@ FUTURE WORK
 * misc
     * could we further speed up the loading time?
     * Gesture search do not handle French accents yet (bug in Google's app) - currently we use the ascii version of French word for search
-
-
-ISSUES RECENTLY FIXED
----------------------
-* landscape mode and better tablet support (Mar 2014)
-* improved English support
-    * automatic gerund/infinitive for verbs with like/want/to be as a modal
-    * now pronouns work as expected
-    * icons for English included (selected to match the French ones)
-* installation was very slow
-* adjectives now allways agree gender and number with noun
-
 
 
 DEVELOPMENT
