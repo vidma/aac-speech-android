@@ -73,26 +73,24 @@ import com.epfl.android.aac_speech.ui.UIFactory;
 
 public class MainActivity extends TTSButtonActivity implements UncaughtExceptionHandler {
 
-	private static  final boolean RESTART_ON_EXCEPTION = true;  
+	private static  final boolean RESTART_ON_EXCEPTION = true;
+	public static final boolean DEBUG = false;
+	public static final String APP_CONTENT_FILE_DOWN_URL = "https://github.com/vidma/aac-speech-android/releases/download/v1.2beta/aac_speech_data.zip";
 	
+	// initialized in onCreate	
 	DBHelper dbHelper = null;
 	private PictogramFactory pictogramFactory = null;
 	private UIFactory uiFactory = null;
 	public static Pic2NLG nlgConverter = null;
-
-	// initialized in onCreate
 	private LayoutInflater inflater;
 	Resources res;
-
 	public static ArrayList<Pictogram> phrase_list = new ArrayList<Pictogram>();
-
-	public static final boolean DEBUG = false;
-
-	public static final String APP_CONTENT_FILE_DOWN_URL = "https://github.com/vidma/aac-speech-android/releases/download/v1.2beta/aac_speech_data.zip";
-
 	public static boolean isTablet = false;
-
 	public static Boolean nlg_state_subject_selected = false;
+	private String nlg_text;
+	private PendingIntent restart_intent;
+	static TextView wordsToSpeak = null;
+
 
 	// our GUI
 	private int currentCategoryId = 0;
@@ -100,8 +98,6 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	ProgressDialog progressDialog;
 
 	// default Preferences
-
-	/* Default preferences */
 	private final static boolean PREF_UPERCASE_DEFAULT = false;
 	private final static boolean PREF_HIDE_SPC_DEFAULT = false;
 	private final boolean PREF_CLEAR_PHRASE_AFTER_SPEAK_DEFAULT = false;
@@ -115,11 +111,6 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	private boolean pref_clear_phrase_after_speak = PREF_CLEAR_PHRASE_AFTER_SPEAK_DEFAULT;
 
 	private boolean pref_switch_back_to_main_screen = true;
-
-	private String nlg_text;
-	private PendingIntent restart_intent;
-
-	static TextView wordsToSpeak = null;
 
 	private static final String TAG = "AAC";
 
