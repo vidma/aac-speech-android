@@ -745,6 +745,8 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			// force portrait orientation for non-tablets
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		} else {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); // force landscape on tablet for now
 		}
 
 		setContentView(R.layout.main);

@@ -303,7 +303,7 @@ public class Pictogram {
 			return hexColor;
 
 		String color = SpcColor.color_white;
-		switch (this.type) {
+		switch (this.type) {  
 		case CLITIC_PRONOUN:
 		case NOUN:
 			// TODO: proper names vs. common names!
