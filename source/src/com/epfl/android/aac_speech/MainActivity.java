@@ -66,7 +66,7 @@ import com.epfl.android.aac_speech.data.models.PhraseHistory;
 import com.epfl.android.aac_speech.nlg.Pic2NLG;
 import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
 import com.epfl.android.aac_speech.ui.DynamicHorizontalScrollView;
-import com.epfl.android.aac_speech.ui.HomeFeatureLayout;
+import com.epfl.android.aac_speech.ui.FlipLayout;
 import com.epfl.android.aac_speech.ui.PictogramCursorAdapter;
 import com.epfl.android.aac_speech.ui.ScalingLinearLayout;
 import com.epfl.android.aac_speech.ui.UIFactory;
@@ -503,75 +503,55 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	private void createImageButtons(boolean update) {
 		// TODO: image buttons could be reused afterwards, only changing the text/action...
 		Log.d(TAG, "createImageButtons:start");
-		boolean is_tablet = isTablet();
-		
-		ViewGroup home_screen_layout = (LinearLayout) findViewById(R.id.home_screen);
 		uiFactory.nlg_state_subject_selected = nlg_state_subject_selected;
-		
-		
+
+		boolean is_tablet = isTablet();		
+		ViewGroup home_screen_layout = (LinearLayout) findViewById(R.id.home_screen);
 		ViewGroup tl_container = home_screen_layout;
-		HomeFeatureLayout super_scroller = null;		
-		if (!is_tablet){
-			if (!update){
-				super_scroller = 
-						(HomeFeatureLayout) inflater.inflate(R.layout.horizontal_flip_layout, home_screen_layout, false);
-				super_scroller.init();
-			} else {
-				super_scroller = 
-						(HomeFeatureLayout) home_screen_layout.findViewById(R.layout.horizontal_flip_layout);
-			}
-			tl_container = super_scroller.internalWrapper;
-		}
-		
-		TableLayout tl, tl1;
 		
 		if (!update){
 			home_screen_layout.removeAllViews();
 		}
-		tl = uiFactory.createHomePictogramTable(tl_container, update);
-		tl1 = uiFactory.createImageButtonsCategoriesRight(tl_container, update);
-		
-		
-
-		/* We shall have tablet, so we could fit everything into one page */
-		if (is_tablet) {
+		FlipLayout view_flipper = null;
+		if (!is_tablet){
 			if (!update){
-				home_screen_layout.addView(tl);				
-				home_screen_layout.addView(tl1);
-				// in landscape mode we show both screens side-by-side
-				if (home_screen_layout instanceof ScalingLinearLayout){
-					tl1.setPadding(20, 0, 0, 0); // add spacing between main and secondary column
-					ScalingLinearLayout l = (ScalingLinearLayout)home_screen_layout;
-					// TODO: some of the later steps might be optional
-					l.cleanup(); // we're reusing old element right now ...				
-					l.invalidate();
-					l.requestLayout(); // refresh view and recalculate the size
-					//l.refreshDrawableState();
-				}
+				view_flipper = (FlipLayout) inflater.inflate(R.layout.flip_layout, home_screen_layout, false);
+				view_flipper.init();
+			} else {
+				view_flipper = (FlipLayout) home_screen_layout.findViewById(R.id.home_flipper);
 			}
+			tl_container = view_flipper.internalWrapper;
+		}
+		
+		TableLayout tl1, tl2;
+		tl1 = uiFactory.createHomePictogramTable(tl_container, update);
+		tl2 = uiFactory.createImageButtonsCategoriesRight(tl_container, update);
+		
+		if (update)
+			return;
+		
+		// these operations create the views, and are run only the first time
+		if (is_tablet) {
+			// shall have tablet, so we could fit everything into one page
+			home_screen_layout.addView(tl1);
+			home_screen_layout.addView(tl2);
 
+			// in landscape mode we show both screens side-by-side
+			if (home_screen_layout instanceof ScalingLinearLayout) {
+				tl2.setPadding(20, 0, 0, 0); // add spacing between main and
+												// secondary column
+				ScalingLinearLayout l = (ScalingLinearLayout) home_screen_layout;
+				l.cleanup(); // we're reusing old element right now ...
+				l.invalidate();
+				l.requestLayout(); // refresh view and recalculate the size
+			}
 		} else {
 			// on a smaller device, we use a scroller to switch between the two views
 			// TODO: Android standard tools might be also good or even better
-			if (!update){
-				ArrayList<View> items = new ArrayList<View>();
-				items.add(tl);				
-				items.add(tl1);
-				
-				// Set Layout size to match the screen, it's not automatically resized within scrollable thing			
-				DisplayMetrics metrics = new DisplayMetrics();
-				getWindowManager().getDefaultDisplay().getMetrics(metrics);
-				int height = metrics.heightPixels;
-				int width = metrics.widthPixels;
-				for (View item : items) {
-					item.setLayoutParams(new LayoutParams(width, height));
-				}
-				super_scroller.setFeatureItems(items);
-				home_screen_layout.addView(super_scroller);
-			}
+			view_flipper.addAndResizeItems(new View[] { tl1, tl2 });
+			home_screen_layout.addView(view_flipper);
 		}
 
-		Log.d(TAG, "createImageButtons:end");
 	}
 
 	private void showCategory(int category_id) {
