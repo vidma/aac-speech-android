@@ -79,7 +79,7 @@ public class PictogramCursorAdapter extends SimpleCursorAdapter implements Filte
 			v.setBackgroundColor(SpcColor.getColor(spc_color, false));
 		}
 
-		AsyncImageLoaderTask.AsycLoadImage(imagePath, v);
+		AsyncImageLoaderTask.AsycLoadImage(imagePath, v, context);
 	}
 
 	@Override

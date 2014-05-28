@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.epfl.android.aac_speech"
     android:versionCode="2"
-    android:versionName="1.2beta" >
+    android:versionName="1.3beta" >
 
     <!-- TODO: android:targetSdkVersion="14", menu might no work? -->
     <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="10" />

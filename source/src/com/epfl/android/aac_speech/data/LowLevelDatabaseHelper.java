@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
@@ -13,9 +14,11 @@ import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.text.TextUtils.SimpleStringSplitter;
 import android.util.Log;
@@ -31,10 +34,11 @@ import com.epfl.android.aac_speech.data.models.PhraseHistory;
 public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "icons.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 4;
 	private static final String TAG = "PhraseProviderDB: LowLevelDatabaseHelper";
 	public static final String ICONS_DATAFILE = "icon_meanings.data";
 	private static final String CATEGORIES_DATAFILE = "categories.data";
+	private static final String ICONS_IN_ASSETS_DIR = "file:///android_asset/icons-data/";
 
 	// TODO: is it OK storing a ref to context?
 	Context context;
@@ -51,14 +55,21 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		return context.getExternalFilesDir(null);
 	}
 
+	// TODO: not used?
 	public static File getDataFile(Context context, String fileName) {
 		File file = new File(getDatafilesStorageDirectory(context), fileName);
 		return file;
 	}
+	
+	public static InputStream openAssetStream(Context context, String uri) throws IOException {
+		// TODO: file:///assets not needed...
+		// TODO: Content resolver is not allowed to open assets!!!
+		uri = uri.replace("file:///android_asset/", "");
+		Uri tempuri = Uri.parse(uri);
+		AssetManager am = context.getAssets();
+		return am.open(uri);
+	}	
 
-	public static boolean checkDataFileExistance(Context context) {
-		return getDataFile(context, ICONS_DATAFILE).exists() && getDataFile(context, CATEGORIES_DATAFILE).exists();
-	}
 
 	class CsvDatafileReader {
 
@@ -66,14 +77,16 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		private SimpleStringSplitter splitter;
 		public boolean isValid = false;
 		private InputStreamReader reader;
-		public File storage_dir;
+		public String storage_dir;
 
 		public CsvDatafileReader(Context context, String fileName) {
 			try {
-				storage_dir = LowLevelDatabaseHelper.getDatafilesStorageDirectory(context);
+				storage_dir = ICONS_IN_ASSETS_DIR;
+				//LowLevelDatabaseHelper.getDatafilesStorageDirectory(context);
 				Log.d("Phrase provider", "dir: " + storage_dir);
-
-				reader = new InputStreamReader(new FileInputStream(new File(storage_dir, fileName)), "UTF-8");
+				
+				InputStream istream = openAssetStream(context, storage_dir + fileName); // new FileInputStream(new File(storage_dir, fileName));
+				reader = new InputStreamReader(istream, "UTF-8");
 				br = new BufferedReader(reader, 8192);
 
 				splitter = new TextUtils.SimpleStringSplitter('|');
@@ -82,6 +95,9 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -205,8 +221,8 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				values.put(Icon.COL_SPC_COLOR, it.next());
 
 				String icon_path = it.next();
-				// TODO: gesture search seems to require absolute paths... just a hack to fix it for now
-				icon_path = icon_path.replace("/sdcard", (CharSequence) csvReader.storage_dir.toString());
+				// TODO: remove this line: icon_path = icon_path.replace("/sdcard", (CharSequence) csvReader.storage_dir.toString());
+				
 				values.put(Icon.COL_ICON_PATH, icon_path);
 				
 				values.put(Icon.COL_LANG, it.next());
@@ -251,6 +267,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 			values.put(Category.COL_ORDER, order);
 			values.put(Category.COL_TITLE, title_long);
 			values.put(Category.COL_TITLE_SHORT, title_short);
+			// TODO: category iconpath is not used at the moment, as categories are not fully DB driven (partially predefined in code)...
 			values.put(Category.COL_ICON_PATH, icon_path);
 			values.put(Category.COL_LANGUAGE, lang);
 
@@ -268,9 +285,9 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
 		dropTables(db);
 		onCreate(db);
-		// TODO: keep track of migration SQL between versions!!!
+		// TODO: keep track of migration SQL between versions and preserve the history!!!
 	}
-
+	
 	/**
 	 * @param db
 	 */
