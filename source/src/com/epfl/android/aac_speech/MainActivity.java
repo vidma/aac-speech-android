@@ -152,7 +152,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	private static final String SELECTED_ITEM_ID = "selected_item_id";
 	private static final String SAVED_INST_PHRASE_KEY = "phrase_list";
 
-	private void GestureSearch() {
+	private void gestureSearch() {
 		try {
 			Intent intent = new Intent();
 			intent.setAction("com.google.android.apps.gesturesearch.SEARCH");
@@ -186,7 +186,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	@Override
 	public boolean onSearchRequested() {
 		Log.e("act", "Search Requested");
-		GestureSearch();
+		gestureSearch();
 		return true;
 	}
 
@@ -206,7 +206,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case MENU_GESTURE_SEARCH_ID:
-			GestureSearch();
+			gestureSearch();
 			return true;
 
 		case MENU_ABOUT:
