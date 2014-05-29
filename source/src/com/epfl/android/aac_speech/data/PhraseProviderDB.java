@@ -83,8 +83,11 @@ public class PhraseProviderDB extends ContentProvider {
 				+ SearchManager.SUGGEST_COLUMN_TEXT_1);
 		gestureSearchSuggestionProjectionMap.put(SearchManager.SUGGEST_COLUMN_TEXT_2, "word AS "
 				+ SearchManager.SUGGEST_COLUMN_TEXT_2);
-		gestureSearchSuggestionProjectionMap.put(SearchManager.SUGGEST_COLUMN_ICON_1, "icon_path AS "
-				+ SearchManager.SUGGEST_COLUMN_ICON_1);
+		//TODO: add assets content provider addr
+		gestureSearchSuggestionProjectionMap.put(SearchManager.SUGGEST_COLUMN_ICON_1, 
+				String.format("REPLACE(icon_path, '%s', '%s') AS %s",
+							  LowLevelDatabaseHelper.ASSETS_DIR, AssetsProvider.URI, SearchManager.SUGGEST_COLUMN_ICON_1)
+						);
 	}
 
 	/* URI MATCHER */
@@ -208,6 +211,7 @@ public class PhraseProviderDB extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
+		// TODO: is this used?
 		String tableName = get_matched_tablename(uri);
 
 		/** Append LANGUAGE to PhraseHistory */
@@ -244,6 +248,7 @@ public class PhraseProviderDB extends ContentProvider {
 
 	@Override
 	public int update(Uri uri, ContentValues values, String whereClause, String[] whereArgs) {
+		// TODO: is this in use?
 		String tableName = get_matched_tablename(uri);
 		if (tableName != null) {
 			SQLiteDatabase db = mOpenHelper.getWritableDatabase();

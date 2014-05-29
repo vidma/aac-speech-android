@@ -38,7 +38,8 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 	private static final String TAG = "PhraseProviderDB: LowLevelDatabaseHelper";
 	public static final String ICONS_DATAFILE = "icon_meanings.data";
 	private static final String CATEGORIES_DATAFILE = "categories.data";
-	private static final String ICONS_IN_ASSETS_DIR = "file:///android_asset/icons-data/";
+	public static final String ASSETS_DIR = "file:///android_asset/";
+	private static final String ICONS_IN_ASSETS_DIR = ASSETS_DIR + "icons-data/";
 
 	// TODO: is it OK storing a ref to context?
 	Context context;
@@ -62,8 +63,6 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 	}
 	
 	public static InputStream openAssetStream(Context context, String uri) throws IOException {
-		// TODO: file:///assets not needed...
-		// TODO: Content resolver is not allowed to open assets!!!
 		uri = uri.replace("file:///android_asset/", "");
 		Uri tempuri = Uri.parse(uri);
 		AssetManager am = context.getAssets();
@@ -220,9 +219,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				values.put(Icon.COL_PART_OF_SPEECH, it.next());
 				values.put(Icon.COL_SPC_COLOR, it.next());
 
-				String icon_path = it.next();
-				// TODO: remove this line: icon_path = icon_path.replace("/sdcard", (CharSequence) csvReader.storage_dir.toString());
-				
+				String icon_path = it.next();				
 				values.put(Icon.COL_ICON_PATH, icon_path);
 				
 				values.put(Icon.COL_LANG, it.next());

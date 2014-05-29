@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.epfl.android.aac_speech"
-    android:versionCode="2"
-    android:versionName="1.3beta" >
+    android:versionCode="5"
+    android:versionName="1.2.5beta">
 
     <!-- TODO: android:targetSdkVersion="14", menu might no work? -->
     <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="10" />
@@ -27,6 +27,8 @@
             android:exported="false"
             android:grantUriPermissions="true" >
         </provider>
+        <provider android:name="com.epfl.android.aac_speech.data.AssetsProvider"
+            android:authorities="com.epfl.android.aac_speech.icons_pics" />
 
         <!-- TODO: hardware accelerated from Android 3.0: android:hardwareAccelerated="true"
         TODO: if targeting API 13+ also add screenSize              android:configChanges="orientation|keyboard|keyboardHidden|uiMode"

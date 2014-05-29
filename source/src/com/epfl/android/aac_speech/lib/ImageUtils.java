@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -40,6 +41,8 @@ public class ImageUtils {
 		try {
 			System.out.println("URI:"+URI);
 			if (URI.startsWith(ASSETS_LOCATION)){
+				Uri parsed_uri = Uri.parse(URI);
+				//System.out.println("URI PATH:" + parsed_uri.getEncodedAuthority() + parsed_uri.getEncodedPath());				
 				String path = URI.replace(ASSETS_LOCATION, "");
 				return BitmapFactory.decodeStream(context.getAssets().open(path));
 			} else {
