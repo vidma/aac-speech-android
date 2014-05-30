@@ -152,7 +152,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	private static final String SELECTED_ITEM_ID = "selected_item_id";
 	private static final String SAVED_INST_PHRASE_KEY = "phrase_list";
 
-	private void GestureSearch() {
+	private void gestureSearch() {
 		try {
 			Intent intent = new Intent();
 			intent.setAction("com.google.android.apps.gesturesearch.SEARCH");
@@ -186,7 +186,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	@Override
 	public boolean onSearchRequested() {
 		Log.e("act", "Search Requested");
-		GestureSearch();
+		gestureSearch();
 		return true;
 	}
 
@@ -206,7 +206,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case MENU_GESTURE_SEARCH_ID:
-			GestureSearch();
+			gestureSearch();
 			return true;
 
 		case MENU_ABOUT:
@@ -777,56 +777,11 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		search_back.setOnClickListener(back_to_home_handler);
 		
 		// initialise NLG and Application
-		if (ensureDataInstalledOrQuit()) {
-			// There is no use in loading the slow simpleNLG is no data is installed
-			loadNLG(savedInstanceState);
-		}
+		loadNLG(savedInstanceState);
 
 		// once everything is loaded, enable speaking button
 		ui_enable_tts();
 		Log.d(TAG, "on create end");
-	}
-
-	/**
-	 * @return
-	 * 
-	 */
-	private boolean ensureDataInstalledOrQuit() {
-		/*
-		 * even before loading NLG check if categories and icons data have been
-		 * a) downloaded (TODO: what if download have failed earlier!)
-		 * b) database was successfully created
-		 * 
-		 * DB would be created only if download finished succesfully
-		 */
-
-		if (!LowLevelDatabaseHelper.checkDataFileExistance(getApplicationContext())) {
-			String msg = getResources().getString(R.string.no_datafiles_found_question);
-			String yes = getResources().getString(R.string.no_datafiles_found_question_yes);
-			String no = getResources().getString(R.string.no_datafiles_found_question_no);
-
-			AlertDialog.Builder alert_dlg = new AlertDialog.Builder(this);			
-			alert_dlg.setMessage(msg).setCancelable(false).setPositiveButton(yes, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					// download icons
-					dialog.cancel();
-					PreferencesActivity.update_pictograms(MainActivity.this);
-				}
-			}).setNegativeButton(no, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					dialog.cancel();
-					// show the message
-					String cancel_msg = getResources().getString(R.string.no_datafiles_found_msg_quit);
-					Toast.makeText(MainActivity.this, cancel_msg, Toast.LENGTH_SHORT).show();
-					// close the application
-					MainActivity.this.finish();
-				}
-			});
-			alert_dlg.create().show();
-			return false;
-		}
-		// TODO: check database
-		return true;
 	}
 
 	/**

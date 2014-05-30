@@ -2,6 +2,7 @@ package com.epfl.android.aac_speech.lib;
 
 import java.lang.ref.WeakReference;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,9 +16,12 @@ import android.widget.ImageView;
 public class AsyncImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 	private String url;
 	private final WeakReference<ImageView> imageViewReference;
+	private final WeakReference<Context> context;
+	
 
 	public static class AyncLoadedDrawable extends ColorDrawable {
 		private final WeakReference<AsyncImageLoaderTask> bitmapDownloaderTaskReference;
+
 
 		public AyncLoadedDrawable(AsyncImageLoaderTask bitmapDownloaderTask) {
 			super(Color.TRANSPARENT);
@@ -29,7 +33,8 @@ public class AsyncImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 		}
 	}
 
-	public AsyncImageLoaderTask(ImageView imageView) {
+	public AsyncImageLoaderTask(ImageView imageView, Context cont) {
+		context =  new WeakReference<Context>(cont);
 		imageViewReference = new WeakReference<ImageView>(imageView);
 	}
 
@@ -42,7 +47,7 @@ public class AsyncImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 
 		try {
 			// TODO: not sure if it's good idea to keep context here
-			return ImageUtils.getBitmapFromURI(uri);
+			return ImageUtils.getBitmapFromURI(uri, context.get());
 		} catch (OutOfMemoryError e) {
 			// It may be a good time now to clean up the memmory
 			System.gc();
@@ -101,7 +106,7 @@ public class AsyncImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 		return true;
 	}
 
-	public static void AsycLoadImage(String imagePath, ImageView v) {
+	public static void AsycLoadImage(String imagePath, ImageView v, Context cont) {
 		if (cancelPotentialDownload(imagePath, v)) {
 
 			/* clean up the old drawable if any to be GC gathered */
@@ -120,7 +125,7 @@ public class AsyncImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 				}
 			}
 			/* create an async task and execute it */
-			AsyncImageLoaderTask task = new AsyncImageLoaderTask(v);
+			AsyncImageLoaderTask task = new AsyncImageLoaderTask(v, cont);
 			AsyncImageLoaderTask.AyncLoadedDrawable downloadedDrawable = new AsyncImageLoaderTask.AyncLoadedDrawable(
 					task);
 			/* set the temporal drawable */

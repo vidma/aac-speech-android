@@ -1,10 +1,13 @@
 package com.epfl.android.aac_speech.lib;
 
+import java.io.Console;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -14,6 +17,7 @@ import com.epfl.android.aac_speech.MainActivity;
 public class ImageUtils {
 
 	public static final boolean DOWNSCALE_MOBILE = false;
+	public static final String ASSETS_LOCATION = "file:///android_asset/";
 
 	/**
 	 * Google Android's forumns indicate that using
@@ -33,30 +37,26 @@ public class ImageUtils {
 	}
 	
 	public static Bitmap getBitmapFromURI(String URI, Context context) {
-		ContentResolver resolver = context.getContentResolver();
-		Uri uri = Uri.parse(URI);
-		FileDescriptor fd;
+
 		try {
-			fd = resolver.openFileDescriptor(uri, "r").getFileDescriptor();
-			Bitmap bMap = BitmapFactory.decodeFileDescriptor(fd, new Rect(0, 0, 0, 0), getBitmapOptions());
-			return bMap;
+			System.out.println("URI:"+URI);
+			if (URI.startsWith(ASSETS_LOCATION)){
+				Uri parsed_uri = Uri.parse(URI);
+				//System.out.println("URI PATH:" + parsed_uri.getEncodedAuthority() + parsed_uri.getEncodedPath());				
+				String path = URI.replace(ASSETS_LOCATION, "");
+				return BitmapFactory.decodeStream(context.getAssets().open(path));
+			} else {
+				ContentResolver resolver = context.getContentResolver();
+				FileDescriptor fd = resolver.openFileDescriptor(Uri.parse(URI), "r").getFileDescriptor();
+				return BitmapFactory.decodeFileDescriptor(fd, new Rect(0, 0, 0, 0), getBitmapOptions());
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
 		return null;
 	}
 
-	/**
-	 * @param URI
-	 * @return
-	 */
-	public static Bitmap getBitmapFromURI(String URI) {
-		String imageURI = URI.replace("file://", "");
-		// options.inPurgeable = true;
-		// options.inInputShareable = true;
-		Bitmap bMap = BitmapFactory.decodeFile(imageURI, getBitmapOptions());
-		return bMap;
-	}
 
 }

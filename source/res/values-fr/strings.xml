@@ -23,7 +23,7 @@
     <string name="update_icons_wait_msg">Chargement des icons… S\'il vous plaît patienter.</string>
     <!-- application -->
     <string name="please_wait">S\'il vous plaît patienter.</string>
-    <string name="category_filter_hint">Tapez ici pour filtrer.</string>
+    <string name="category_filter_hint">Tapez ici pour filtrer…</string>
     <string name="menu_about">Info</string>
     <string name="menu_history">Histoire des Phrases</string>
     <string name="menu_preferences">Préférences</string>

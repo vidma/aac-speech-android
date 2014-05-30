@@ -19,7 +19,7 @@
     
     <string name="update_icons_wait_msg">Downloading the files. This will take some time…</string>
     <string name="please_wait">Loading… Please wait.</string>
-    <string name="category_filter_hint">Type here to filter the icons.</string>
+    <string name="category_filter_hint">Type to filter…</string>
     <string name="menu_about">About</string>
     <string name="menu_history">Phrase History</string>
     <string name="menu_preferences">Preferences</string>
