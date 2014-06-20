@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/com.epfl.android.aac_speech"
     android:id="@+id/main"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -89,7 +88,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1.0"
-                android:smoothScrollbar="false" >
+                android:smoothScrollbar="false" 
+                android:layout_gravity="top"
+                >
             </ListView>
 
             <LinearLayout
@@ -97,8 +98,10 @@
                 android:layout_width="fill_parent"
                 android:layout_height="120dp"
                 android:layout_weight="1.0"
-                android:orientation="horizontal" >
+                android:orientation="horizontal" 
+                android:gravity="bottom|left">
 
+                <!--  TODO: icon? -->
                 <Button
                     android:id="@+id/listview_search_go_back"
                     android:layout_width="wrap_content"
@@ -106,21 +109,21 @@
                     android:layout_gravity="right|top"
                     android:layout_weight="1.0"
                     android:drawableLeft="@drawable/go_back"
-                    android:gravity="left"
+                    android:gravity="left|top"
                     android:text="@string/go_back" />
 
                 <EditText
                     android:id="@+id/listview_search_text"
                     android:layout_width="fill_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="left|top"
                     android:layout_weight="1.0"
                     android:drawableLeft="@android:drawable/ic_menu_search"
-                    android:height="100dp"
                     android:hint="@string/category_filter_hint"
                     android:minHeight="100dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="10pt" >
+                    android:textSize="10pt"
+                     >
 
                     <requestFocus />
                 </EditText>

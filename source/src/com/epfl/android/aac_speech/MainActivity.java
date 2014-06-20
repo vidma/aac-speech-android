@@ -889,14 +889,14 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 			@Override
 			public void onClick(View v) {
 				//ImageButton img = (ImageButton) v.findViewById(R.id.icons_imgButton);
-				System.out.println("TAG:" + v.getTag(R.id.TAG_PICTOGRAM));
+				//System.out.println("TAG:" + v.getTag(R.id.TAG_PICTOGRAM));
 				Pictogram currentButton = (Pictogram) v.getTag(R.id.TAG_PICTOGRAM);
 				if (currentButton != null) {
 					if (currentButton.type == ActionType.CATEGORY) {
 						try {
 							int catId = Integer.parseInt(currentButton.data);
 							showCategory(catId);
-						} catch (NumberFormatException e) {
+						} catch (NumberFormatException ignored) {
 						}
 
 					} else {
