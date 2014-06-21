@@ -41,18 +41,20 @@
             <LinearLayout
                 android:id="@+id/category_linearLayout1"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="72dp"
                 android:layout_weight="1.0"
                 android:orientation="horizontal" >
 
-                <Button
+                <ImageButton   
                     android:id="@+id/category_go_back"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                	android:layout_height="match_parent"
                     android:layout_gravity="left"
-                    android:layout_weight="1.0"
+                    android:padding="0dp"
+                    android:layout_margin="0dp"
+			        android:scaleType="centerInside"
                     android:background="#000000"
-                    android:drawableLeft="@drawable/go_back"
+                    android:src="@drawable/go_back"
                     android:gravity="left"
                      />
 
@@ -60,10 +62,9 @@
 
                 <TextView
                     android:id="@+id/category_title"
-                    android:layout_width="fill_parent"
+                    android:layout_width="72dp"
                     android:layout_height="match_parent"
-                    android:layout_gravity="left"
-                    android:layout_weight="1.0"
+                    android:layout_gravity="left|center_vertical"
                     android:text=""
                     android:textColor="#999"
                     android:textSize="20sp"
@@ -96,20 +97,22 @@
             <LinearLayout
                 android:id="@+id/listview_search_layout_cont"
                 android:layout_width="fill_parent"
-                android:layout_height="120dp"
+                android:layout_height="80dp"
                 android:layout_weight="1.0"
                 android:orientation="horizontal" 
                 android:gravity="bottom|left">
 
-                <!--  TODO: icon? -->
-                <Button
+                <!--  TODO: use imagebutton -->
+
+                     
+                <ImageButton
                     android:id="@+id/listview_search_go_back"
                     android:layout_width="wrap_content"
-                    android:layout_height="100dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="right|top"
-                    android:layout_weight="1.0"
                     android:drawableLeft="@drawable/go_back"
                     android:gravity="left|top"
+                    android:background="@android:color/transparent"
                     android:text="@string/go_back" />
 
                 <EditText

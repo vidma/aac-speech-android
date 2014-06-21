@@ -64,12 +64,13 @@
 
     <ImageButton
         android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="64dp"
         android:layout_gravity="top|right"
         android:layout_margin="0dp"
         android:layout_weight="0.0"
         android:contentDescription="Delete"
+        android:background="@android:color/transparent"
         android:gravity="top|right"
         android:height="64dp"
         android:scaleType="centerInside"
@@ -77,15 +78,17 @@
         android:src="@drawable/rubber"
         android:width="64dp" />
 
+    <!--          android:background="#f0f0f0"           android:padding="5dp"
+      -->
     <ImageButton
         android:id="@+id/speak"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginLeft="0dp"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginLeft="5dp"
         android:layout_weight="0.0"
-        android:gravity="top|right"
         android:height="64dp"
+        android:width="64dp"
         android:src="@drawable/dire_btn_smaller"
         android:text="Speak" />
     <!-- TODO: multiple rowspan for imgButton of speak text -->
