@@ -1,4 +1,4 @@
-AAC app for children with speech disabilities
+AAC app for children with speech impairment or disability
 =============================================
 
 ABOUT
@@ -21,9 +21,7 @@ accessibility
 * compatibility with both Tablets and mobile phones
 
 
-
-
-Below application screen-shots on mobile phone. On tablet everything is bigger and fits more icons.
+Below are the screen-shots on mobile phone. On tablet everything is bigger and fits more icons.
 
 
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/en_phrase.png" width="300px"  title="experimental english support (based on french)" margin="10" />
@@ -52,10 +50,7 @@ INSTALATION
     * You may later update the dataset from menu->Settings->Update icons
 
 
-
-
 About Languages and Text-to-Speech:
-
 * to use French or English you have to set your phone/tablet language to the one you wish to use (go to your phone Settings)
 * you will also need text to speech engine to be installed (go to Settings->Install voice data etc). 
     * For much higher quality voices you may get the SVOX voices from android market ( https://market.android.com/details?id=com.svox.classic ) for around 3 EUR (include free fully featured two week trial). Note: I'm not affiliated with them, just used and liked their quality.
@@ -71,43 +66,9 @@ CURRENT ISSUES
 * ~~Very large phones (smaller than tablet) -- shall still be in phone mode (with flig changing windows)~~
 
 
-REPORTING PROBLEMS
-------------------
-
-To report a bug or other problem, submit a ticket at GitHub: https://github.com/vidma/aac-speech-android/issues/new
-
-
-
-
 ISSUES RECENTLY FIXED
 ---------------------
 * landscape mode and better tablet support (Mar 2014)
-* improved English support
-    * automatic gerund/infinitive for verbs with like/want/to be as a modal
-    * now pronouns work as expected
-    * icons for English included (selected to match the French ones)
-* installation was very slow
-* adjectives now allways agree gender and number with noun
-
-
-
-
-FUTURE WORK
------------
-* possibility to manually add words
-* clean up the icon-set
-    * see if better categorizations are possible
-    * provide better part-of-speech tags
-    * remove duplicate icons so that only best icons are selected for each word (currently any icon is selected)
-* extend/improve natural language processing
-    * automatic guessing, compound words: avoir besoin etc, add other question and negation types (ne..que, ne..guerre etc, in addition to ne .. pas)
-* extend user interface
-    * more options for word icons (e.g. overriding number/gender for each icon)
-    * ~~better UI for tablets: have filtering options on the side of category view~~
-* extend English functionality
-* misc
-    * could we further speed up the loading time?
-    * Gesture search do not handle French accents yet (bug in Google's app) - currently we use the ascii version of French word for search
 
 
 DEVELOPMENT
@@ -121,14 +82,16 @@ LICENSE
 
 This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/ .
 
-
-
-CONTENT LICENSE
--------
-
-The application includes 5000+ <a href="http://arasaac.org/condiciones_uso.php">ARASAAC</a> pictograms limited to non-commercial use (Creative Commons) that must be redistributed under the same licence.
+**Content licence**: The application includes 5000+ <a href="http://arasaac.org/condiciones_uso.php">ARASAAC</a> pictograms limited to non-commercial use (Creative Commons) that must be redistributed under the same licence.
 
 * Author of the pictograms: Sergio Palao
 * Origin: ARASAAC
 * License: CC (BY-NC-SA)
+
+
+REPORTING PROBLEMS
+------------------
+
+To report a bug or other problem, submit a ticket at GitHub: https://github.com/vidma/aac-speech-android/issues/new
+
 
