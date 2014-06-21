@@ -1,4 +1,4 @@
-AAC app for children with speech impairment or disability
+AAC app for children with speech impairments
 =============================================
 
 ABOUT
