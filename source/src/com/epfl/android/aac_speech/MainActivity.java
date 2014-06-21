@@ -765,8 +765,8 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		wordsToSpeak = (TextView) findViewById(R.id.wordsToSpeak);
 
 		// category view - go back button
-		Button category_back = (Button) findViewById(R.id.category_go_back);
-		Button search_back = (Button) findViewById(R.id.listview_search_go_back);
+		ImageButton category_back = (ImageButton) findViewById(R.id.category_go_back);
+		ImageButton search_back = (ImageButton) findViewById(R.id.listview_search_go_back);
 		OnClickListener back_to_home_handler = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
