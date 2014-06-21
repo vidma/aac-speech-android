@@ -63,9 +63,6 @@ CURRENT ISSUES
 
 * many of the icons are not correctly part-of-speech tagged (this is hard manual work; we use some simple guesses), so have in mind that the application may not allways give expected results
 
-* ~~Very large phones (smaller than tablet) -- shall still be in phone mode (with flig changing windows)~~
-
-
 ISSUES RECENTLY FIXED
 ---------------------
 * landscape mode and better tablet support (Mar 2014)
