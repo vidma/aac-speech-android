@@ -70,7 +70,6 @@ public class PreferencesActivity extends PreferenceActivity {
 
 					}
 				}
-				// TODO Auto-generated method stub
 				super.onProgressUpdate(progress);
 			}
 

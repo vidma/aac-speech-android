@@ -30,7 +30,7 @@ import android.widget.TextView;
 public class UIFactory {
 
 	protected LayoutInflater inflater;
-	protected Context appContext;
+	protected Context appContext; // TODO: storing the context, but it's appContext so OK?
 	protected PictogramFactory iconsFactory;
 	protected DBHelper dbHelper;
 

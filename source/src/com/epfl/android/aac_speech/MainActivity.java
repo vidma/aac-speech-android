@@ -89,7 +89,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	public static Boolean nlg_state_subject_selected = false;
 	private String nlg_text;
 	private PendingIntent restart_intent;
-	static TextView wordsToSpeak = null;
+	TextView wordsToSpeak = null;
 
 
 	// our GUI
@@ -677,6 +677,10 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		this.dbHelper = null;
 		this.pictogramFactory = null;
 		this.uiFactory = null;
+		this.inflater = null;
+		this.res = null;
+		this.wordsToSpeak = null;
+		
 		MainActivity.nlgConverter = null;
 	}
 
@@ -707,7 +711,6 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	/*
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
 		Log.d(TAG, "onConfigurationChanged");
 		res = getResources();

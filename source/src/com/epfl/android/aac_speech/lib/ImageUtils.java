@@ -39,7 +39,7 @@ public class ImageUtils {
 	public static Bitmap getBitmapFromURI(String URI, Context context) {
 
 		try {
-			System.out.println("URI:"+URI);
+			//System.out.println("URI:"+URI);
 			if (URI.startsWith(ASSETS_LOCATION)){
 				Uri parsed_uri = Uri.parse(URI);
 				//System.out.println("URI PATH:" + parsed_uri.getEncodedAuthority() + parsed_uri.getEncodedPath());				

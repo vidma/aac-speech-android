@@ -41,7 +41,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 	public static final String ASSETS_DIR = "file:///android_asset/";
 	private static final String ICONS_IN_ASSETS_DIR = ASSETS_DIR + "icons-data/";
 
-	// TODO: is it OK storing a ref to context?
+	// TODO: is it OK storing a ref to context? at least non static. use Weakref?
 	Context context;
 
 	public LowLevelDatabaseHelper(Context context) {
