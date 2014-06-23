@@ -431,7 +431,6 @@ public class MainActivityWithMenu extends MainActivity
 				// make sure the results are visible
 				if (switcher.getDisplayedChild() != FLIPPER_VIEW_LISTVIEW_SEARCH)
 					switcher.setDisplayedChild(FLIPPER_VIEW_LISTVIEW_SEARCH);
-				
 				return dbHelper.getIconsCursorByCategory(currentCategoryId, (String) constraint);
 			}
 		});
@@ -447,15 +446,12 @@ public class MainActivityWithMenu extends MainActivity
 		View parent = findViewById(R.id.listview_search_layout);
 
 		search_q.addTextChangedListener(new TextWatcher() {
-
 			@Override
 			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 			}
-
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 			}
-
 			@Override
 			public void afterTextChanged(Editable search_query) {
 				adapter.getFilter().filter(search_query);
@@ -463,7 +459,6 @@ public class MainActivityWithMenu extends MainActivity
 		});
 
 		listview.setOnItemClickListener(new OnItemClickListener() {
-			
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				Pictogram selected_icon = dbHelper.getIconById(id);
@@ -478,7 +473,6 @@ public class MainActivityWithMenu extends MainActivity
 				// select the home screen again
 				switcher.setDisplayedChild(FLIPPER_VIEW_HOME);
 			}
-
 		});
 
 		ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
