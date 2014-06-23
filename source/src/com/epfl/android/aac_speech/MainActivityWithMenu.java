@@ -171,10 +171,11 @@ public class MainActivityWithMenu extends MainActivity {
 			break;
 
 		case MENU_PREFS:
+			// TODO: clean
 			// if new data was installed then we restart this activity
-			if (resultCode == PreferencesActivity.RESULT_DATA_UPDATED) {
-				restartActivity(0);
-			}
+			//if (resultCode == PreferencesActivity.RESULT_DATA_UPDATED) {
+			//	restartActivity(0);
+			//}
 			break;
 		}
 
