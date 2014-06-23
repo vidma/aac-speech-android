@@ -35,7 +35,7 @@
         TODO: if targeting API 13+ also add screenSize              android:configChanges="orientation|keyboard|keyboardHidden|uiMode"
          -->
         <activity
-            android:name="com.epfl.android.aac_speech.MainActivity"
+            android:name="com.epfl.android.aac_speech.MainActivityWithMenu"
             android:alwaysRetainTaskState="true"
             android:screenOrientation="user" android:windowSoftInputMode="adjustResize|stateUnchanged" >
             <intent-filter>
