@@ -5,7 +5,7 @@
     android:versionName="1.2.5beta">
 
     <!-- TODO: android:targetSdkVersion="14", menu might not work, need a different way of providing it? -->
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="10" />
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="13" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" >
@@ -33,14 +33,17 @@
 
         <!-- TODO: hardware accelerated from Android 3.0: android:hardwareAccelerated="true"
         TODO: if targeting API 13+ also add screenSize              android:configChanges="orientation|keyboard|keyboardHidden|uiMode"
+                    android:windowSoftInputMode="adjustResize|stateUnchanged"
+        
          -->
         <activity
             android:name="com.epfl.android.aac_speech.MainActivityWithMenu"
             android:alwaysRetainTaskState="true"
-            android:screenOrientation="user" android:windowSoftInputMode="adjustResize|stateUnchanged" >
+            android:screenOrientation="user" 
+            android:theme="@style/Theme.Sherlock"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

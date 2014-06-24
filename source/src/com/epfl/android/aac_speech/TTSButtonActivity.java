@@ -2,6 +2,7 @@ package com.epfl.android.aac_speech;
 
 import java.util.Locale;
 
+import com.actionbarsherlock.app.SherlockActivity;
 import com.epfl.android.aac_speech.lib.ArrayUtils;
 
 import android.app.Activity;
@@ -22,7 +23,7 @@ import android.widget.ImageButton;
  * @author vidma
  * 
  */
-public abstract class TTSButtonActivity extends Activity implements OnInitListener {
+public abstract class TTSButtonActivity extends SherlockActivity implements OnInitListener {
 
 	// protected static String pref_lang = "FR";
 

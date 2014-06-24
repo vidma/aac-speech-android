@@ -33,6 +33,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.FilterQueryProvider;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -56,14 +57,14 @@ import com.epfl.android.aac_speech.ui.UIFactory;
 public class MainActivity extends TTSButtonActivity implements UncaughtExceptionHandler {
 	protected static final String TAG = "AAC";
 
-	private static  final boolean RESTART_ON_EXCEPTION = true;
+	private static  final boolean RESTART_ON_EXCEPTION = false;
 	public static final boolean DEBUG = false;
 	public static final String APP_CONTENT_FILE_DOWN_URL = "https://github.com/vidma/aac-speech-android/releases/download/v1.2beta/aac_speech_data.zip";
 	
 	// initialized in onCreate	
 	DBHelper dbHelper = null;
 	PictogramFactory pictogramFactory = null;
-	private UIFactory uiFactory = null;
+	protected UIFactory uiFactory = null;
 	public static Pic2NLG nlgConverter = null;
 	private LayoutInflater inflater;
 	Resources res;
@@ -382,46 +383,55 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 
 	}
 
-	private void showCategory(int category_id) {
+	
+	protected void showCategory(int category_id) {
 		// get icons in category
 		Cursor c = dbHelper.getIconsCursorByCategory(category_id, null);
 		Cursor c_recents = dbHelper.getRecentIconsCursorByCategory(category_id);
 		MergeCursor icons_cursor = new MergeCursor(new Cursor[] { c_recents, c });		
 
 		// Draw the grid
-		GridView gv = (GridView) findViewById(R.id.category_gridView);
-
 		String[] map_from = new String[] { "icon_path", "word" };
-		int[] map_to = new int[] { R.id.search_list_entry_icon, R.id.search_list_entry_icon_text };
-		
-		// PictogramCursorAdapter
+		int[] map_to = new int[] { R.id.search_list_entry_icon, R.id.search_list_entry_icon_text };		
 		PictogramCursorAdapter adapter = new PictsAdapterSectionIndexed(getApplicationContext(),R.layout.gridview_icon_entry, icons_cursor,
 				map_from, map_to, pref_uppercase);
+		adapter.setFilterQueryProvider(new FilterQueryProvider() {
+			@Override
+			public Cursor runQuery(CharSequence constraint) {
+				//ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
+				// TODO: make sure the results are visible
+				// if (switcher.getDisplayedChild() != FLIPPER_VIEW_LISTVIEW_SEARCH)
+				//	switcher.setDisplayedChild(FLIPPER_VIEW_LISTVIEW_SEARCH);
+				return dbHelper.getIconsCursorByCategory(currentCategoryId, (String) constraint);
+			}
+		});
+
+		
+		
+		GridView gv = (GridView) findViewById(R.id.category_gridView);		
 		gv.setAdapter(adapter);
 		gv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				Pictogram selected_icon = dbHelper.getIconById(id);
 				addWord(selected_icon);
-				ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
-				// select the home screen again
-				switcher.setDisplayedChild(FLIPPER_VIEW_HOME);
+				returnToMainScreen();
 			}
 		});
 		gv.setFastScrollEnabled(true);
+		
+		// search adapter:
+		// based on: http://www.coderzheaven.com/2013/06/01/create-searchview-filter-mode-listview-android/
 		
 		// TODO: gv.setFastScrollAlwaysVisible(true); -- require higher min sdk
 		
 		// TODO: we now hide the search in History as it doesn't look good on all Mobiles
 		LinearLayout l = (LinearLayout) findViewById(R.id.listview_search_layout_cont);
 		l.setVisibility(View.VISIBLE);
-
 		// display category title
 		TextView category_title = (TextView) findViewById(R.id.category_title);
 		category_title.setText(dbHelper.getCategoryTitle(category_id));
-
 		currentCategoryId = category_id;
-
 		// switch to the Category view
 		ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
 		switcher.setDisplayedChild(FLIPPER_VIEW_CATEGORY_LISTING);
@@ -495,10 +505,11 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		Log.d(TAG, "Starting. onCreate. nlgConverter=" + nlgConverter + " nlgText = " + nlg_text);
 
 		// remove title (label bar) to save space
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// TODO: this is not needed once SherlockBAr is active 
+		// this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// To further save space on MobilePhones: Remove notification bar
-		MainActivity.isTablet = isTablet();
+		this.isTablet = isTablet();
 		if (!isTablet()) {
 			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);

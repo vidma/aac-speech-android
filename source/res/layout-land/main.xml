@@ -58,7 +58,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:layout_weight="1.0"
-                android:orientation="horizontal" >
+                android:orientation="horizontal" 
+                android:visibility="gone"
+                >
 
               <ImageButton
                     android:id="@+id/category_go_back"

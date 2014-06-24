@@ -8,24 +8,35 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuInflater;
 
 import com.epfl.android.aac_speech.cont_providers.IconsProvider;
 import com.epfl.android.aac_speech.data.Pictogram;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
 import com.epfl.android.aac_speech.ui.PictogramCursorAdapter;
+import com.epfl.android.aac_speech.ui.UIFactory;
+
+import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.widget.SearchView.OnCloseListener;
 
 /**
  * This file adds a Menu to the Main Activity, and the related functions which
@@ -33,13 +44,18 @@ import com.epfl.android.aac_speech.ui.PictogramCursorAdapter;
  * 
  * TODO: Usage of scala like mixins would be nicier, but for now we have to live
  * with such flat inheritance.
+ * 
+ * Search functionality based on: 
+ * [1] https://github.com/JakeWharton/ActionBarSherlock/blob/4.3.1/actionbarsherlock-samples/demos/src/com/actionbarsherlock/sample/demos/SearchViews.java
+ * [2] http://www.coderzheaven.com/2013/06/01/create-searchview-filter-mode-listview-android/
  *   
  * @author vidma
  *
  */
-public class MainActivityWithMenu extends MainActivity {
+public class MainActivityWithMenu extends MainActivity
+	implements SearchView.OnQueryTextListener, OnCloseListener {
 	protected  static final String TAG = "AACWithMenu";
-
+	
 	/* Menu */
 	private static final int MENU_GESTURE_SEARCH_ID = 1;
 	private static final int MENU_ABOUT = 3;
@@ -70,6 +86,107 @@ public class MainActivityWithMenu extends MainActivity {
 
 	/** Keys for results returned by Gesture Search */
 	private static final String SELECTED_ITEM_ID = "selected_item_id";
+	
+	
+	/** Search View */
+	private SearchView searchView; // TODO: robojuice
+    private GridView grid_view; // TODO: robojuice
+    
+	
+	private void addSearchAdapter(){
+		//Create the search view
+		ActionBar bar = getSupportActionBar();
+		Log.d("Menu", "support bar:" + bar);
+		Context themed_ctx = bar.getThemedContext();
+		Log.d("Menu", "themed context:" + themed_ctx);
+        searchView = new SearchView(themed_ctx);
+        
+        searchView.setQueryHint("Search for icons…");
+        searchView.setOnQueryTextListener(this);
+		searchView.setSubmitButtonEnabled(false);
+		searchView.setOnCloseListener(this);
+		
+		 // TODO: searchView.setOnCloseListener(listener)
+        //TODO: searchView.setOnSuggestionListener(this);		
+		
+		// TODO: shall this go to the menu?
+		grid_view = (GridView) findViewById(R.id.category_gridView);
+		grid_view.setTextFilterEnabled(true);
+		// TODO: init searchview
+	}
+	
+
+	@Override
+	public boolean onClose() {
+		grid_view.setTextFilterEnabled(false);
+		return true;
+	}
+
+		
+	
+	@Override	
+	protected void showCategory(int category_id) {
+		super.showCategory(category_id);		
+		if (category_id == 0)
+			return;		
+		
+		addSearchAdapter(); // TODO: is it OK to call this multiple times?
+		// set title
+		ActionBar bar = getSupportActionBar();
+		bar.setDisplayShowHomeEnabled(true);
+		bar.setDisplayHomeAsUpEnabled(true);
+		bar.setDisplayShowTitleEnabled(true);
+		bar.setTitle(dbHelper.getCategoryTitle(category_id));
+		bar.setIcon(uiFactory.getCategoryButtonDrawableId(category_id));
+		//bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		// TODO: change color of the title
+		// TODO: activate the back button
+		
+	}
+	
+	@Override
+	public boolean returnToMainScreen() {
+		boolean r = super.returnToMainScreen();
+		ActionBar bar = getSupportActionBar();
+		bar.setDisplayHomeAsUpEnabled(false);
+		bar.setDisplayShowTitleEnabled(false);
+		bar.setTitle("");
+		// TODO: bar.setIcon(0);
+		//bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		bar.setDisplayShowHomeEnabled(false);
+		// TODO: show default 
+		//setDisplayUseLogoEnabled(boolean)
+		//setDisplayShowHomeEnabled(boolean)
+		// TODO: bar.hide();
+		return r;
+	}
+	
+
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		//Toast.makeText(this, "You searched for: " + query, Toast.LENGTH_LONG).show();
+		// TDOO: hide the keyboard
+		return true;
+	}
+
+	@Override
+	public boolean onQueryTextChange(String newText) {
+		if (TextUtils.isEmpty(newText)) {
+            grid_view.clearTextFilter();
+        } else {
+            grid_view.setFilterText(newText.toString());
+        }
+        return true;
+	}
+	
+	@Override
+    public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		addSearchAdapter();
+	}
+	
+	// -- end of keyboard based search
+	
 
 	private void gestureSearch() {
 		try {
@@ -104,6 +221,7 @@ public class MainActivityWithMenu extends MainActivity {
 
 	@Override
 	public boolean onSearchRequested() {
+		// TODO: gesture search vs Keyboard
 		Log.e("act", "Search Requested");
 		gestureSearch();
 		return true;
@@ -113,11 +231,31 @@ public class MainActivityWithMenu extends MainActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO: gesture search vs keyboard search...
 		super.onCreateOptionsMenu(menu);
-		menu.add(0, MENU_GESTURE_SEARCH_ID, 0, R.string.menu_gesture_search).setIcon(android.R.drawable.ic_menu_search);
-		menu.add(0, MENU_HISTORY, 0, R.string.menu_history).setIcon(android.R.drawable.ic_menu_recent_history);
-		menu.add(0, MENU_ABOUT, 0, R.string.menu_about).setIcon(android.R.drawable.ic_menu_info_details);
-		menu.add(0, MENU_PREFS, 0, R.string.menu_preferences).setIcon(android.R.drawable.ic_menu_preferences);		
+		menu.add(0, MENU_GESTURE_SEARCH_ID, 0, R.string.menu_gesture_search)
+		.setIcon(android.R.drawable.ic_menu_search);
+		
+		menu.add(0, MENU_HISTORY, 0, R.string.menu_history)
+		.setIcon(android.R.drawable.ic_menu_recent_history);
+		//menu.add(0, MENU_ABOUT, 0, R.string.menu_about).setIcon(android.R.drawable.ic_menu_info_details);
+		
+		menu.add("Search (with Keyboard)")
+        .setIcon(android.R.drawable.ic_menu_search) //TODO:R.drawable.abs__ic_search)
+        .setActionView(searchView)
+        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+		
+		menu.add(R.string.menu_about)
+		.setIntent(new Intent(MainActivityWithMenu.this, AboutActivity.class))
+        .setIcon(android.R.drawable.ic_menu_info_details) //TODO:R.drawable.abs__ic_search)
+        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		
+		menu.add(0, MENU_PREFS, 0, R.string.menu_preferences)
+		.setIcon(android.R.drawable.ic_menu_preferences)
+		.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		
+		// TODO: more button!
+		// TODO: add Donate
 		return true;
 	}
 
@@ -128,12 +266,8 @@ public class MainActivityWithMenu extends MainActivity {
 			gestureSearch();
 			return true;
 
-		case MENU_ABOUT:
-			Intent intent = new Intent(MainActivityWithMenu.this, AboutActivity.class);
-			startActivity(intent);
-			return true;
-
 		case MENU_PREFS:
+			//ensure the actionbar is as expencted...
 			Intent intent1 = new Intent(MainActivityWithMenu.this, PreferencesActivity.class);
 			startActivityForResult(intent1, MENU_PREFS);
 			return true;
@@ -142,6 +276,9 @@ public class MainActivityWithMenu extends MainActivity {
 			showHistory();
 			return true;
 
+	    case android.R.id.home:
+	        returnToMainScreen();
+	        return true;
 		}
 		return super.onOptionsItemSelected(item);
 
@@ -164,7 +301,7 @@ public class MainActivityWithMenu extends MainActivity {
 				if (newWord != null) {
 					addWord(newWord);
 					// switch back to the main screen
-					switchFlipperScreenTo(MainActivityWithMenu.FLIPPER_VIEW_HOME);
+					returnToMainScreen();
 				}
 
 			}
@@ -176,6 +313,7 @@ public class MainActivityWithMenu extends MainActivity {
 			//if (resultCode == PreferencesActivity.RESULT_DATA_UPDATED) {
 			//	restartActivity(0);
 			//}
+			returnToMainScreen();
 			break;
 		}
 
@@ -314,7 +452,5 @@ public class MainActivityWithMenu extends MainActivity {
 		search_q.requestFocus();
 	}
 
-
-	
 
 }

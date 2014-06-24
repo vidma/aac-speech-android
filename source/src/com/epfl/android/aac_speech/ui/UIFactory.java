@@ -2,7 +2,9 @@ package com.epfl.android.aac_speech.ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import com.epfl.android.aac_speech.MainActivity;
 import com.epfl.android.aac_speech.R;
@@ -49,6 +51,8 @@ public class UIFactory {
 	ArrayList<Pictogram> category_buttons;
 	Pictogram[] clitic_pronouns_1,  simple_pronouns_1, clitic_pronouns_2, simple_pronouns_2;
 	Pictogram[][] main_buttons;
+	
+	Map<Integer, Integer> categoryButtonResIdCache = new HashMap<Integer, Integer>();
 	
 
 	public UIFactory(LayoutInflater inflater, Context appContext, PictogramFactory iconsFactory,
@@ -184,6 +188,13 @@ public class UIFactory {
 		return view;
 	}
 
+	
+	public int getCategoryButtonDrawableId(int categoryId) {
+		// TODO: this might return null. is it ok?
+		return categoryButtonResIdCache.get(categoryId);
+		//return (val != null) ? val : 0;
+	}
+	
 	/**
 	 * creates an Pictogram button for a Category
 	 * 
@@ -192,7 +203,9 @@ public class UIFactory {
 	 * @return
 	 */
 	private Pictogram createCategoryButton(int categoryId, int drawbableId) {
-
+		// TODO: this might be more clean...
+		categoryButtonResIdCache.put(categoryId, drawbableId);
+		
 		// TODO: refactor the nasty old constructor: e.g. SPC color code is not
 		// and also the drawableId is not really needed anymore as we have
 		// iconPath in database
