@@ -22,4 +22,6 @@ public class Icon {
 	public static final String COL_LANG = "lang";
 	public static final String COL_MAIN_CATEGORY = "main_category_id";
 	public static final String COL_OFFENSIVE = "is_offensive";
+	public static final String COL_GUID = "guid";
+	
 }
