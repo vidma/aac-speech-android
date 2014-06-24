@@ -2,13 +2,13 @@ package com.epfl.android.aac_speech.data.models;
 
 import android.net.Uri;
 
-import com.epfl.android.aac_speech.data.PhraseProviderDB;
+import com.epfl.android.aac_speech.cont_providers.IconsProvider;
 
 /* Model definitions */
 public class PhraseHistory {
 	public static final String HISTORY_PATH_STR = "phrase_history";
 
-	public static final Uri CONTENT_URI = Uri.parse(PhraseProviderDB.URI_AUTHORITY + HISTORY_PATH_STR);
+	public static final Uri CONTENT_URI = Uri.parse(IconsProvider.URI_AUTHORITY + HISTORY_PATH_STR);
 
 	public static final String TABLE = "phrase_history";
 

@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ViewFlipper;
 
-import com.epfl.android.aac_speech.data.PhraseProviderDB;
+import com.epfl.android.aac_speech.cont_providers.IconsProvider;
 import com.epfl.android.aac_speech.data.Pictogram;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
 import com.epfl.android.aac_speech.ui.PictogramCursorAdapter;
@@ -77,9 +77,9 @@ public class MainActivityWithMenu extends MainActivity {
 			intent.setAction("com.google.android.apps.gesturesearch.SEARCH");
 
 			// TODO: optionally pass part of speech or category parameter (as URI)
-			Uri content_uri = PhraseProviderDB.GESTURE_SEARCH_CONTENT_URI;
+			Uri content_uri = IconsProvider.GESTURE_SEARCH_CONTENT_URI;
 			if (currentCategoryId != 0) {
-				content_uri = ContentUris.withAppendedId(PhraseProviderDB.GESTURE_SEARCH_BY_CATEGORY_CONTENT_URI,
+				content_uri = ContentUris.withAppendedId(IconsProvider.GESTURE_SEARCH_BY_CATEGORY_CONTENT_URI,
 						currentCategoryId);
 			}
 			intent.setData(content_uri);

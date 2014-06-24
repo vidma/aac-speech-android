@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 /**
+ * TODO: will this be used?
  * Based on:
  * http://stackoverflow.com/questions/3028306/download-a-file-with-android
  * -and-showing-the-progress-in-a-progressdialog and on:
