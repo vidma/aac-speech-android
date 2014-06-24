@@ -21,7 +21,7 @@ accessibility
 * compatibility with both Tablets and mobile phones
 
 
-Below are the screen-shots on mobile phone. On tablet everything is bigger and fits more icons.
+Below are the screen-shots on a mobile phone. On tablet everything is bigger and fits more icons.
 
 
 <img src="https://github.com/vidma/aac-speech-android/raw/master/screenshots/en_phrase.png" width="300px"  title="experimental english support (based on french)" margin="10" />
@@ -36,26 +36,18 @@ If you liked the application, you are very welcome to donate. That would allow m
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DY6954755BM48"><img src="https://www.paypalobjects.com/en_US/CH/i/btn/btn_donateCC_LG.gif" border="0" alt="Donate safely through PayPal"></a>
 
 
-
 INSTALATION
 -----------
 **Requirements**: Android 2.3+
 
-
-* Install the application from Android Market: https://market.android.com/details?id=com.epfl.android.aac_speech 
-* Install gesture search http://www.google.com/mobile/gesture-search/  or from android market: https://market.android.com/details?id=com.google.android.apps.gesturesearch
-(note the tablets I tested the app with did not support Gesture Search -- you will get some more poor homemade search capabilities)
-* Run the application
-    * This will ask you to download the datafiles to continue (select Yes). This will download the 5000+ icons and the vocabularies (~20MB), so better do this on a stable WiFi connection and this will take couple of minutes.
-    * You may later update the dataset from menu->Settings->Update icons
-
+* Install the application from Google Play: https://market.android.com/details?id=com.epfl.android.aac_speech 
+* Install gesture search http://www.google.com/mobile/gesture-search/  or from Google Play: https://market.android.com/details?id=com.google.android.apps.gesturesearch
 
 About Languages and Text-to-Speech:
 * to use French or English you have to set your phone/tablet language to the one you wish to use (go to your phone Settings)
-* you will also need text to speech engine to be installed (go to Settings->Install voice data etc). 
-    * For much higher quality voices you may get the SVOX voices from android market ( https://market.android.com/details?id=com.svox.classic ) for around 3 EUR (include free fully featured two week trial). Note: I'm not affiliated with them, just used and liked their quality.
-* English support is still experimental
-
+* make sure you have a text to speech engine installed (go to Settings->Install voice data etc). 
+    * For higher quality voices you may get the SVOX voices from android market ( https://market.android.com/details?id=com.svox.classic ) for around 3 EUR (include free fully featured two week trial). Note: I'm not affiliated with them, just used and liked their quality.
+* English support is a bit experimental
 
 
 CURRENT ISSUES
@@ -63,15 +55,17 @@ CURRENT ISSUES
 
 * many of the icons are not correctly part-of-speech tagged (this is hard manual work; we use some simple guesses), so have in mind that the application may not allways give expected results
 
-ISSUES RECENTLY FIXED
+RECENTLY FIXED
 ---------------------
-* landscape mode and better tablet support (Mar 2014)
+* improved UI (Mar 2014)
+ - landscape mode and better tablet support
+ - hide offensive words by default
+ - fast scrolling (first letter shown)
 
 
 DEVELOPMENT
 -----------
 just use eclipse and import the the project
-
 
 
 LICENSE
