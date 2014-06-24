@@ -30,11 +30,10 @@ public class PictogramCursorAdapter extends SimpleCursorAdapter implements Filte
 	private int COLUMN_INDEX_SPC_COLOR = COLUMN_INDEX_UNDEFINED;
 
 	/*
-	 * Idea on excutors
+	 * Idea on executors
 	 * http://blog.chariotsolutions.com/2010/04/enhancing-performance
 	 * -on-android.html
 	 */
-
 	public PictogramCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, boolean pref_uppercase) {
 		super(context, layout, c, from, to);
 		this.context = context;
@@ -48,7 +47,7 @@ public class PictogramCursorAdapter extends SimpleCursorAdapter implements Filte
 
 		Cursor c = this.getCursor();
 
-		/* Only for category */
+		// Only for category
 		int is_recent_index;
 		if ((is_recent_index = c.getColumnIndex("is_recent")) != -1) {
 			int is_recent = c.getInt(is_recent_index);
@@ -68,7 +67,7 @@ public class PictogramCursorAdapter extends SimpleCursorAdapter implements Filte
 			Log.d("PictogramCursorAdapter", "setting img to:" + imagePath);
 		}
 
-		/* set the SPC color if it's not set to be hidden */
+		// set the SPC color if it's not set to be hidden
 		if (!MainActivity.getPrefHideSPCColor()) {
 			/* get the current SPC color (from cursor) and set it as background */
 			Cursor c = this.getCursor();

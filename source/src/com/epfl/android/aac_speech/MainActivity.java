@@ -49,6 +49,7 @@ import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
 import com.epfl.android.aac_speech.ui.DynamicHorizontalScrollView;
 import com.epfl.android.aac_speech.ui.FlipLayout;
 import com.epfl.android.aac_speech.ui.PictogramCursorAdapter;
+import com.epfl.android.aac_speech.ui.PictsAdapterSectionIndexed;
 import com.epfl.android.aac_speech.ui.ScalingLinearLayout;
 import com.epfl.android.aac_speech.ui.UIFactory;
 
@@ -221,13 +222,16 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 
 	}
 
+	/**
+	 * Draw the list of currently selected icons (displayed on top of screen)
+	 */
 	private void drawCurrentIcons() {
 		// TODO: move out to UI factory?
 		LinearLayout icon_list = (LinearLayout) findViewById(R.id.icon_history_layout);
 		DynamicHorizontalScrollView scroller = (DynamicHorizontalScrollView) findViewById(R.id.icon_history_scrollview);
 		/*
 		 * as we are about to change the listing of icons in case of
-		 * "inteligent guesses", we have to rebuild the whole listing
+		 * "intelligent guesses", we have to rebuild the whole listing
 		 */
 		icon_list.removeAllViews();
 
@@ -382,14 +386,16 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		// get icons in category
 		Cursor c = dbHelper.getIconsCursorByCategory(category_id, null);
 		Cursor c_recents = dbHelper.getRecentIconsCursorByCategory(category_id);
-		MergeCursor merged_cursor = new MergeCursor(new Cursor[] { c_recents, c });		
+		MergeCursor icons_cursor = new MergeCursor(new Cursor[] { c_recents, c });		
 
 		// Draw the grid
 		GridView gv = (GridView) findViewById(R.id.category_gridView);
 
 		String[] map_from = new String[] { "icon_path", "word" };
 		int[] map_to = new int[] { R.id.search_list_entry_icon, R.id.search_list_entry_icon_text };
-		PictogramCursorAdapter adapter = new PictogramCursorAdapter(this, R.layout.gridview_icon_entry, merged_cursor,
+		
+		// PictogramCursorAdapter
+		PictogramCursorAdapter adapter = new PictsAdapterSectionIndexed(getApplicationContext(),R.layout.gridview_icon_entry, icons_cursor,
 				map_from, map_to, pref_uppercase);
 		gv.setAdapter(adapter);
 		gv.setOnItemClickListener(new OnItemClickListener() {
@@ -402,7 +408,10 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 				switcher.setDisplayedChild(FLIPPER_VIEW_HOME);
 			}
 		});
-
+		gv.setFastScrollEnabled(true);
+		
+		// TODO: gv.setFastScrollAlwaysVisible(true); -- require higher min sdk
+		
 		// TODO: we now hide the search in History as it doesn't look good on all Mobiles
 		LinearLayout l = (LinearLayout) findViewById(R.id.listview_search_layout_cont);
 		l.setVisibility(View.VISIBLE);
