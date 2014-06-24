@@ -23,19 +23,19 @@
         android:label="@string/app_name"
         android:allowBackup="true">
         <provider
-            android:name="com.epfl.android.aac_speech.data.PhraseProviderDB"
+            android:name="com.epfl.android.aac_speech.cont_providers.IconsProvider"
             android:authorities="com.epfl.android.aac_speech.icons"
             android:exported="false"
             android:grantUriPermissions="true" >
         </provider>
-        <provider android:name="com.epfl.android.aac_speech.data.AssetsProvider"
+        <provider android:name="com.epfl.android.aac_speech.cont_providers.AssetsProvider"
             android:authorities="com.epfl.android.aac_speech.icons_pics" />
 
         <!-- TODO: hardware accelerated from Android 3.0: android:hardwareAccelerated="true"
         TODO: if targeting API 13+ also add screenSize              android:configChanges="orientation|keyboard|keyboardHidden|uiMode"
          -->
         <activity
-            android:name="com.epfl.android.aac_speech.MainActivity"
+            android:name="com.epfl.android.aac_speech.MainActivityWithMenu"
             android:alwaysRetainTaskState="true"
             android:screenOrientation="user" android:windowSoftInputMode="adjustResize|stateUnchanged" >
             <intent-filter>

@@ -30,7 +30,7 @@ public class DBHelper {
 	private static final int CATEGORY_RECENT_ITEMS_LIMIT = 9;
 	public boolean pref_hide_offensive = true;
 
-	private static ContentResolver cr = null;
+	private ContentResolver cr = null;
 
 	public DBHelper(ContentResolver contentResolver) {
 		cr = contentResolver;

@@ -2,11 +2,11 @@ package com.epfl.android.aac_speech.data.models;
 
 import android.net.Uri;
 
-import com.epfl.android.aac_speech.data.PhraseProviderDB;
+import com.epfl.android.aac_speech.cont_providers.IconsProvider;
 
 public class Category {
 	public static final String PATH_STR = "categories";
-	public static final Uri CONTENT_URI = Uri.parse(PhraseProviderDB.URI_AUTHORITY + PATH_STR);
+	public static final Uri CONTENT_URI = Uri.parse(IconsProvider.URI_AUTHORITY + PATH_STR);
 
 	public static final String TABLE = "categories";
 

@@ -2,13 +2,13 @@ package com.epfl.android.aac_speech.data.models;
 
 import android.net.Uri;
 
-import com.epfl.android.aac_speech.data.PhraseProviderDB;
+import com.epfl.android.aac_speech.cont_providers.IconsProvider;
 
 public class Icon {
 	public static final String TABLE = "icon_meanings";
 
 	public static final String PATH_STR = TABLE + "_listing_full";
-	public static final String URI_STR = PhraseProviderDB.URI_AUTHORITY + PATH_STR;
+	public static final String URI_STR = IconsProvider.URI_AUTHORITY + PATH_STR;
 	public static final Uri CONTENT_URI = Uri.parse(URI_STR);
 
 	public static final String COL_ID = "_id";

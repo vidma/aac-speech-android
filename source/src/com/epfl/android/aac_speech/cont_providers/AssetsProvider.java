@@ -1,4 +1,4 @@
-package com.epfl.android.aac_speech.data;
+package com.epfl.android.aac_speech.cont_providers;
 
 // based on: http://stackoverflow.com/questions/5888718/android-share-images-from-assets-folder
 

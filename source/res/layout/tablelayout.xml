@@ -4,6 +4,7 @@
     android:layout_width="350dip"
     android:layout_height="400dip"
     android:clipChildren="true"
+	android:stretchColumns="*"
     android:shrinkColumns="*" >
 
 </TableLayout>

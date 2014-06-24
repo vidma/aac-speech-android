@@ -56,7 +56,6 @@ public abstract class TTSButtonActivity extends Activity implements OnInitListen
 
 	@Override
 	protected void onRestart() {
-		// TODO Auto-generated method stub
 		// TODO: do I have any cursors?
 		super.onRestart();
 	}

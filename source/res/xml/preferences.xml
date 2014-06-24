@@ -28,11 +28,11 @@
             android:summary=""
             android:title="@string/pref_lang" />
         -->
-
+		<!-- 
         <Preference
             android:key="installIcons"
             android:summary="@string/update_icons_description"
-            android:title="@string/update_icons" />
+            android:title="@string/update_icons" /> -->
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_about_user" >
         <ListPreference

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.epfl.android.aac_speech.data;
+package com.epfl.android.aac_speech.cont_providers;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +31,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
+
 import com.epfl.android.aac_speech.data.LowLevelDatabaseHelper;
 import com.epfl.android.aac_speech.data.models.Category;
 import com.epfl.android.aac_speech.data.models.Icon;
@@ -45,7 +46,7 @@ import com.epfl.android.aac_speech.data.models.PhraseHistory;
  * TODO: THIS CANNOT HANDLE INTERNATIONAL LETTERS YET!!! ecole for example!!!
  * can we search by ecole and display the one with french accent?
  */
-public class PhraseProviderDB extends ContentProvider {
+public class IconsProvider extends ContentProvider {
 	static final String AUTHORITY = "com.epfl.android.aac_speech.icons";
 
 	private LowLevelDatabaseHelper mOpenHelper;
