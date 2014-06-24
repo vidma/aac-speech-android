@@ -34,7 +34,10 @@ import com.epfl.android.aac_speech.data.models.PhraseHistory;
 public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "icons.db";
-	private static final int DATABASE_VERSION = 4;
+	/**
+	 * guid added in v5
+	 */
+	private static final int DATABASE_VERSION = 5;
 	private static final String TAG = "PhraseProviderDB: LowLevelDatabaseHelper";
 	public static final String ICONS_DATAFILE = "icon_meanings.data";
 	private static final String CATEGORIES_DATAFILE = "categories.data";
@@ -163,11 +166,11 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE icon_meanings"
 				+ " (_id INTEGER PRIMARY KEY AUTOINCREMENT, word TEXT, word_ascii_only TEXT, part_of_speech TEXT, spc_color INT,"
 				+ " icon_path TEXT, lang TEXT,  main_category_id INT, " + Icon.COL_USE_COUNT + " INT,"
-				+ Icon.COL_OFFENSIVE + " INT);");
-
+				+ Icon.COL_OFFENSIVE + " INT, guid CHAR(36) );");
 		db.execSQL("CREATE INDEX icon_meanings_main_category_idx ON " + Icon.TABLE + "(main_category_id);");
 		db.execSQL("CREATE INDEX icon_meanings_lang_idx ON " + Icon.TABLE + "(lang);");
-		db.execSQL("CREATE INDEX icon_meanings_count_idx ON " + Icon.TABLE + "(" + Icon.COL_USE_COUNT + ");");
+		db.execSQL("CREATE INDEX icon_meanings_count_idx ON " + Icon.TABLE + "(" + Icon.COL_USE_COUNT + ");");		
+		db.execSQL(String.format("CREATE INDEX icon_meanings_guid ON %s (guid);", Icon.TABLE));
 		Log.d(TAG, Icon.TABLE + " OK");
 
 		db.execSQL("CREATE TABLE " + PhraseHistory.TABLE
@@ -228,10 +231,12 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				String categories = it.next();
 				values.put(Icon.COL_OFFENSIVE, it.next());
 				values.put(Icon.COL_USE_COUNT, 0);
+				values.put(Icon.COL_GUID, it.next());
 
 				long id = db.insert(Icon.TABLE, null, values);
-				if (id % 1000 == 0)
-					Log.d(TAG, "inserted icon with local id:" + id);
+				if (id % 1000 == 0) { 
+					Log.d(TAG, "inserted icon with local id:" + id); 
+				}
 			}
 
 			db.setTransactionSuccessful();
