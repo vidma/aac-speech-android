@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:weightSum="1" >
 
-    <include layout="@layout/top_status_bar" />
+    <!-- <include layout="@layout/top_status_bar" /> -->
 
     <ViewFlipper
         android:id="@+id/view_switcher"
@@ -148,5 +148,5 @@
     </ViewFlipper>
     
 
-
+	<include layout="@layout/top_status_bar" />
 </LinearLayout>

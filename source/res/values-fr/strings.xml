@@ -3,6 +3,7 @@
 
     <string name="app_name">AAC Parole</string>
     <string name="blah">Bla</string>
+	<string name="donate">Faire un don</string>
     <string name="menu_gesture_search">Trouver un mot</string>
     <string name="loading_nlg">S\'il vous plaît patienter. Chargement de la
 		bibliothèque de traitement du langage naturel.</string>

@@ -21,20 +21,17 @@ import android.widget.FilterQueryProvider;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem.OnActionExpandListener;
 
 import com.epfl.android.aac_speech.cont_providers.IconsProvider;
 import com.epfl.android.aac_speech.data.Pictogram;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
 import com.epfl.android.aac_speech.ui.PictogramCursorAdapter;
-import com.epfl.android.aac_speech.ui.UIFactory;
-
 import com.actionbarsherlock.widget.SearchView;
 import com.actionbarsherlock.widget.SearchView.OnCloseListener;
 
@@ -53,7 +50,7 @@ import com.actionbarsherlock.widget.SearchView.OnCloseListener;
  *
  */
 public class MainActivityWithMenu extends MainActivity
-	implements SearchView.OnQueryTextListener, OnCloseListener {
+	implements SearchView.OnQueryTextListener, OnCloseListener, OnActionExpandListener {
 	protected  static final String TAG = "AACWithMenu";
 	
 	/* Menu */
@@ -61,6 +58,8 @@ public class MainActivityWithMenu extends MainActivity
 	private static final int MENU_ABOUT = 3;
 	private static final int MENU_PREFS = 4;
 	private static final int MENU_HISTORY = 5;
+	private static final int MENU_DONATE = 6;
+	
 
 	/*
 	 * Interaction with Gesture Search
@@ -91,25 +90,19 @@ public class MainActivityWithMenu extends MainActivity
 	/** Search View */
 	private SearchView searchView; // TODO: robojuice
     private GridView grid_view; // TODO: robojuice
+    private boolean searchActivated = false;
+
+	private MenuItem searchMenuItem; 
     
 	
 	private void addSearchAdapter(){
 		//Create the search view
-		ActionBar bar = getSupportActionBar();
-		Log.d("Menu", "support bar:" + bar);
-		Context themed_ctx = bar.getThemedContext();
-		Log.d("Menu", "themed context:" + themed_ctx);
-        searchView = new SearchView(themed_ctx);
-        
+        searchView = new SearchView(getSupportActionBar().getThemedContext());
         searchView.setQueryHint("Search for icons…");
         searchView.setOnQueryTextListener(this);
 		searchView.setSubmitButtonEnabled(false);
 		searchView.setOnCloseListener(this);
 		
-		 // TODO: searchView.setOnCloseListener(listener)
-        //TODO: searchView.setOnSuggestionListener(this);		
-		
-		// TODO: shall this go to the menu?
 		grid_view = (GridView) findViewById(R.id.category_gridView);
 		grid_view.setTextFilterEnabled(true);
 		// TODO: init searchview
@@ -118,59 +111,69 @@ public class MainActivityWithMenu extends MainActivity
 
 	@Override
 	public boolean onClose() {
+		Log.d(TAG, "Search:onClose");
+		searchActivated = false;
 		grid_view.setTextFilterEnabled(false);
 		return true;
 	}
 
-		
 	
 	@Override	
 	protected void showCategory(int category_id) {
+		Log.d(TAG, "showCategory: cat="+ this.currentCategoryId);
 		super.showCategory(category_id);		
-		if (category_id == 0)
-			return;		
+
+		grid_view.setTextFilterEnabled(true);
 		
-		addSearchAdapter(); // TODO: is it OK to call this multiple times?
-		// set title
+		// cleanup the actionbar
 		ActionBar bar = getSupportActionBar();
 		bar.setDisplayShowHomeEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
 		bar.setDisplayShowTitleEnabled(true);
-		bar.setTitle(dbHelper.getCategoryTitle(category_id));
-		bar.setIcon(uiFactory.getCategoryButtonDrawableId(category_id));
-		//bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		// TODO: change color of the title
-		// TODO: activate the back button
 		
+		// set the title, if any
+		if (category_id != 0) {
+			bar.setTitle(dbHelper.getCategoryTitle(category_id));
+			bar.setIcon(uiFactory.getCategoryButtonDrawableId(category_id));
+		}		
 	}
 	
 	@Override
 	public boolean returnToMainScreen() {
+		Log.d(TAG, "returnToMain in search");
 		boolean r = super.returnToMainScreen();
+		hideActionbarTitle();
+		
+		// hide search if any (e.g. after selecting icon while in search)
+		searchMenuItem.collapseActionView();
+    	searchView.setQuery("", false); // reset the query
+    	searchView.clearFocus();
+		searchActivated = false;
+		Log.d(TAG, "returnToMain in search: collapsed");
+
+		return r;
+	}
+
+
+	private void hideActionbarTitle() {
 		ActionBar bar = getSupportActionBar();
 		bar.setDisplayHomeAsUpEnabled(false);
 		bar.setDisplayShowTitleEnabled(false);
 		bar.setTitle("");
-		// TODO: bar.setIcon(0);
-		//bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		bar.setIcon(R.drawable.aac_icon);
 		bar.setDisplayShowHomeEnabled(false);
-		// TODO: show default 
-		//setDisplayUseLogoEnabled(boolean)
-		//setDisplayShowHomeEnabled(boolean)
-		// TODO: bar.hide();
-		return r;
 	}
 	
 
 	@Override
 	public boolean onQueryTextSubmit(String query) {
-		//Toast.makeText(this, "You searched for: " + query, Toast.LENGTH_LONG).show();
-		// TDOO: hide the keyboard
 		return true;
 	}
 
 	@Override
 	public boolean onQueryTextChange(String newText) {
+		Log.d(TAG, "onQueryTextChange: cat="+ this.currentCategoryId);	
+		
 		if (TextUtils.isEmpty(newText)) {
             grid_view.clearTextFilter();
         } else {
@@ -182,10 +185,31 @@ public class MainActivityWithMenu extends MainActivity
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		hideActionbarTitle();
 		addSearchAdapter();
 	}
 	
-	// -- end of keyboard based search
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        // Do something when collapsed
+        return true;  // Return true to collapse action view
+    }
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+    	Log.d(TAG, "onSearchExpanced. cat=" + currentCategoryId);
+		// make sure the results are visible (as it could be called from home)
+		ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
+		if (currentCategoryId == 0 && switcher.getDisplayedChild() != FLIPPER_VIEW_CATEGORY_LISTING) {
+			switchFlipperScreenTo(FLIPPER_VIEW_CATEGORY_LISTING);
+			showCategory(currentCategoryId);
+		}
+        // Do something when expanded
+        return true;  // Return true to expand action view
+    }
+    	
+	
+	// -- end of keyboard based search (also see onCreateMenu callback)
 	
 
 	private void gestureSearch() {
@@ -215,7 +239,9 @@ public class MainActivityWithMenu extends MainActivity
 			Log.i("ListSearch", "Falling back to homemade listview search...");
 
 			// Falling back to homemade listview search
-			performListViewSearch();
+			// TODO: we now use the keyboard search!!!
+			//performListViewSearch();
+			searchMenuItem.expandActionView();
 		}
 	}
 
@@ -240,22 +266,32 @@ public class MainActivityWithMenu extends MainActivity
 		.setIcon(android.R.drawable.ic_menu_recent_history);
 		//menu.add(0, MENU_ABOUT, 0, R.string.menu_about).setIcon(android.R.drawable.ic_menu_info_details);
 		
-		menu.add("Search (with Keyboard)")
+		searchMenuItem = menu.add("Search (with Keyboard)")
         .setIcon(android.R.drawable.ic_menu_search) //TODO:R.drawable.abs__ic_search)
-        .setActionView(searchView)
-        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        .setActionView(searchView);		
+        searchMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        
+        // http://developer.android.com/guide/topics/ui/actionbar.html
+        searchMenuItem.setOnActionExpandListener(this);
 		
 		menu.add(R.string.menu_about)
 		.setIntent(new Intent(MainActivityWithMenu.this, AboutActivity.class))
-        .setIcon(android.R.drawable.ic_menu_info_details) //TODO:R.drawable.abs__ic_search)
-        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        .setIcon(android.R.drawable.ic_menu_info_details)
+        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		
+		menu.add(0, MENU_DONATE, 0, R.string.donate) //R.string.menu_preferences
+		.setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("http://aacspeech.org/")))
+		.setIcon(R.drawable.donate32)
+		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		
 		
 		menu.add(0, MENU_PREFS, 0, R.string.menu_preferences)
 		.setIcon(android.R.drawable.ic_menu_preferences)
-		.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		
 		// TODO: more button!
 		// TODO: add Donate
+		// TODO: add icon, add favourite phrase...
 		return true;
 	}
 
@@ -320,9 +356,8 @@ public class MainActivityWithMenu extends MainActivity
 	}
 	
 	
-	//TODO
 	/**
-	 * 
+	 * @deprecated
 	 */
 	private void showHistory() {
 		// build a Cursor
@@ -374,6 +409,9 @@ public class MainActivityWithMenu extends MainActivity
 
 
 
+	/**
+	 * @deprecated
+	 */
 	private void performListViewSearch() {
 		// TODO: this listview search is currently crap because of issues with Android Keyboard
 		// build a Cursor

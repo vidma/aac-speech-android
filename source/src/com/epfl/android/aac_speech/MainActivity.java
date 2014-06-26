@@ -383,33 +383,32 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 
 	}
 
-	
-	protected void showCategory(int category_id) {
-		// get icons in category
-		Cursor c = dbHelper.getIconsCursorByCategory(category_id, null);
-		Cursor c_recents = dbHelper.getRecentIconsCursorByCategory(category_id);
-		MergeCursor icons_cursor = new MergeCursor(new Cursor[] { c_recents, c });		
 
-		// Draw the grid
+	protected void showCategory(int category_id) {
+		// Prepare grid's data-source
+		Cursor icons_cursor = dbHelper.getIconsCursorByCategory(category_id, null);
+		
 		String[] map_from = new String[] { "icon_path", "word" };
-		int[] map_to = new int[] { R.id.search_list_entry_icon, R.id.search_list_entry_icon_text };		
-		PictogramCursorAdapter adapter = new PictsAdapterSectionIndexed(getApplicationContext(),R.layout.gridview_icon_entry, icons_cursor,
-				map_from, map_to, pref_uppercase);
+		int[] map_to = new int[] { R.id.search_list_entry_icon, R.id.search_list_entry_icon_text };
+		
+		PictogramCursorAdapter adapter = new PictsAdapterSectionIndexed(getApplicationContext(),
+				R.layout.gridview_icon_entry, icons_cursor, map_from, map_to, pref_uppercase);
+		
 		adapter.setFilterQueryProvider(new FilterQueryProvider() {
 			@Override
 			public Cursor runQuery(CharSequence constraint) {
-				//ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
-				// TODO: make sure the results are visible
-				// if (switcher.getDisplayedChild() != FLIPPER_VIEW_LISTVIEW_SEARCH)
-				//	switcher.setDisplayedChild(FLIPPER_VIEW_LISTVIEW_SEARCH);
+				// TODO: add other filters, e.g. tabs: recent, important, etc
 				return dbHelper.getIconsCursorByCategory(currentCategoryId, (String) constraint);
 			}
 		});
-
 		
-		
-		GridView gv = (GridView) findViewById(R.id.category_gridView);		
+		// Draw the grid
+		GridView gv = (GridView) findViewById(R.id.category_gridView);
+		gv.setFastScrollEnabled(false);
 		gv.setAdapter(adapter);
+		gv.setFastScrollEnabled(true);
+		// TODO: gv.setFastScrollAlwaysVisible(true); -- require higher min sdk
+		
 		gv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -418,23 +417,11 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 				returnToMainScreen();
 			}
 		});
-		gv.setFastScrollEnabled(true);
 		
-		// search adapter:
-		// based on: http://www.coderzheaven.com/2013/06/01/create-searchview-filter-mode-listview-android/
-		
-		// TODO: gv.setFastScrollAlwaysVisible(true); -- require higher min sdk
-		
-		// TODO: we now hide the search in History as it doesn't look good on all Mobiles
-		LinearLayout l = (LinearLayout) findViewById(R.id.listview_search_layout_cont);
-		l.setVisibility(View.VISIBLE);
-		// display category title
-		TextView category_title = (TextView) findViewById(R.id.category_title);
-		category_title.setText(dbHelper.getCategoryTitle(category_id));
 		currentCategoryId = category_id;
+		
 		// switch to the Category view
-		ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
-		switcher.setDisplayedChild(FLIPPER_VIEW_CATEGORY_LISTING);
+		switchFlipperScreenTo(FLIPPER_VIEW_CATEGORY_LISTING);
 	}
 
 	@Override
@@ -516,6 +503,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 			// force portrait orientation for non-tablets
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		} else {
+			// TODO at the moment the portrait don't look good on some tablets...
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); // force landscape on tablet for now
 		}
 

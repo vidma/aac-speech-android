@@ -190,9 +190,7 @@ public class UIFactory {
 
 	
 	public int getCategoryButtonDrawableId(int categoryId) {
-		// TODO: this might return null. is it ok?
 		return categoryButtonResIdCache.get(categoryId);
-		//return (val != null) ? val : 0;
 	}
 	
 	/**

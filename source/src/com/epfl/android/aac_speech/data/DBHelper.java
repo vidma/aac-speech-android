@@ -1,6 +1,7 @@
 package com.epfl.android.aac_speech.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.ContentResolver;
@@ -148,7 +149,6 @@ public class DBHelper {
 	/*
 	 * ==== ICONS ===
 	 */
-
 	public Pictogram getIconById(long itemId) {
 		Pictogram newWord = null;
 		Uri uri = Uri.parse(Icon.URI_STR + "/" + itemId);
@@ -183,13 +183,17 @@ public class DBHelper {
 	}
 
 	/**
+	 * get icons cursor, optionally filtered:
+	 * - categoryId
+	 * - search_text
+	 * 
 	 * @param categoryId
 	 * @return
 	 */
 	public Cursor getIconsCursorByCategory(long categoryId, String search_text) {
 		Uri uri = Uri.parse(Icon.URI_STR + "/" + categoryId);
 
-		String[] projection = new String[] { "*", "0 AS is_recent" };
+		List<String> projection = new ArrayList<String>(Arrays.asList(new String[] { "*", "0 AS is_recent" }));
 		List<String> selections = new ArrayList<String>();
 		String[] selectionArgs = null;
 		String sortOrder = "word ASC";
@@ -204,16 +208,30 @@ public class DBHelper {
 		}
 
 		if (search_text != null && !search_text.equals("")) {
-			selections.add("( word LIKE ? OR word_ascii_only LIKE ?)");
-			selectionArgs = new String[] { search_text + "%", search_text + "%" };
+			// TODO: match beginning of any word? is this fast enough? othe
+			selections.add("( word LIKE ? OR word_ascii_only LIKE ? OR word LIKE ? OR word_ascii_only LIKE ?)");
+			String s1 = search_text + "%";
+			String s2 = "% "+ search_text + "%";
+			selectionArgs = new String[] {s1, s1, s2, s2};
 		}
-
+		
+		// TODO: in english language ignore the "to " prefix when sorting...
+		// TODO: shall this be part of DB?
+		if (true) projection.add("LOWER(REPLACE(word, 'to ', '')) AS word_clean");
+		else projection.add("word AS word_clean");
+		sortOrder = "word_clean ASC";
+		
 		// TODO: here it may return most used on top. and then by alphabet?
-		Cursor cur = cr.query(uri, projection, TextUtils.join(" AND ", selections), selectionArgs, sortOrder);
+		Cursor cur = cr.query(uri, projection.toArray(new String[]{}),
+							   TextUtils.join(" AND ", selections), selectionArgs, sortOrder);
+		
 		// Log.d("a", cur.toString());
 		return cur;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public Cursor getRecentIconsCursorByCategory(long categoryId) {
 		// TODO: shall this be joined into getIconsCursorByCategory with option recent_only?
 		Uri uri = Uri.parse(Icon.URI_STR + "/" + categoryId);
@@ -222,7 +240,7 @@ public class DBHelper {
 		String[] selectionArgs = null;
 
 		selection = "(main_category_id = " + categoryId + ") AND (" + Icon.COL_USE_COUNT + " > 0 )";
-		Cursor cur = cr.query(uri, new String[] { "*", "1 AS is_recent" }, selection, selectionArgs, Icon.COL_USE_COUNT
+		Cursor cur = cr.query(uri, new String[] { "*", "1 AS is_recent", "REPLACE(word, 'to ', '') AS word_clean" }, selection, selectionArgs, Icon.COL_USE_COUNT
 				+ " DESC LIMIT " + CATEGORY_RECENT_ITEMS_LIMIT);
 		return cur;
 	}
