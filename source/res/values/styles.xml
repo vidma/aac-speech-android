@@ -12,5 +12,7 @@
         <item name="android:stretchMode">columnWidth</item>
         <item name="android:verticalSpacing">4dp</item>
     </style>
+    
+    <style name="AppTheme" parent="@style/Theme.Sherlock" />
 
 </resources>

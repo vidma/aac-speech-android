@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:weightSum="1" >
 
-    <include layout="@layout/top_status_bar" />
+    <!-- <include layout="@layout/top_status_bar" /> -->
 
     <ViewFlipper
         android:id="@+id/view_switcher"
@@ -58,7 +58,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
                 android:layout_weight="1.0"
-                android:orientation="horizontal" >
+                android:orientation="horizontal" 
+                android:visibility="gone"
+                >
 
               <ImageButton
                     android:id="@+id/category_go_back"
@@ -146,5 +148,5 @@
     </ViewFlipper>
     
 
-
+	<include layout="@layout/top_status_bar" />
 </LinearLayout>

@@ -7,17 +7,20 @@
             android:defaultValue="false"
             android:key="pref_uppercase"
             android:summary=""
+            android:icon="@drawable/a_lower_upper"
             android:title="@string/pref_uppercase" />
+        <!--  TODO:  -->
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_hide_spc_color"
+            android:icon="@drawable/colors_fitzerland_key"
+            android:summary="@string/pref_hide_spc_colors_descr"
+            android:title="@string/pref_hide_spc_colors" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_clear_phrase_after_speak"
             android:summary=""
-            android:title="@string/pref_clear_phrase_after_speak" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_hide_spc_color"
-            android:summary="@string/pref_hide_spc_colors_descr"
-            android:title="@string/pref_hide_spc_colors" />
+            android:title="@string/pref_clear_phrase_after_speak" />        
 
         <!--
         <ListPreference
@@ -28,11 +31,7 @@
             android:summary=""
             android:title="@string/pref_lang" />
         -->
-		<!-- 
-        <Preference
-            android:key="installIcons"
-            android:summary="@string/update_icons_description"
-            android:title="@string/update_icons" /> -->
+		
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_about_user" >
         <ListPreference
@@ -41,6 +40,7 @@
             android:entryValues="@array/genderValues"
             android:key="pref_gender"
             android:summary=""
+            android:icon="@drawable/gender_signs"
             android:title="@string/pref_gender" />
        <CheckBoxPreference
             android:defaultValue="true"
@@ -48,33 +48,6 @@
             android:summary="@string/pref_hide_offensive_words_descr"
             android:title="@string/pref_hide_offensive_words" />
 
-        <!--
-        <EditTextPreference
-                android:name="EditText Preference"
-                android:summary="This allows you to enter a string"
-                android:defaultValue="Nothing"
-                android:title="Edit This Text"
-                android:key="editTextPref" />
-        <RingtonePreference
-                android:name="Ringtone Preference"
-                android:summary="Select a ringtone"
-                android:title="Ringtones"
-                android:key="ringtonePref" />
-        <PreferenceScreen
-                android:key="SecondPrefScreen"
-                android:title="Second PreferenceScreen"
-                android:summary="This is a second PreferenceScreen">
-                <EditTextPreference
-                        android:name="An other EditText Preference"
-                        android:summary="This is a preference in the second PreferenceScreen"
-                        android:title="Edit text"
-                        android:key="SecondEditTextPref" />
-        </PreferenceScreen>
-        <Preference
-                android:title="Custom Preference"
-                android:summary="This works almost like a button"
-                android:key="customPref" />
-        -->
     </PreferenceCategory>
 
 </PreferenceScreen>

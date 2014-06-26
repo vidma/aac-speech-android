@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AAC speech</string>
+    <string name="app_name">AAC communicator</string>
     <string name="blah"></string>
+    <string name="donate">Donate</string>
     <string name="menu_gesture_search">Find a word</string>
     <string name="loading_nlg">Please wait… Loading the complex Natural Language
 		Processing library</string>
