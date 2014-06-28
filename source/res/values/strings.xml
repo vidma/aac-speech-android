@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">AAC communicator</string>
+    <string name="prefs_label">Settings (AAC Communicator)</string>
+    
     <string name="blah"></string>
     <string name="donate">Donate</string>
     <string name="menu_gesture_search">Find a word</string>
@@ -32,6 +34,8 @@
     
     <string name="pref_uppercase">Display UPPERCASE letters</string>
     <string name="pref_clear_phrase_after_speak">Clear the spoken phrase</string>
+    <string name="pref_speak_each_word">Read each word automatically</string>
+    
     <string name="pref_about_user">About the user (me)</string>
     <string name="pref_hide_spc_colors">Do not show SPC colors</string>
     <string name="pref_hide_spc_colors_descr">these  allow to quickly identify function of a word (action, object, descriptive…)</string>

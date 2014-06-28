@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">AAC Parole</string>
+    <string name="prefs_label">Paramètres (Communicateur AAC Parole)</string>
+    
     <string name="blah">Bla</string>
 	<string name="donate">Faire un don</string>
     <string name="menu_gesture_search">Trouver un mot</string>
@@ -31,6 +33,7 @@
     <string name="pref_lang">Langue</string>
     <string name="pref_gender">Mon sexe</string>
     <string name="pref_uppercase">Affichage en MAJUSCULES</string>
+    <string name="pref_speak_each_word">Lire chaque mot automatiquement</string>
     <string name="pref_clear_phrase_after_speak">Effacer les mots prononcés</string>
     <string name="pref_about_user">Utilisateur (moi)</string>
     <string name="pref_hide_spc_colors">Ne pas afficher les couleurs SPC.</string>

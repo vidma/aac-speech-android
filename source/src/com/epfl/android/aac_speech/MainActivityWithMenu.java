@@ -468,9 +468,9 @@ public class MainActivityWithMenu extends MainActivity
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				Pictogram selected_icon = dbHelper.getIconById(id);
 				addWord(selected_icon);
-				ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);
-
+				
 				// try to hide the keyboard
+				ViewFlipper switcher = (ViewFlipper) findViewById(R.id.view_switcher);				
 				InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				EditText search_q = (EditText) findViewById(R.id.listview_search_text);
 				mgr.hideSoftInputFromWindow(search_q.getWindowToken(), 0);
