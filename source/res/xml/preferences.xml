@@ -13,7 +13,7 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_hide_spc_color"
-            android:icon="@drawable/colors_fitzerland_key"
+            android:icon="@drawable/no_colors_fitzerland_key"
             android:summary="@string/pref_hide_spc_colors_descr"
             android:title="@string/pref_hide_spc_colors" />
         <CheckBoxPreference

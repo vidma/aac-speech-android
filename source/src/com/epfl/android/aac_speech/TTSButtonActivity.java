@@ -1,10 +1,12 @@
 package com.epfl.android.aac_speech;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.epfl.android.aac_speech.lib.ArrayUtils;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +29,8 @@ public abstract class TTSButtonActivity extends SherlockActivity implements OnIn
 
 	// protected static String pref_lang = "FR";
 
+	private static final String SPEAK_PHRASE = "SPEAK_PHRASE";
+	private static final String SPEAK_ONE_WORD = "speakOneWord";
 	protected TextToSpeech mTts;
 
 	protected abstract void onSpeakButtonClicked();
@@ -38,6 +42,9 @@ public abstract class TTSButtonActivity extends SherlockActivity implements OnIn
 
 	public static final String LANG_FR = "fr";
 	public static final String LANG_EN = "en";
+	// TODO: from API11, this exists as TextToSpeech.Engine.KEY_PARAM_VOLUME, but we want backwards compat 
+	private static final String KEY_PARAM_VOLUME = "volume";
+	
 
 	private static String[] SUPPORTED_LANGUAGES = { LANG_FR, LANG_EN };
 	private static String DEFAULT_LANGUAGE = LANG_FR;
@@ -62,9 +69,42 @@ public abstract class TTSButtonActivity extends SherlockActivity implements OnIn
 	}
 
 	protected void speak(String text) {
-		mTts.speak(text, TextToSpeech.QUEUE_ADD, null);
+		// TODO: indicate in the button what it's being currently spoken
+		mTts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
 	}
+	
+	/**  speak the single word, at a lower volume */
+	protected void speakOneWord(String text) {
+		int apiVer = android.os.Build.VERSION.SDK_INT;
+		if (apiVer >= 11){
+			speakOneWordApi13(text);
+		} else {
+			// compatibility mode
+			HashMap<String, String> params = new HashMap<String, String>();
+			//params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, SPEAK_ONE_WORD);		
+			mTts.speak(text, TextToSpeech.QUEUE_ADD, params);
+		}
+	}	
+	
+	/**  speak the single word, at a lower volume */
+	@TargetApi(13)
+	protected void speakOneWordApi13(String text) {
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put(TextToSpeech.Engine.KEY_PARAM_VOLUME, "0.1");
+		//params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, SPEAK_ONE_WORD);		
+		mTts.speak(text, TextToSpeech.QUEUE_ADD, params);
+	}		
 
+	public void onUtteranceCompleted(String uttId) {
+	    if (uttId == SPEAK_ONE_WORD) {
+	    }
+	    
+	    if (uttId == SPEAK_PHRASE) {
+	    	// could change the icon...
+	    }
+	    
+	}	
+	
 	protected void ui_enable_tts() {
 		speakBtn = (ImageButton) findViewById(R.id.speak);
 		speakBtn.setOnClickListener(new OnClickListener() {

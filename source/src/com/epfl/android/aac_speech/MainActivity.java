@@ -2,6 +2,8 @@ package com.epfl.android.aac_speech;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
+
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -177,6 +179,8 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		phrase_list.add(currentButton);
 		//Log.d("addWord", currentButton.data + " " + currentButton.type + " " + currentButton.element);
 		updatePhraseDisplay();
+		speakOneWord(currentButton.display_text);
+
 	}
 
 	public static String getNaturalLanguageText() {
@@ -383,7 +387,26 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 
 	}
 
-
+	@TargetApi(11)
+	protected void decorateGridViewApi11(){
+		GridView gv = (GridView) findViewById(R.id.category_gridView);
+		gv.setFastScrollAlwaysVisible(true);
+	}
+	
+	protected void decorateGridViewApiOld(){
+	}
+	
+	protected void gridViewDecorate(){
+		int apiVer = android.os.Build.VERSION.SDK_INT;
+		if (apiVer >= 11){
+			decorateGridViewApi11();
+		} else {
+			decorateGridViewApiOld();			
+		}
+		
+	}
+	
+	
 	protected void showCategory(int category_id) {
 		// Prepare grid's data-source
 		Cursor icons_cursor = dbHelper.getIconsCursorByCategory(category_id, null);
@@ -407,7 +430,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		gv.setFastScrollEnabled(false);
 		gv.setAdapter(adapter);
 		gv.setFastScrollEnabled(true);
-		// TODO: gv.setFastScrollAlwaysVisible(true); -- require higher min sdk
+		gridViewDecorate();
 		
 		gv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -442,8 +465,9 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		super.onSaveInstanceState(outState);
 		
 		// serialize the current phrase
-		if (this.pictogramFactory != null && MainActivity.phrase_list != null)
+		if (this.pictogramFactory != null && MainActivity.phrase_list != null) {
 			outState.putString(SAVED_INST_PHRASE_KEY, this.pictogramFactory.getSerialized(phrase_list));
+		}
 	}
 
 	/**
