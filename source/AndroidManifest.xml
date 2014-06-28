@@ -5,7 +5,7 @@
     android:versionName="1.2.5beta">
 
     <!-- TODO: android:targetSdkVersion="14", menu might not work, need a different way of providing it? -->
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="13" />
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" >
