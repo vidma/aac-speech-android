@@ -12,6 +12,7 @@
     <string name="go_back">Retour</string>
 
     <!-- special image Buttons -->
+    <string name="folder_caption_onclick">Dossier</string>
     <string name="negation">négation</string>
     <string name="remove_icon">Supprimer cette icône</string>
     <string name="cancel">Annuler</string>

@@ -653,6 +653,8 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 						try {
 							int catId = Integer.parseInt(currentButton.data);
 							showCategory(catId);
+							String catTitle = dbHelper.getCategoryTitle(catId);							
+							speakOneWord(getString(R.string.folder_caption_onclick) + ":" + catTitle);
 						} catch (NumberFormatException ignored) {
 						}
 

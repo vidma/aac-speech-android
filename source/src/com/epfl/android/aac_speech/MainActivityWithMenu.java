@@ -262,8 +262,9 @@ public class MainActivityWithMenu extends MainActivity
 		menu.add(0, MENU_GESTURE_SEARCH_ID, 0, R.string.menu_gesture_search)
 		.setIcon(android.R.drawable.ic_menu_search);
 		
-		menu.add(0, MENU_HISTORY, 0, R.string.menu_history)
-		.setIcon(android.R.drawable.ic_menu_recent_history);
+		// TODO: History is broken now...
+		//menu.add(0, MENU_HISTORY, 0, R.string.menu_history)
+		//.setIcon(android.R.drawable.ic_menu_recent_history);
 		//menu.add(0, MENU_ABOUT, 0, R.string.menu_about).setIcon(android.R.drawable.ic_menu_info_details);
 		
 		searchMenuItem = menu.add("Search (with Keyboard)")
