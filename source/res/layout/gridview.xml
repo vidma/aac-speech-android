@@ -36,7 +36,9 @@
     <GridView
         android:id="@+id/category_gridView"
         style="@style/GridViewStyle"
-        android:columnWidth="80dp" >
+        android:columnWidth="80dp"
+        android:overScrollMode="ifContentScrolls"
+        >
     </GridView>
 
 </merge>

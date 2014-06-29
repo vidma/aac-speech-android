@@ -7,7 +7,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.epfl.android.aac_speech.lib.ArrayUtils;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -121,19 +121,40 @@ public abstract class TTSButtonActivity extends SherlockActivity implements OnIn
 	public void onInit(int status) {
 		// Now that the TTS engine is ready, we enable the button
 		if (status == TextToSpeech.SUCCESS) {
-
 			Locale lang = getCurrentLocale();
 			int result = mTts.setLanguage(lang);
-
-			if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+			if (result == TextToSpeech.LANG_MISSING_DATA) {
+				Log.e(TAG, "Language data is not available.");
+				installVoiceData();
+			}
+			else if (result == TextToSpeech.LANG_NOT_SUPPORTED) {
 				// Lanuage data is missing or the language is not supported.
 				Log.e(TAG, "Language is not available.");
 			} else {
-
 				speakBtn.setEnabled(true);
 			}
 		}
 	}
+	
+	
+	/**
+	 * Ask the current default engine to launch the matching INSTALL_TTS_DATA activity
+	 * so the required TTS files are properly installed.
+	 * 
+	 * based on: http://stackoverflow.com/a/16836553/1276782
+	 */
+	private void installVoiceData() {
+	    Intent intent = new Intent(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    // TODO: can use package of active TTS like this?
+	    intent.setPackage(mTts.getDefaultEngine()); //"com.google.android.tts"
+	    try {
+	        Log.v(TAG, "Installing voice data: " + intent.toUri(0));
+	        startActivity(intent);
+	    } catch (ActivityNotFoundException ex) {
+	        Log.e(TAG, "Failed to install TTS data, no acitivty found for " + intent + ")");
+	    }
+	}	
 
 	/**
 	 * @return

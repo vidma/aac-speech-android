@@ -1,13 +1,11 @@
 package com.epfl.android.aac_speech.lib;
 
-import java.io.Console;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;

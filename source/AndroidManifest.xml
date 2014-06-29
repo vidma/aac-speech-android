@@ -29,7 +29,8 @@
             android:grantUriPermissions="true" >
         </provider>
         <provider android:name="com.epfl.android.aac_speech.cont_providers.AssetsProvider"
-            android:authorities="com.epfl.android.aac_speech.icons_pics" />
+            android:authorities="com.epfl.android.aac_speech.icons_pics" 
+            android:grantUriPermissions="true" />
 
         <!-- TODO: hardware accelerated from Android 3.0: android:hardwareAccelerated="true"
         TODO: if targeting API 13+ also add screenSize              android:configChanges="orientation|keyboard|keyboardHidden|uiMode"

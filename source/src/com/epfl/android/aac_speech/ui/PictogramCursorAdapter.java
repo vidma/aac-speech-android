@@ -42,18 +42,17 @@ public class PictogramCursorAdapter extends SimpleCursorAdapter implements Filte
 
 	@Override
 	public void setViewText(TextView v, String text) {
-		if (pref_uppercase)
+		if (pref_uppercase) {
 			text = text.toUpperCase();
-
-		Cursor c = this.getCursor();
-
-		// Only for category
-		int is_recent_index;
-		if ((is_recent_index = c.getColumnIndex("is_recent")) != -1) {
-			int is_recent = c.getInt(is_recent_index);
-			v.setTypeface(null, (is_recent == 1) ? Typeface.BOLD : Typeface.NORMAL);
 		}
-		// TODO Auto-generated method stub
+
+		//Cursor c = this.getCursor();
+		// Only for category
+		//		int is_recent_index;
+		//		if ((is_recent_index = c.getColumnIndex("is_recent")) != -1) {
+		//			int is_recent = c.getInt(is_recent_index);
+		//			v.setTypeface(null, (is_recent == 1) ? Typeface.BOLD : Typeface.NORMAL);
+		//		}
 		super.setViewText(v, text);
 	}
 

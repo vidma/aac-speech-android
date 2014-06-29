@@ -6,14 +6,16 @@
     
     <string name="blah">Bla</string>
 	<string name="donate">Faire un don</string>
-    <string name="menu_gesture_search">Trouver un mot</string>
+    <string name="menu_gesture_search">Trouver en dessinant les lettres</string>
+    <string name="menu_search">Trouver un mot</string>
+    
     <string name="loading_nlg">S\'il vous plaît patienter. Chargement de la
 		bibliothèque de traitement du langage naturel.</string>
     <string name="go_back">Retour</string>
 
     <!-- special image Buttons -->
     <string name="folder_caption_onclick">Dossier</string>
-    <string name="negation">négation</string>
+    <string name="negation">ne..(pas)</string>
     <string name="remove_icon">Supprimer cette icône</string>
     <string name="cancel">Annuler</string>
     <!-- data installation -->
@@ -34,16 +36,21 @@
     <string name="pref_lang">Langue</string>
     <string name="pref_gender">Mon sexe</string>
     <string name="pref_uppercase">Affichage en MAJUSCULES</string>
-    <string name="pref_speak_each_word">Lire chaque mot automatiquement</string>
+    <string name="pref_speak_each_word">Lire chaque mot (discrètement)</string>
+	<string name="pref_speak_each_word_descr">lire chaque icône individu à voix basse lorsqu\'il est sélectionné</string>    
     <string name="pref_clear_phrase_after_speak">Effacer les mots prononcés</string>
     <string name="pref_about_user">Utilisateur (moi)</string>
     <string name="pref_hide_spc_colors">Ne pas afficher les couleurs SPC.</string>
     <string name="pref_hide_spc_colors_descr">Ceux-ci permettent d\'identifier rapidement la fonction d\'un mot (action, objet, descriptif…)</string>
     <string name="pref_hide_offensive_words_descr">Masquer les mots qui peuvent être choquantes ou inappropriées pour les petits enfants</string>
     <string name="pref_hide_offensive_words">Masquer les mots pas appropriés pour les enfants</string>
+    <!--  categories -->
+    <string name="cat_tab_all">Tout</string>
+    <string name="cat_tab_recent">Récemment utilisées</string>
+    
 
     <!-- home screen buttons -->
-    <string name="btn_negated">ne..(pas)</string>
+    <string name="btn_negated">négation</string>
     <string name="btn_quesion">question</string>
     <string name="btn_I">je</string>
     <string name="btn_you">tu</string>

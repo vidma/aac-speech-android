@@ -17,6 +17,7 @@ import android.util.Log;
 import com.epfl.android.aac_speech.data.models.Category;
 import com.epfl.android.aac_speech.data.models.Icon;
 import com.epfl.android.aac_speech.data.models.PhraseHistory;
+import com.epfl.android.aac_speech.lib.ArrayUtils;
 
 /**
  * Higher level helper to access content on database
@@ -190,10 +191,10 @@ public class DBHelper {
 	 * @param categoryId
 	 * @return
 	 */
-	public Cursor getIconsCursorByCategory(long categoryId, String search_text) {
+	public Cursor getIconsCursorByCategory(long categoryId, String search_text, String filter) {
 		Uri uri = Uri.parse(Icon.URI_STR + "/" + categoryId);
 
-		List<String> projection = new ArrayList<String>(Arrays.asList(new String[] { "*", "0 AS is_recent" }));
+		List<String> projection = ArrayUtils.StrArr(new String[] { "*" });
 		List<String> selections = new ArrayList<String>();
 		String[] selectionArgs = null;
 		String sortOrder = "word ASC";
@@ -206,47 +207,30 @@ public class DBHelper {
 		if (categoryId != 0) {
 			selections.add("(main_category_id = " + categoryId + ")");
 		}
+		
+		if (filter == "recent") {
+			selections.add(String.format("( %s > 0)", Icon.COL_USE_COUNT));
+		}
 
 		if (search_text != null && !search_text.equals("")) {
-			// TODO: match beginning of any word? is this fast enough? othe
+			// TODO: match beginning of any word? is this fast enough?
 			selections.add("( word LIKE ? OR word_ascii_only LIKE ? OR word LIKE ? OR word_ascii_only LIKE ?)");
 			String s1 = search_text + "%";
 			String s2 = "% "+ search_text + "%";
 			selectionArgs = new String[] {s1, s1, s2, s2};
 		}
 		
-		// TODO: in english language ignore the "to " prefix when sorting...
-		// TODO: shall this be part of DB?
-		if (true) projection.add("LOWER(REPLACE(word, 'to ', '')) AS word_clean");
-		else projection.add("word AS word_clean");
+		// in english language ignore the "to " prefix when sorting. this shall be in DB?
+		projection.add("LOWER(REPLACE(word, 'to ', '')) AS word_clean");
 		sortOrder = "word_clean ASC";
 		
-		// TODO: here it may return most used on top. and then by alphabet?
 		Cursor cur = cr.query(uri, projection.toArray(new String[]{}),
-							   TextUtils.join(" AND ", selections), selectionArgs, sortOrder);
-		
-		// Log.d("a", cur.toString());
+							   TextUtils.join(" AND ", selections), selectionArgs, sortOrder);		
 		return cur;
 	}
 
-	/**
-	 * @deprecated
-	 */
-	public Cursor getRecentIconsCursorByCategory(long categoryId) {
-		// TODO: shall this be joined into getIconsCursorByCategory with option recent_only?
-		Uri uri = Uri.parse(Icon.URI_STR + "/" + categoryId);
-
-		String selection = null;
-		String[] selectionArgs = null;
-
-		selection = "(main_category_id = " + categoryId + ") AND (" + Icon.COL_USE_COUNT + " > 0 )";
-		Cursor cur = cr.query(uri, new String[] { "*", "1 AS is_recent", "REPLACE(word, 'to ', '') AS word_clean" }, selection, selectionArgs, Icon.COL_USE_COUNT
-				+ " DESC LIMIT " + CATEGORY_RECENT_ITEMS_LIMIT);
-		return cur;
-	}
 
 	/* Category info */
-	
 	public String getCategoryTitle(long categoryId, boolean shorten) {
 		Cursor cur = null;
 		String result = "";
