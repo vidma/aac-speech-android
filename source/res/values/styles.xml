@@ -14,5 +14,6 @@
     </style>
     
     <style name="AppTheme" parent="@style/Theme.Sherlock" />
+    <style name="AacAppTheme" parent="@style/Theme.Aac" />
 
 </resources>
