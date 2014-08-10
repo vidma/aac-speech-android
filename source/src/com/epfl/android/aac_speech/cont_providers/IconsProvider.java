@@ -86,9 +86,11 @@ public class IconsProvider extends ContentProvider {
 				+ SearchManager.SUGGEST_COLUMN_TEXT_2);
 		//TODO: add assets content provider addr
 		gestureSearchSuggestionProjectionMap.put(SearchManager.SUGGEST_COLUMN_ICON_1, 
-				String.format("REPLACE(icon_path, '%s', '%s') AS %s",
-							  LowLevelDatabaseHelper.ASSETS_DIR, AssetsProvider.URI, SearchManager.SUGGEST_COLUMN_ICON_1)
-						);
+				String.format("icon_path AS %s", SearchManager.SUGGEST_COLUMN_ICON_1));
+				//String.format("REPLACE(icon_path, '%s', '%s') AS %s",
+				//			  // TODO: now we use Real files
+				//			  LowLevelDatabaseHelper.ASSETS_DIR, AssetsProvider.URI, SearchManager.SUGGEST_COLUMN_ICON_1)
+				//		);
 	}
 
 	/* URI MATCHER */

@@ -38,6 +38,9 @@ public class ImageUtils {
 				String path = URI.replace(ASSETS_LOCATION, "");
 				return BitmapFactory.decodeStream(context.getAssets().open(path));
 			} else {
+				if (URI.startsWith("/")){
+					URI = "file://"+ URI;
+				}
 				ContentResolver resolver = context.getContentResolver();
 				FileDescriptor fd = resolver.openFileDescriptor(Uri.parse(URI), "r").getFileDescriptor();
 				return BitmapFactory.decodeFileDescriptor(fd, new Rect(0, 0, 0, 0), getBitmapOptions());

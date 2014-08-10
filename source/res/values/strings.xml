@@ -22,7 +22,7 @@
     <string name="no_datafiles_found_msg_quit">Application have to quit now. Please return then internet connection is available to install the data.</string>
         <string name="files_downloaded_updating_db">Datafiles downloaded. Now updating database. This will take some time.</string>
     
-    <string name="update_icons_wait_msg">Downloading the files. This will take some time…</string>
+    <string name="update_icons_wait_msg">Preparing the App for running first time. This will take some time…</string>
     <string name="please_wait">Loading… Please wait.</string>
     <string name="category_filter_hint">Type to filter…</string>
     <string name="menu_about">About</string>

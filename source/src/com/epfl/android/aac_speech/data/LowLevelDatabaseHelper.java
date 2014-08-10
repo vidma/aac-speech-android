@@ -37,7 +37,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 	/**
 	 * guid added in v5
 	 */
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 9;
 	private static final String TAG = "PhraseProviderDB: LowLevelDatabaseHelper";
 	public static final String ICONS_DATAFILE = "icon_meanings.data";
 	private static final String CATEGORIES_DATAFILE = "categories.data";
@@ -58,6 +58,8 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 	public static File getDatafilesStorageDirectory(Context context) {
 		return context.getExternalFilesDir(null);
 	}
+	
+	
 
 	// TODO: not used?
 	public static File getDataFile(Context context, String fileName) {
@@ -195,6 +197,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 
 		// import icons
 		CsvDatafileReader csvReader = new CsvDatafileReader(context, ICONS_DATAFILE);
+		CharSequence iconsStorageDir = "file://" + ZippedDatafilesHelper.getIconsRootDir(context);
 		Iterator<String> it;
 
 		/*
@@ -222,7 +225,11 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 				values.put(Icon.COL_PART_OF_SPEECH, it.next());
 				values.put(Icon.COL_SPC_COLOR, it.next());
 
-				String icon_path = it.next();				
+				String icon_path = it.next();
+				icon_path = icon_path.replace(ASSETS_DIR, iconsStorageDir);
+				
+				//Log.d("IconP", "icon_path" + icon_path);
+				
 				values.put(Icon.COL_ICON_PATH, icon_path);
 				
 				values.put(Icon.COL_LANG, it.next());
@@ -263,6 +270,7 @@ public class LowLevelDatabaseHelper extends SQLiteOpenHelper {
 			String title_short = it.next(); // currently long title messes up the home screen
 			String title_long = it.next();
 			String icon_path = it.next();
+			//icon_path = icon_path.replace(oldChar, newChar)
 			String lang = it.next();
 
 			values.put(Category.COL_CATEGORY_ID, category_id);
