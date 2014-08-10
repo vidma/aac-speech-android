@@ -45,6 +45,7 @@ import android.widget.ViewFlipper;
 import com.epfl.android.aac_speech.data.DBHelper;
 import com.epfl.android.aac_speech.data.Pictogram;
 import com.epfl.android.aac_speech.data.PictogramFactory;
+import com.epfl.android.aac_speech.data.ZippedDatafilesHelper;
 import com.epfl.android.aac_speech.nlg.Pic2NLG;
 import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
 import com.epfl.android.aac_speech.ui.DynamicHorizontalScrollView;
@@ -565,6 +566,10 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		category_back.setOnClickListener(back_to_home_handler);
 		search_back.setOnClickListener(back_to_home_handler);
 		
+		// ensure the data files are available (unzipped)
+		// TOOD: context
+		ZippedDatafilesHelper.ensureReadiness(this);
+		
 		// initialise NLG and Application
 		loadNLG(savedInstanceState);
 
@@ -704,6 +709,11 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		Log.e(TAG, "uncaughtException" + ex.toString(), ex);
 		ex.printStackTrace();
 		restartActivity(2);
+	}
+	
+	protected void checkDataFiles(){
+		// check if files are up to date (checksum/success)
+		// if not update them
 	}
 
 	/**
