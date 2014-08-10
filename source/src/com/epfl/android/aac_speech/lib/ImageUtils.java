@@ -1,13 +1,11 @@
 package com.epfl.android.aac_speech.lib;
 
-import java.io.Console;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -20,14 +18,9 @@ public class ImageUtils {
 	public static final String ASSETS_LOCATION = "file:///android_asset/";
 
 	/**
-	 * Google Android's forumns indicate that using
-	 * BitmapFactory.decodeFileDescriptor over BitmapFactory.decodeFile may
-	 * solve out-of-memory issues. That realy seems to be the case.
-	 * 
-	 * @param URI
-	 * @return
+	 * Android's forumns indicate that using BitmapFactory.decodeFileDescriptor over BitmapFactory.decodeFile
+	 *  may solve out-of-memory issues. This seem to be true.
 	 */
-	
 	@SuppressWarnings("unused")
 	private static BitmapFactory.Options getBitmapOptions(){
 		/* scale level to further reduce memory consumption */
@@ -37,7 +30,6 @@ public class ImageUtils {
 	}
 	
 	public static Bitmap getBitmapFromURI(String URI, Context context) {
-
 		try {
 			//System.out.println("URI:"+URI);
 			if (URI.startsWith(ASSETS_LOCATION)){

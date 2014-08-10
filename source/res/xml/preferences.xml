@@ -20,7 +20,14 @@
             android:defaultValue="false"
             android:key="pref_clear_phrase_after_speak"
             android:summary=""
-            android:title="@string/pref_clear_phrase_after_speak" />        
+            android:title="@string/pref_clear_phrase_after_speak" />
+        
+        <!--  TODO: activate the preference -->
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_readword"
+            android:summary="@string/pref_speak_each_word_descr"
+            android:title="@string/pref_speak_each_word" />        
 
         <!--
         <ListPreference

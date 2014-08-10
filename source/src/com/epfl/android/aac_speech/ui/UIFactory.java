@@ -18,8 +18,6 @@ import com.epfl.android.aac_speech.nlg.Pic2NLG.ActionType;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,22 +102,24 @@ public class UIFactory {
 				/* col2 */
 				null,
 				/* col 3 */
-				{ iconsFactory.get(PictogramFactory.ACT_TENSE_PAST), iconsFactory.get(PictogramFactory.ACT_NEGATE),
-						iconsFactory.get(PictogramFactory.ACT_VERB_HAVE),
-
-						createCategoryButton(14, R.drawable.qualities),
-						createCategoryButton(1, R.drawable.adv_of_place), },
+				{ iconsFactory.get(PictogramFactory.ACT_TENSE_PAST), // TODO: new Pictogram(" ", ActionType.EMPTY), 
+				  iconsFactory.get(PictogramFactory.ACT_NEGATE),
+				  iconsFactory.get(PictogramFactory.ACT_VERB_HAVE),
+				  createCategoryButton(14, R.drawable.qualities),
+				  createCategoryButton(1, R.drawable.adv_of_place), 
+				},
 				/* col 4 */
-				{ createCategoryButton(19, R.drawable.verbes), iconsFactory.get(PictogramFactory.ACT_VERB_TO_BE),
-						iconsFactory.get(PictogramFactory.ACT_VERB_CAN), createCategoryButton(10, R.drawable.food),
-						createCategoryButton(6, R.drawable.common_expressions), },
-
+				{ createCategoryButton(19, R.drawable.verbes),
+				  iconsFactory.get(PictogramFactory.ACT_VERB_TO_BE),
+				  iconsFactory.get(PictogramFactory.ACT_VERB_CAN),
+				  createCategoryButton(10, R.drawable.food),
+				  createCategoryButton(6, R.drawable.common_expressions), 
+				},
 				/* col 5 */
-				{ iconsFactory.get(PictogramFactory.ACT_TENSE_FUTURE),
+				{ iconsFactory.get(PictogramFactory.ACT_TENSE_FUTURE),  // TODO: new Pictogram(" ", ActionType.EMPTY),
 						iconsFactory.get(PictogramFactory.ACT_VERB_WANT),
 						iconsFactory.get(PictogramFactory.ACT_QUESTION), createCategoryButton(8, R.drawable.objets),
 						iconsFactory.get(PictogramFactory.ACT_DOT),
-
 				}, };
 		
 		/* category buttons (2nd subpage) */

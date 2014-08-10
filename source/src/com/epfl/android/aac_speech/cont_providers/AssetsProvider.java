@@ -4,6 +4,7 @@ package com.epfl.android.aac_speech.cont_providers;
 
 import android.content.ContentProvider;
 import android.net.Uri;
+import android.os.Binder;
 import android.util.Log;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -20,6 +21,7 @@ public class AssetsProvider extends ContentProvider {
 
 	@Override
 	public AssetFileDescriptor openAssetFile(Uri uri, String mode) throws FileNotFoundException {
+		//final long token = Binder.clearCallingIdentity();
 		Log.v(TAG, "AssetsGetter: Open asset file");
 		AssetManager am = getContext().getAssets();
 		String file_path = uri.getPath();

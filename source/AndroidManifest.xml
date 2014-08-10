@@ -5,7 +5,7 @@
     android:versionName="1.2.5beta">
 
     <!-- TODO: android:targetSdkVersion="14", menu might not work, need a different way of providing it? -->
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="13" />
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" >
@@ -29,7 +29,8 @@
             android:grantUriPermissions="true" >
         </provider>
         <provider android:name="com.epfl.android.aac_speech.cont_providers.AssetsProvider"
-            android:authorities="com.epfl.android.aac_speech.icons_pics" />
+            android:authorities="com.epfl.android.aac_speech.icons_pics" 
+            android:grantUriPermissions="true" />
 
         <!-- TODO: hardware accelerated from Android 3.0: android:hardwareAccelerated="true"
         TODO: if targeting API 13+ also add screenSize              android:configChanges="orientation|keyboard|keyboardHidden|uiMode"

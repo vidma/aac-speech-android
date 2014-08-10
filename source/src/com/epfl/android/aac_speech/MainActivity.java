@@ -14,7 +14,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.MergeCursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,7 +29,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -97,6 +95,10 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	private boolean pref_clear_phrase_after_speak = PREF_CLEAR_PHRASE_AFTER_SPEAK_DEFAULT;
 
 	private boolean pref_switch_back_to_main_screen = true;
+
+	/* How do we filter the contents of the current category
+	 * to change, user has to choose an appropriate tab... */
+	protected String catTabFilter = "all";
 
 
 	/* Screens */
@@ -409,7 +411,8 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	
 	protected void showCategory(int category_id) {
 		// Prepare grid's data-source
-		Cursor icons_cursor = dbHelper.getIconsCursorByCategory(category_id, null);
+		
+		Cursor icons_cursor = dbHelper.getIconsCursorByCategory(category_id, null, catTabFilter);
 		
 		String[] map_from = new String[] { "icon_path", "word" };
 		int[] map_to = new int[] { R.id.search_list_entry_icon, R.id.search_list_entry_icon_text };
@@ -421,10 +424,9 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 			@Override
 			public Cursor runQuery(CharSequence constraint) {
 				// TODO: add other filters, e.g. tabs: recent, important, etc
-				return dbHelper.getIconsCursorByCategory(currentCategoryId, (String) constraint);
+				return dbHelper.getIconsCursorByCategory(currentCategoryId, (String) constraint, catTabFilter);
 			}
 		});
-		
 		// Draw the grid
 		GridView gv = (GridView) findViewById(R.id.category_gridView);
 		gv.setFastScrollEnabled(false);
@@ -653,6 +655,8 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 						try {
 							int catId = Integer.parseInt(currentButton.data);
 							showCategory(catId);
+							String catTitle = dbHelper.getCategoryTitle(catId);							
+							speakOneWord(getString(R.string.folder_caption_onclick) + ":" + catTitle);
 						} catch (NumberFormatException ignored) {
 						}
 

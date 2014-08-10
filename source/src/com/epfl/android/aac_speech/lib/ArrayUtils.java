@@ -1,6 +1,8 @@
 package com.epfl.android.aac_speech.lib;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 // XXX these should be changed to reflect the actual memory allocator we use.
 // it looks like right now objects want to be powers of 2 minus 8
@@ -16,6 +18,10 @@ public class ArrayUtils {
 	private static Object[] sCache = new Object[CACHE_SIZE];
 
 	private ArrayUtils() { /* cannot be instantiated */
+	}
+	
+	public static ArrayList<String> StrArr(String[] arr) {
+		return new ArrayList<String>(Arrays.asList(arr));
 	}
 
 	public static int idealByteArraySize(int need) {

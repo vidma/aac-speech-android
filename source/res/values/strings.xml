@@ -6,7 +6,9 @@
     
     <string name="blah"></string>
     <string name="donate">Donate</string>
-    <string name="menu_gesture_search">Find a word</string>
+    <string name="menu_gesture_search">Find by drawing letters</string>
+    <string name="menu_search">Rechercher</string>
+    
     <string name="loading_nlg">Please wait… Loading the complex Natural Language
 		Processing library</string>
     <string name="go_back">Go back</string>
@@ -34,12 +36,22 @@
     
     <string name="pref_uppercase">Display UPPERCASE letters</string>
     <string name="pref_clear_phrase_after_speak">Clear the spoken phrase</string>
-    <string name="pref_speak_each_word">Read each word automatically</string>
+    <string name="pref_speak_each_word">Read each word</string>
+    <string name="pref_speak_each_word_descr">Once each word is selected, immediately read it at a low volume</string>
     
     <string name="pref_about_user">About the user (me)</string>
     <string name="pref_hide_spc_colors">Do not show SPC colors</string>
     <string name="pref_hide_spc_colors_descr">these  allow to quickly identify function of a word (action, object, descriptive…)</string>
 
+    
+    <string name="negation">negation</string>
+    <string name="folder_caption_onclick">Categorie</string>
+    
+    
+    <!--  categories -->
+    <string name="cat_tab_all">All</string>
+    <string name="cat_tab_recent">Recently used</string>
+    
     <!-- home screen buttons -->
     <string name="btn_negated">negate</string>
     <string name="btn_quesion">question</string>
