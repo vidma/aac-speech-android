@@ -41,7 +41,7 @@
             android:name="com.epfl.android.aac_speech.MainActivityWithMenu"
             android:alwaysRetainTaskState="true"
             android:screenOrientation="user" 
-            android:theme="@style/Theme.Sherlock"
+            android:theme="@style/Theme.Aac"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
