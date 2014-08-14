@@ -27,7 +27,7 @@ import android.util.Log;
 public class ZippedDatafilesHelper {
 	public static void ensureReadiness(Context c){
 		// TODO: check if files are up to date (checksum/success)
-		boolean ready = readChecksum(c) == getPictogramChecksum(c);
+		boolean ready = readChecksum(c).equals(getPictogramChecksum(c));
 		// if not update them
 		if (!ready){
 			Log.d("ZippedDatafilesHelper", "will unzip");
@@ -60,7 +60,7 @@ public class ZippedDatafilesHelper {
 		final Context c = mainContext.getApplicationContext();
 		
 		progr_dlg.setMessage(c.getResources().getString(R.string.update_icons_wait_msg));
-		progr_dlg.setCancelable(true);
+		progr_dlg.setCancelable(false);
 		progr_dlg.setMax(ZipExtractorTask.PROGRESS_RANGE);
 		progr_dlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progr_dlg.setProgress(0);
