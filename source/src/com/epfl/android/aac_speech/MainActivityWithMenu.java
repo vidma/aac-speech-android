@@ -207,6 +207,7 @@ implements
 		if (category_id != 0) {
 			bar.setTitle(dbHelper.getCategoryTitle(category_id));
 			bar.setIcon(uiFactory.getCategoryButtonDrawableId(category_id));
+			
 		}
 		
 		// show tabs
@@ -351,7 +352,7 @@ implements
         menuInfo.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		
 		menuDonate = menu.add(0, MENU_DONATE, 0, R.string.donate) //R.string.menu_preferences
-		.setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("http://aacspeech.org/")))
+		.setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("http://aacspeech.org/?donate#donate")))
 		.setIcon(R.drawable.donate32);
 		menuDonate.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 				

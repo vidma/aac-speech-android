@@ -60,7 +60,6 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 
 	private static  final boolean RESTART_ON_EXCEPTION = false;
 	public static final boolean DEBUG = false;
-	public static final String APP_CONTENT_FILE_DOWN_URL = "https://github.com/vidma/aac-speech-android/releases/download/v1.2beta/aac_speech_data.zip";
 	
 	// initialized in onCreate	
 	DBHelper dbHelper = null;
@@ -100,6 +99,8 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 	/* How do we filter the contents of the current category
 	 * to change, user has to choose an appropriate tab... */
 	protected String catTabFilter = "all";
+
+	private boolean pref_read_each_word;
 
 
 	/* Screens */
@@ -148,7 +149,7 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		pref_gender = prefs.getString("pref_gender", PREF_GENDER_DEFAULT);
 		pref_hide_spc_color = prefs.getBoolean("pref_hide_spc_color", PREF_HIDE_SPC_DEFAULT);
 		pref_hide_offensive = prefs.getBoolean("pref_hide_offensive", true);
-
+		pref_read_each_word = prefs.getBoolean("pref_readword", true);
 	}
 
 	public static boolean getPrefHideSPCColor() {
@@ -182,7 +183,10 @@ public class MainActivity extends TTSButtonActivity implements UncaughtException
 		phrase_list.add(currentButton);
 		//Log.d("addWord", currentButton.data + " " + currentButton.type + " " + currentButton.element);
 		updatePhraseDisplay();
-		speakOneWord(currentButton.display_text);
+		
+		if (pref_read_each_word) {
+			speakOneWord(currentButton.display_text);
+		}
 
 	}
 
