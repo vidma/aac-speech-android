@@ -1,24 +1,20 @@
 AAC app for children with speech impairments
 =============================================
 
-ABOUT
------
+A generic, easy-to-learn communication tool for anyone with speech disabilities, which forms grammatically correct sentences when a series of pictograms are clicked and then speaks them aloud (text-to-speech). Because of the pictograms, this tool is especially good for children or those who have limited reading and writing abilities.
 
-An Android **application for people with speech disabilities**,  a generic and easy to learn communication method for anyone with speech disabilities that forms grammatically correct sentences from a list of pictograms clicked and reads them (text-to-speech). Because of pictograms it's especially good for children on ones who have limited reading abilities.
+It is different from most existing products by being free and by its natural language generation with features such as inflection, tenses, using the user's gender (via settings) to alter the first-person sentences and more.
 
-It is different from most of existing products by being **free**, by it's grammatically correct **natural language generation** features (inflection, tenses, using the setting user gender to alter first person sentences1 and more) and by usage of gesture search on mobile phones where keyboard is not reliable because is small screen.
+Also, my friends have found using this application to be a fun way to learn basics of new language. :)
 
-Also, my friends have found it to be a **fun toy to learn basics of foreign language** :)
-
-The application includes ~5000 icons obtained from arasaac.org, where ~900 are properly categorized, and others are accessible through search. It supports French language well, and there is an early prototype for English too.
+The application includes 1000+ icons, categorized and accessible through search. It supports French pretty well, and there is a prototype for English.
 
 Other features include:
-
-* recent phrases and pictogram history (each category lists most used ones on top)
-accessibility
-* for easier identification icons tagged with the 6 SPC colors (actions, names, descriptives etc)
+* recent pictograms (each category has a tab listing most recently used ones)
+* icons tagged with the 6 SPC colors (actions, names, descriptives etc.) for easier identification
 * option to display text in capital letters
-* compatibility with both Tablets and mobile phones
+* option to softly speak each individual word when icon is pressed
+* compatibility with both tablets and mobile phones
 
 
 Below are the screen-shots on a mobile phone. On tablet everything is bigger and fits more icons.
@@ -31,7 +27,7 @@ Below are the screen-shots on a mobile phone. On tablet everything is bigger and
 
 DONATE TO HELP THIS IMPROVE
 -----------
-If you liked the application, you are very welcome to donate. That would allow me to add new features and improvements more quickly:
+If you liked the application, you may donate to allow me to add new features/improvements much more quickly: 
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DY6954755BM48"><img src="https://www.paypalobjects.com/en_US/CH/i/btn/btn_donateCC_LG.gif" border="0" alt="Donate safely through PayPal"></a>
 
@@ -40,15 +36,9 @@ INSTALATION
 -----------
 **Requirements**: Android 2.3+
 
-* Install the application from Google Play: https://market.android.com/details?id=com.epfl.android.aac_speech 
-* Install gesture search http://www.google.com/mobile/gesture-search/  or from Google Play: https://market.android.com/details?id=com.google.android.apps.gesturesearch
-
-About Languages and Text-to-Speech:
-* to use French or English you have to set your phone/tablet language to the one you wish to use (go to your phone Settings)
-* make sure you have a text to speech engine installed (go to Settings->Install voice data etc). 
-    * For higher quality voices you may get the SVOX voices from android market ( https://market.android.com/details?id=com.svox.classic ) for around 3 EUR (include free fully featured two week trial). Note: I'm not affiliated with them, just used and liked their quality.
-* English support is a bit experimental
-
+* Install the application from Google Play: https://market.android.com/details?id=com.epfl.android.aac_speech
+* make sure you have a text-to-speech engine properly installed (depending on your device, go to “Settings –> Language & Input-> Text-to-Speech output”,  or to “Settings->Install voice data”).
+* To use French or English you have to set your phone/tablet language to the one you wish to use (go to your phone settings)
 
 CURRENT ISSUES
 -------------------------------
@@ -75,14 +65,9 @@ This Source Code Form is subject to the terms of the Mozilla Public License, v. 
 
 **Content licence**: The application includes 5000+ <a href="http://arasaac.org/condiciones_uso.php">ARASAAC</a> pictograms limited to non-commercial use (Creative Commons) that must be redistributed under the same licence.
 
-* Author of the pictograms: Sergio Palao
-* Origin: ARASAAC
-* License: CC (BY-NC-SA)
-
+Author of the pictograms: Sergio Palao / Origin: ARASAAC / License: CC (BY-NC-SA)
 
 REPORTING PROBLEMS
 ------------------
 
 To report a bug or other problem, submit a ticket at GitHub: https://github.com/vidma/aac-speech-android/issues/new
-
-
