@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    tools:context="com.space.aac.MainActivity">
+
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"><![CDATA[
+
+
+
+
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        ]]></android.support.design.widget.AppBarLayout>
+
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#404678"
+            android:theme="@style/ToolbarTheme"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_gravity="bottom"
+            android:nestedScrollingEnabled="true"
+            android:weightSum="1">
+
+            <include
+                android:id="@+id/include"
+                layout="@layout/top_status_bar"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="bottom" />>
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal|top"
+            android:paddingBottom="60dp"
+            android:minHeight="400dp"
+            android:paddingTop="30dp">
+
+
+            <LinearLayout
+                android:id="@+id/main"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:minHeight="400dp">
+
+
+                <ViewFlipper
+                    android:id="@+id/view_switcher"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:minHeight="400dp">
+                    <!-- android:paddingBottom="60dp">-->
+
+
+
+                    <!--1.home screen layout-->
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true">
+
+
+
+                            <LinearLayout
+                                android:id="@+id/home_screen"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:adjustViewBounds="true"
+                                android:background="@android:color/black"
+                                android:orientation="horizontal"
+                                android:scaleType="fitCenter">
+
+                                <include
+                                    layout="@layout/tablelayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+
+
+                            </LinearLayout>
+
+
+
+                    </ScrollView>
+
+
+                    <!--2.category layout-->
+
+                    <LinearLayout
+                        android:id="@+id/category_linearLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="#1b1924"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/category_linearLayout1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.0"
+                            android:orientation="horizontal"
+
+                            android:weightSum="1">
+
+
+                            <!-- TODO: why this is not visible -->
+
+                            <TextView
+                                android:id="@+id/category_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="left|center_vertical"
+                                android:text=""
+                                android:textColor="#999"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+
+                            <include
+                                layout="@layout/gridview"
+                                android:layout_width="match_parent"
+                                android:layout_height="fill_parent" />
+
+
+                            <include
+                                layout="@layout/gridview_icon_entry"
+                                android:layout_width="match_parent"
+                                android:layout_height="fill_parent" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <!--    list search view  -->
+
+                    <LinearLayout
+                        android:id="@+id/listview_search_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="292dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical">
+
+                        <ListView
+                            android:id="@+id/search_results_listview"
+                            android:layout_width="68dp"
+                            android:layout_height="match_parent"
+                            android:smoothScrollbar="false"></ListView>
+
+
+                        <include
+                            layout="@layout/gridview_icon_entry"
+                            android:layout_width="match_parent"
+                            android:layout_height="fill_parent" />
+
+                        <include
+                            layout="@layout/gridview"
+                            android:layout_width="match_parent"
+                            android:layout_height="fill_parent" />
+
+
+                        <LinearLayout
+                            android:id="@+id/listview_search_layout_cont"
+                            android:layout_width="fill_parent"
+                            android:layout_height="80dp"
+                            android:gravity="bottom|left"
+                            android:orientation="horizontal">
+
+                            <!--  TODO: use imagebutton -->
+
+
+                            <ImageButton
+                                android:id="@+id/listview_search_go_back"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="right|top"
+                                android:background="@android:color/transparent"
+                                android:contentDescription="@string/back_listview"
+                                android:drawableLeft="@drawable/go_back"
+                                android:gravity="left|top"
+                                android:text="@string/go_back" />
+
+                            <EditText
+                                android:id="@+id/listview_search_text"
+                                android:layout_width="23dp"
+                                android:layout_height="77dp"
+                                android:layout_gravity="bottom"
+                                android:drawableLeft="@android:drawable/ic_menu_search"
+                                android:hint="@string/category_filter_hint"
+                                android:minHeight="100dp"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="10pt">
+
+                                <requestFocus />
+                            </EditText>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!--3.category_linear layout-->
+
+
+                    <!-- gridview for current category -->
+
+
+                </ViewFlipper>
+
+            </LinearLayout>
+        </FrameLayout>
+
+
+    </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

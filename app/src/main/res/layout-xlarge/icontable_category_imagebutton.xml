@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icons_category_folder" android:background="@drawable/folder"
+    android:layout_weight="0" android:gravity="top|center"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:layout_marginLeft="1dip" android:layout_marginRight="1dip"
+    android:padding="7dp" android:paddingTop="10dp" android:paddingBottom="10dp">
+
+    <ImageButton android:id="@+id/icons_imgButton"
+        android:layout_width="fill_parent" android:layout_height="fill_parent"
+        android:src="@drawable/empty" android:gravity="top|center"
+        android:scaleType="fitCenter" android:padding="0dip"
+        android:background="@android:color/transparent" android:layout_margin="0dip"
+        android:contentDescription="@string/icons_imagebutton">
+
+    </ImageButton>
+</LinearLayout>

@@ -1,0 +1,106 @@
+<resources>
+    <!--<string name="app_name">Aac</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="go_back">Go back</string>
+    <string name="category_filter_hint">Type to filter…</string>
+    <string name="update_icons_wait_msg">Preparing the App for the first time use. This will take some time…</string>
+    <string name="folder_caption_onclick">Categorie</string>
+    <string name="loading_nlg">Please wait… Loading the complex Natural Language Processing library</string>-->
+
+        <string name="app_name">aac</string>
+        <string name="prefs_label">Settings (AAC Communicator)</string>
+
+        <string name="blah"></string>
+        <string name="donate">Donate</string>
+        <string name="menu_gesture_search">Find by drawing letters</string>
+        <string name="menu_search">Rechercher</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="loading_nlg">Please wait… Loading the complex Natural Language
+		Processing library</string>
+        <string name="go_back">Go back</string>
+        <string name="remove_icon">Remove this icon</string>
+        <string name="cancel">Cancel</string>
+        <string name="update_icons">Install/update pictograms</string>
+        <string name="update_icons_description">This will download ~20MB of icons. Use WiFi if possible.</string>
+        <string name="no_datafiles_found_question">To run this application ~20MB data-files are needed. Do you want to download them now? Before continuing enable the WiFi connection if possible.</string>
+        <string name="no_datafiles_found_question_yes">Yes</string>
+        <string name="no_datafiles_found_question_no">No</string>
+        <string name="no_datafiles_found_msg_quit">Application have to quit now. Please return then internet connection is available to install the data.</string>
+        <string name="files_downloaded_updating_db">Datafiles downloaded. Now updating database. This will take some time.</string>
+
+        <string name="update_icons_wait_msg">Preparing the App for the first time use. This will take some time…</string>
+        <string name="please_wait">Loading… Please wait.</string>
+        <string name="category_filter_hint">Type to filter…</string>
+        <string name="menu_about">About</string>
+        <string name="menu_history">Phrase History</string>
+        <string name="menu_preferences">Preferences</string>
+        <string name="pref_lang">Language</string>
+        <string name="pref_gender">My gender</string>
+        <string name="pref_hide_offensive_words_descr">Hide words that may be sexual or otherwise inappropriate for children</string>
+        <string name="pref_hide_offensive_words">Hide possibly inappropriate words</string>
+
+
+        <string name="pref_uppercase">Display UPPERCASE letters</string>
+        <string name="pref_clear_phrase_after_speak">Clear the spoken phrase</string>
+        <string name="pref_speak_each_word">Read each word</string>
+        <string name="pref_speak_each_word_descr">Once each word is selected, immediately read it at a low volume</string>
+
+        <string name="pref_about_user">About the user (me)</string>
+        <string name="pref_hide_spc_colors">Do not show SPC colors</string>
+        <string name="pref_hide_spc_colors_descr">these  allow to quickly identify function of a word (action, object, descriptive…)</string>
+
+
+        <string name="negation">negation</string>
+        <string name="folder_caption_onclick">Categorie</string>
+
+
+        <!--  categories -->
+        <string name="cat_tab_all">All</string>
+        <string name="cat_tab_recent">Recently used</string>
+
+        <!-- home screen buttons -->
+        <string name="btn_negated">negate</string>
+        <string name="btn_quesion">question</string>
+        <string name="btn_I">I</string>
+        <string name="btn_you">you</string>
+        <string name="btn_he">he</string>
+        <string name="btn_she">she</string>
+        <string name="btn_we">we</string>
+        <string name="btn_you_pl">you</string>
+        <string name="btn_they_m">they</string>
+        <string name="btn_they_f">they</string>
+        <!-- clitic pronouns -->
+        <string name="btn_clitic_myself">myself</string>
+        <string name="btn_clitic_you">you</string>
+        <string name="btn_clitic_him">him</string>
+        <string name="btn_clitic_her">her</string>
+        <string name="btn_clitic_us">us</string>
+        <string name="btn_clitic_you_pl">you</string>
+        <string name="btn_clitic_them_m">them</string>
+        <string name="btn_clitic_them_f">them</string>
+        <!-- other stuff -->
+        <string name="btn_that">that</string>
+        <string name="btn_lets">let\'s</string>
+        <string name="btn_past">past</string>
+        <string name="btn_present">present</string>
+        <string name="btn_future">future</string>
+        <string name="btn_dot">dot</string>
+        <string name="btn_to_want">want</string>
+        <string name="btn_can">can</string>
+        <string name="btn_to_be">be</string>
+        <string name="btn_to_have">have</string>
+    <string name="delete">Delete</string>
+    <string name="speak">Speak</string>
+    <string name="back">back</string>
+    <string name="back_listview">back</string>
+    <string name="back_catgview">back_catgview</string>
+    <string name="speak_button">speak_button</string>
+    <string name="btn_his">btn_his</string>
+    <string name="icons_imgbutton">icons_imgButton</string>
+    <string name="icons_imagebutton">icons_imgButton</string>
+    <string name="searchlist_entryicon">searchlist_entryicon</string>
+
+
+</resources>

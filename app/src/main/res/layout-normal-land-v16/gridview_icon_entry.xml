@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- automatic layout sizing is slower as many size measurements are needed -->
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="138dp"
+    android:layout_width="match_parent"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardBackgroundColor="@color/cardview_light_background"
+    card_view:cardUseCompatPadding="true"
+
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/search_list_entry_icon"
+            android:layout_width="96.5dp"
+            android:layout_height="80dp"
+            android:gravity="left|top"
+            android:padding="5dp"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/searchlist_entryicon" />
+
+        <TextView
+            android:id="@+id/search_list_entry_icon_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|center"
+            android:minHeight="48dp"
+            android:padding="2dp"
+            android:paddingLeft="0dp"
+            android:textColor="#000" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

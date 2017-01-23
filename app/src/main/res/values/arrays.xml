@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="langArray">
+        <item>Français</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="langValues">
+        <item>FR</item>
+        <item>EN</item>
+    </string-array>
+    <string-array name="genderArray">
+        <item>Female</item>
+        <item>Male</item>
+    </string-array>
+    <string-array name="genderValues">
+        <item>FEMALE</item>
+        <item>MALE</item>
+    </string-array>
+</resources>
