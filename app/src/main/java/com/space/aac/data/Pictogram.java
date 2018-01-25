@@ -1,7 +1,6 @@
 package com.space.aac.data;
 
 import android.graphics.Color;
-import android.util.Log;
 
 import com.space.aac.TTSButtonActivity;
 import com.space.aac.nlg.Pic2NLG;
@@ -28,6 +27,7 @@ enum SpecialPicto {
 public class Pictogram {
 
     private static final String TAG = "AAC";
+    boolean a = false;
     public static String pref_my_gender = "MALE"; // TODO: this might be accessed differently?
 
     public String data; /* This is word or category_ID */
@@ -71,8 +71,9 @@ public class Pictogram {
     }
 
     private void to_nlg() {
-        boolean a= false;
         if (type != Pic2NLG.ActionType.NUMBER_AGREEMENT && type != Pic2NLG.ActionType.NEGATED) {
+
+
             switch (type) {
                 case ADJECTIVE:
                     this.element = Pic2NLG.factory.createNLGElement(word, LexicalCategory.ADJECTIVE);
@@ -112,26 +113,33 @@ public class Pictogram {
 
                     // TODO: temporal hack to fix "to do smf" in English.
 
-                   // error in grammer building eg."i can arrive" is not getting
-                     if(a==true) {
-                         if (word.startsWith("to ") && isEnglish()) {
-                             this.element = Pic2NLG.factory.createNLGElement(word.replaceFirst("to ", " can "), LexicalCategory.VERB);
-                              }
-                         else {
-
-                             //this.element = Pic2NLG.factory.createNLGElement(word, LexicalCategory.VERB);
-                             Log.d("AAC", word);
-                             this.element = Pic2NLG.factory.createNLGElement(word, LexicalCategory.VERB);
-                             //this.element = Pic2NLG.factory.createNLGElement(word);
-
-
-                         }
-                     }
-
-
-                    if(word.startsWith(" can")) {
-                        a=true;
+/*
+                    if ((word.equals("can")) && isEnglish()){
+                        a = true;
                     }
+
+
+
+                    if(word.equals("want")){
+                        this.element = Pic2NLG.factory.createNLGElement(word, LexicalCategory.VERB);
+                    }
+                    else if (word.startsWith("to ")&& a==true) {
+                    //if(word.startsWith("to ")&& a==true) {
+
+                        this.element = Pic2NLG.factory.createNLGElement("can", LexicalCategory.VERB);
+                        //this.element = Pic2NLG.factory.createNLGElement(word.replaceFirst("to ", " can "), LexicalCategory.VERB);
+                    }
+                    else {
+
+                            //this.element = Pic2NLG.factory.createNLGElement(word, LexicalCategory.VERB);
+                            Log.d("AAC", word);
+
+                            this.element = Pic2NLG.factory.createNLGElement(word);
+
+                        }*/
+
+
+
 
                     // in English words like can must have POS specified as modal
                     // not verb, otherwise a verb he cans/he canned/ would be used

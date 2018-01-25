@@ -27,6 +27,8 @@
             android:scaleType="fitXY"
             android:contentDescription="@string/searchlist_entryicon" />
 
+
+
         <TextView
             android:id="@+id/search_list_entry_icon_text"
             android:layout_width="match_parent"

@@ -6,133 +6,133 @@
         jumboMode="false"
         revision="24.0.2"
         sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_bd92af7b9f2173e8d2edea49998a9892c8a68f9e.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/internal_impl-24.2.1_bd92af7b9f2173e8d2edea49998a9892c8a68f9e.jar" />
     </item>
     <item
         jar="/root/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/support-annotations-24.2.1_bc102048a27ff00c8e10fc3a76afaa77fbe3d1bd.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/support-annotations-24.2.1_bc102048a27ff00c8e10fc3a76afaa77fbe3d1bd.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="867dad63c33388ff8c7644b236579355036d075f">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_5a99947b221bfaee6705a666da5cba56d2b0e535.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/internal_impl-24.2.1_5a99947b221bfaee6705a666da5cba56d2b0e535.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/design/24.2.1/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="e03f47f3d1017a093bb3239d4ec47c3447f40744">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-design-24.2.1_babb2e78171aa90eb216bbb2e77a5209bc8b6f92.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-design-24.2.1_babb2e78171aa90eb216bbb2e77a5209bc8b6f92.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-ui-24.2.1_472dd1175954f4c075f7f7015cf4cbc53b0bd3dd.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-support-core-ui-24.2.1_472dd1175954f4c075f7f7015cf4cbc53b0bd3dd.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="d5c731fc64c03dfe04d51134955b483551c35849">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-24.2.1_774c8ddca1544ab74acebaaa9faacf0257b86a87.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-support-vector-drawable-24.2.1_774c8ddca1544ab74acebaaa9faacf0257b86a87.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.2.1/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-24.2.1_ce04d4d7a70928fdc82fa3c1e43afdc432d13f58.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-recyclerview-v7-24.2.1_ce04d4d7a70928fdc82fa3c1e43afdc432d13f58.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_57cfaeda73ac4b0b354292454f581415c28e9583.jar" />
-    </item>
-    <item
-        jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
-        jumboMode="false"
-        revision="24.0.2"
-        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_061f7ab50a96346a249e1ddc13f75042885efee9.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/internal_impl-24.2.1_57cfaeda73ac4b0b354292454f581415c28e9583.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-24.2.1_e9b4473a7334621d45541cfb5e96d95c94064ec5.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-appcompat-v7-24.2.1_e9b4473a7334621d45541cfb5e96d95c94064ec5.jar" />
+    </item>
+    <item
+        jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/internal_impl-24.2.1_061f7ab50a96346a249e1ddc13f75042885efee9.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-utils-24.2.1_6fb6a5ad9b3c6b93ea1e6a2d7fe40541d8d4c9e9.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-support-core-utils-24.2.1_6fb6a5ad9b3c6b93ea1e6a2d7fe40541d8d4c9e9.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-cardview-v7-21.0.3_f3d025c56ed8506c780121ba4e549f46accf39f4.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-cardview-v7-21.0.3_f3d025c56ed8506c780121ba4e549f46accf39f4.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-24.2.1_d79aee2deb448aab08deae986843e751f7b1dcfa.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-animated-vector-drawable-24.2.1_d79aee2deb448aab08deae986843e751f7b1dcfa.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-support-compat-24.2.1_18ca7538e12d4de7b4ac12d40ac96ea91cac6427.jar" />
-    </item>
-    <item
-        jar="/home/space/aac/app/libs/SimpleNLG-4.4.8.jar"
-        jumboMode="false"
-        revision="24.0.2"
-        sha1="8213d1b4d3df2f033408752b39e275ab29bbd87a">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/SimpleNLG-4.4.8_6c553d1b1fb18a63f3d09c58a3caf3f41f2b28d9.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-support-compat-24.2.1_18ca7538e12d4de7b4ac12d40ac96ea91cac6427.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-24.2.1_d28c62843a671f887fca9110b9aaf32ff799a798.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-support-fragment-24.2.1_d28c62843a671f887fca9110b9aaf32ff799a798.jar" />
+    </item>
+    <item
+        jar="/home/space/aac/app/libs/SimpleNLG-4.4.8.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="8213d1b4d3df2f033408752b39e275ab29bbd87a">
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/SimpleNLG-4.4.8_6c553d1b1fb18a63f3d09c58a3caf3f41f2b28d9.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-support-media-compat-24.2.1_de6a2e1522b3ae1b4207267a4555b718d04d746f.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-support-media-compat-24.2.1_de6a2e1522b3ae1b4207267a4555b718d04d746f.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/libs/internal_impl-24.2.1.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_d67de3d7687cb594e23431207eb8a1903f55fee8.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/internal_impl-24.2.1_d67de3d7687cb594e23431207eb8a1903f55fee8.jar" />
     </item>
     <item
         jar="/home/space/aac/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars/classes.jar"
         jumboMode="false"
         revision="24.0.2"
         sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-24.2.1_d91c9a08de47d149fd04e99e364f75a96c5da1a2.jar" />
+        <dex dex="/home/space/aac/app/build/intermediates/pre-dexed/release/com.android.support-support-v4-24.2.1_d91c9a08de47d149fd04e99e364f75a96c5da1a2.jar" />
     </item>
 
 </items>

@@ -21,7 +21,7 @@
 
         <ImageView
             android:id="@+id/search_list_entry_icon"
-            android:layout_width="98dp"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:gravity="left|top"
             android:padding="5dp"
