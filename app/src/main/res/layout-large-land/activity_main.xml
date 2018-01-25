@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    tools:context="com.space.aac.MainActivity">
+
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#4a4f67">
+
+
+
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            android:id="@+id/view"><![CDATA[
+
+
+
+
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        ]]></android.support.design.widget.AppBarLayout>
+
+
+
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#404678"
+            android:theme="@style/ToolbarTheme"/>
+
+
+
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/content"
+            android:paddingBottom="89dp"
+            android:paddingTop="40dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/main"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal|bottom"
+                android:paddingTop="20dp">
+
+
+
+                <ViewFlipper
+                android:id="@+id/view_switcher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                   <!-- android:paddingBottom="60dp">-->
+
+
+
+               <!--1.home screen layout-->
+
+
+
+                    <LinearLayout
+                        android:id="@+id/home_screen"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:background="#000"
+                        android:orientation="horizontal"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true">
+
+                        <include layout="@layout/tablelayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp" />
+
+
+
+                    </LinearLayout>
+
+
+
+
+                <!--2.category layout-->
+
+                    <LinearLayout
+                    android:id="@+id/category_linearLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical"
+                        android:background="#1b1924">
+
+                         <LinearLayout
+                        android:id="@+id/category_linearLayout1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1.0"
+                        android:orientation="horizontal"
+
+                        android:weightSum="1" >
+
+                             <!-- TODO: why this is not visible -->
+
+                        <TextView
+                            android:id="@+id/category_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="left|center_vertical"
+                            android:text=""
+                            android:textColor="#000"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+
+                        <include layout="@layout/gridview"
+                            android:layout_width="match_parent"
+                            android:layout_height="fill_parent" />
+
+
+                             <include layout="@layout/gridview_icon_entry"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="fill_parent" />
+
+                       </LinearLayout>
+
+                    </LinearLayout>
+   <!--    list search view  -->
+
+                <LinearLayout
+                    android:id="@+id/listview_search_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="292dp"
+                    android:orientation="vertical"
+                    android:layout_gravity="bottom">
+
+                    <ListView
+                        android:id="@+id/search_results_listview"
+                        android:layout_width="68dp"
+                        android:layout_height="match_parent"
+                        android:smoothScrollbar="false">
+                    </ListView>
+
+
+
+                    <include layout="@layout/gridview_icon_entry"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent" />
+
+                    <include layout="@layout/gridview"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent" />
+
+
+
+
+
+                    <LinearLayout
+                    android:id="@+id/listview_search_layout_cont"
+                    android:layout_width="fill_parent"
+                    android:layout_height="80dp"
+                       android:orientation="horizontal"
+                    android:gravity="bottom|left">
+
+                    <!--  TODO: use imagebutton -->
+
+
+                       <ImageButton
+                        android:id="@+id/listview_search_go_back"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="right|top"
+                        android:drawableLeft="@drawable/go_back"
+                        android:gravity="left|top"
+                        android:background="@android:color/transparent"
+                        android:text="@string/go_back"
+                           android:contentDescription="@string/back_listview" />
+
+                       <EditText
+                        android:id="@+id/listview_search_text"
+                        android:layout_width="23dp"
+                        android:layout_height="77dp"
+                        android:layout_gravity="bottom"
+                        android:drawableLeft="@android:drawable/ic_menu_search"
+                        android:hint="@string/category_filter_hint"
+                        android:minHeight="100dp"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="10pt"
+                        >
+
+                        <requestFocus />
+                       </EditText>
+                      </LinearLayout>
+                </LinearLayout>
+                <!--3.category_linear layout-->
+
+
+                    <!-- gridview for current category -->
+
+
+                       </ViewFlipper>
+
+            </LinearLayout>
+        </FrameLayout>
+
+
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:layout_gravity="bottom"
+            card_view:cardBackgroundColor="#000"
+            card_view:cardCornerRadius="2dp"
+            card_view:cardUseCompatPadding="false"
+
+            >
+
+        <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="92dp"
+            android:layout_gravity="bottom">
+           <include layout="@layout/top_status_bar"
+               android:layout_width="match_parent"
+               android:layout_height="125dp"
+               android:id="@+id/include"
+               android:layout_gravity="bottom" />>
+
+
+       </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+    </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

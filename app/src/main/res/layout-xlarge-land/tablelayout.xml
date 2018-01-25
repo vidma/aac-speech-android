@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icons_tableLayout_inflated"
+    android:layout_width="600dp"
+    android:layout_height="match_parent"
+    android:shrinkColumns="*"
+    android:stretchColumns="*"
+    android:clipChildren="true"
+    android:scaleType="fitXY"
+    android:showDividers="beginning">
+
+</TableLayout>
+
+
+	<!---->

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icons_imageText"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:layout_weight="1.0"
+    android:gravity="center"
+    android:maxLines="3"
+    android:singleLine="false"
+    android:textSize="12sp"
+    android:textStyle="bold"
+    android:clipChildren="true"
+    android:textColor="#fff"
+    android:layout_marginLeft="-2dp"
+    android:layout_marginRight="-2dp"
+     />
+
+    <!---->
+    <!---->
+<!--  -->
