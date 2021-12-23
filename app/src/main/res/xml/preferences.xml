@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- not bad tutorial on this is on: http://www.kaloer.com/android-preferences -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Application" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_uppercase"
+            android:summary=""
+            android:icon="@drawable/a_lower_upper"
+            android:title="@string/pref_uppercase" />
+        <!--  TODO:  -->
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_hide_spc_color"
+            android:icon="@drawable/no_colors_fitzerland_key"
+            android:summary="@string/pref_hide_spc_colors_descr"
+            android:title="@string/pref_hide_spc_colors" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_clear_phrase_after_speak"
+            android:summary=""
+            android:title="@string/pref_clear_phrase_after_speak" />
+        
+        <!--  TODO: activate the preference -->
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_readword"
+            android:summary="@string/pref_speak_each_word_descr"
+            android:title="@string/pref_speak_each_word" />        
+
+        <!--
+        <ListPreference
+            android:defaultValue="FR"
+            android:entries="@array/langArray"
+            android:entryValues="@array/langValues"
+            android:key="pref_lang"
+            android:summary=""
+            android:title="@string/pref_lang" />
+        -->
+		
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_about_user" >
+        <ListPreference
+            android:defaultValue="MALE"
+            android:entries="@array/genderArray"
+            android:entryValues="@array/genderValues"
+            android:key="pref_gender"
+            android:summary=""
+            android:icon="@drawable/gender_signs"
+            android:title="@string/pref_gender" />
+       <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_hide_offensive"
+            android:summary="@string/pref_hide_offensive_words_descr"
+            android:title="@string/pref_hide_offensive_words" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

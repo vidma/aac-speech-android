@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- automatic layout sizing is slower as many size measurements are needed -->
+
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/category_gridView"
+    android:columnWidth="130dp" style="@style/GridViewStyle">
+</GridView>

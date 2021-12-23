@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icons_imgButton"
+    android:layout_width="48dip"
+    android:layout_height="48dip"
+    android:layout_marginLeft="1dip"
+    android:layout_marginRight="1dip"
+    android:layout_weight="1.0"
+    android:background="@android:color/transparent"
+    android:gravity="top|center"
+    android:padding="1dip"
+    android:scaleType="fitCenter"
+    android:src="@drawable/empty" >
+
+</ImageButton>

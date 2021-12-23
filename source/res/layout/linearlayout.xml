@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
-				android:id="@+id/super_scroller_linearLayout_inflated" android:shrinkColumns="*" android:orientation="horizontal"
-				android:layout_height="fill_parent">
-			</LinearLayout>

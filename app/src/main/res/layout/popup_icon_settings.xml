@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icon_history_window"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:padding="3dp" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#666"
+        android:padding="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
+
+        <!--
+         <TextView android:text="Current Icon" android:id="@+id/current_icon_text" 
+		android:layout_width="fill_parent" android:layout_height="wrap_content" />
+        -->
+        <!-- TODO: show the icon here -->
+
+
+        <!--
+Popup (Noun):
+Gender- will apply to the adjective also
+Number
+        -->
+
+        <Button
+            android:id="@+id/popup_remove_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:drawableTop="@drawable/rubber"
+            android:text="@string/remove_icon" >
+        </Button>
+
+        <Button
+            android:id="@+id/popup_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:drawableTop="@drawable/go_back"
+            android:text="@string/cancel" >
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>
