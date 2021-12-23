@@ -1,11 +1,12 @@
-apply plugin: 'com.android.application'
+apply plugin: 'android'
 
 android {
-    compileSdkVersion 10
-    buildToolsVersion '24'
+    compileSdkVersion 'Google Inc.:Google APIs:17'
+    buildToolsVersion '24.0.0'
+    
     defaultConfig {
         applicationId "com.epfl.android.aac_speech"
-        minSdkVersion 11
+        minSdkVersion 10
         targetSdkVersion 17
         versionCode 6
         versionName "1.5beta"
@@ -28,6 +29,8 @@ dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     testCompile 'junit:junit:4.12'
     //compile fileTree(include: 'SimpleNLG*.jar', dir: 'libs')
+    //compile 'androidx.legacy:legacy-support-v4:1.0.0'
+    compile 'com.android.support:support-v4:24.1.1'
     //compile 'com.android.support:appcompat-v7:24.2.1'
     //compile 'com.android.support:support-annotations:24.2.1'
     //compile 'com.android.support:design:24.2.1'
